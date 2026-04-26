@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Quote, Heart, Award, Users } from "lucide-react";
+import Image from "next/image";
 
 export default function FounderPage() {
   return (
@@ -36,16 +37,15 @@ export default function FounderPage() {
               transition={{ duration: 0.6 }}
               className="relative"
             >
-              <div className="aspect-[4/5] rounded-3xl bg-gradient-to-br from-[#2D5A3D] to-[#3D7A52] overflow-hidden">
-                {/* Placeholder for founder image */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center text-white">
-                    <div className="w-32 h-32 mx-auto mb-6 bg-white/20 rounded-full flex items-center justify-center">
-                      <span className="text-6xl font-[family-name:var(--font-playfair)]">R</span>
-                    </div>
-                    <p className="text-lg font-medium">Founder Photo</p>
-                  </div>
-                </div>
+              <div className="aspect-[4/5] rounded-3xl overflow-hidden relative">
+                <Image
+                  src="/images/founder.jpeg"
+                  alt="Khushi Kalpesh Joshi - Founder of CAMPASION CREW"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                />
               </div>
               {/* Decorative element */}
               <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-[#FCE5CD] rounded-3xl -z-10" />
