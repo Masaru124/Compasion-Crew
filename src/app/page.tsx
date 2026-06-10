@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <HeroSection />
       <WorkAreas />
-      <ImpactStats />
+      
       <StorySection />
       <CTASection />
     </>

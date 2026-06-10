@@ -3,7 +3,6 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { CustomCursor } from "@/components/ui/custom-cursor";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -34,8 +33,7 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable} h-full antialiased scroll-smooth`}
       data-scroll-behavior="smooth"
     >
-      <body className="min-h-full flex flex-col font-sans cursor-none selection:bg-primary selection:text-primary-foreground">
-        <CustomCursor />
+      <body className="min-h-full flex flex-col font-sans selection:bg-primary selection:text-primary-foreground">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
