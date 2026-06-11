@@ -63,14 +63,7 @@ export function CTASection() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-12 pt-8 border-t border-[#E5DDD3]"
           >
-            <p className="text-sm text-[#6B5B4F] mb-4">Trusted by supporters across India</p>
-            <div className="flex justify-center gap-8 text-[#2D5A3D]/40">
-              <span className="text-2xl font-bold">80G Certified</span>
-              <span className="text-2xl font-bold">|</span>
-              <span className="text-2xl font-bold">12A Registered</span>
-              <span className="text-2xl font-bold">|</span>
-              <span className="text-2xl font-bold">NGO Darpan</span>
-            </div>
+            
           </motion.div>
         </motion.div>
       </div>
