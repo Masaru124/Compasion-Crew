@@ -10,27 +10,24 @@ const workAreas = [
   {
     id: "women",
     title: "Women Empowerment",
-    description: "Supporting women through education, skill development, and financial independence programs across rural India. We believe in providing the tools and resources necessary for women to build sustainable livelihoods and become leaders in their communities.",
+    description: "Every woman deserves the chance to dream, grow, and lead. Our organization works alongside women from underserved communities by providing education, vocational training, self-employment opportunities, and emotional support that help transform lives with dignity and confidence.",
     color: "text-secondary",
-    stats: "25,000+ Women Supported",
     image: "/images/women.png",
     href: "/work/women",
   },
   {
     id: "children",
     title: "Children Welfare",
-    description: "Ensuring every child has access to education, nutrition, healthcare, and a safe nurturing environment. Our comprehensive approach tackles root causes of child poverty, offering a pathway to a brighter, more secure future.",
-    color: "text-primary",
-    stats: "15,000+ Children Educated",
+    description: "We work towards building a world where every child feels safe, valued, and empowered. By providing access to education, nutritious meals, healthcare, and emotional support, we help children grow into confident and capable individuals.",
+ 
     image: "/images/child.png",
     href: "/work/children",
   },
   {
     id: "animals",
     title: "Animal Rescue",
-    description: "Rescuing, rehabilitating, and providing shelter to stray and injured animals with compassion and care. We advocate for animal rights and operate mobile clinics to ensure no life is left behind in pain.",
+    description: "Every animal matters and should be treated with kindness and care. Our organization rescues abandoned and injured animals, provides medical treatment and shelter, and works towards creating a more compassionate world for all living beings. ",
     color: "text-accent",
-    stats: "10,000+ Animals Rescued",
     image: "/images/animal.png",
     href: "/work/animals",
   },
@@ -99,15 +96,8 @@ export function WorkAreas() {
                 </p>
 
                 <div className="flex items-center justify-between border-t border-border pt-8 mt-auto">
-                  <div className="font-medium text-foreground tracking-wide">
-                    {area.stats}
-                  </div>
-                  <Link 
-                    href="/about" 
-                    className="interactive flex items-center justify-center w-14 h-14 rounded-full border border-border hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 group"
-                  >
-                    <ArrowUpRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                  </Link>
+                 
+                 
                 </div>
               </div>
             ))}

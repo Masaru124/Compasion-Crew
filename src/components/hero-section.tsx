@@ -49,8 +49,7 @@ export function HeroSection() {
             </h1>
 
             <p className="text-lg lg:text-xl text-muted-foreground font-light leading-relaxed max-w-lg">
-              We believe in dignity, care, and equal value for every living being.
-              Join our mission in supporting women, children, and animals across India.
+       We believe in dignity, care, and equal value for every living being. Join our mission in supporting women, children, and animals across India.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 pt-4">
