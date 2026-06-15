@@ -2,7 +2,9 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Heart, Target, Eye, Lightbulb, Users, Award, Leaf } from "lucide-react";
+import { Heart, Target, Eye, Lightbulb, Users, Leaf } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const milestones = [
   { year: "2018", title: "Foundation", description: "CAMPASION CREW was founded with a mission to serve every life with dignity." },
@@ -18,71 +20,67 @@ export default function AboutPage() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <>
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-[#FAF7F2]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="planner-bg">
+      <section className="pt-32 pb-20">
+        <div className="section-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="text-[#E07B39] font-medium text-sm tracking-wider uppercase">
+            <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
               About Us
             </span>
-            <h1 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-semibold text-[#2C2416] mt-4 mb-6">
+            <h1 className="font-heading text-fluid-hero text-foreground mb-6 tracking-tight">
               Our Story of Compassion
             </h1>
-            <p className="text-lg text-[#6B5B4F] leading-relaxed">
-              CAMPASION CREW was born from a simple belief: every life—whether human 
-              or animal—deserves dignity, care, and equal value. Since 2018, we have 
+            <p className="text-muted-foreground">
+              CAMPASION CREW was born from a simple belief: every life—whether human
+              or animal—deserves dignity, care, and equal value. Since 2018, we have
               been working tirelessly across India to turn this belief into reality.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Vision & Mission */}
-      <section ref={ref} className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Vision */}
+      <section ref={ref} className="section-padding">
+        <div className="section-container">
+          <div className="grid md:grid-cols-2 gap-6 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -20 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-[#2D5A3D] to-[#3D7A52] rounded-3xl p-10 text-white"
+              transition={{ duration: 0.5 }}
+              className="bg-primary rounded p-8 text-primary-foreground"
             >
-              <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center mb-6">
-                <Eye className="w-7 h-7" />
+              <div className="w-12 h-12 bg-primary-foreground/10 rounded-xl flex items-center justify-center mb-5">
+                <Eye className="w-6 h-6" />
               </div>
-              <h2 className="font-[family-name:var(--font-playfair)] text-3xl font-semibold mb-4">
+              <h2 className="font-heading text-xl font-medium mb-4 tracking-tight">
                 Our Vision
               </h2>
-              <p className="text-white/90 text-lg leading-relaxed">
-                A world where every life is treated with dignity and compassion. 
-                Where women walk with confidence, children dream without boundaries, 
+              <p className="text-primary-foreground/80">
+                A world where every life is treated with dignity and compassion.
+                Where women walk with confidence, children dream without boundaries,
                 and animals live without fear.
               </p>
             </motion.div>
 
-            {/* Mission */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
+              initial={{ opacity: 0, x: 20 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-[#FCE5CD] rounded-3xl p-10"
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-card border border-border rounded shadow-sm p-8"
             >
-              <div className="w-14 h-14 bg-[#E07B39]/20 rounded-xl flex items-center justify-center mb-6">
-                <Target className="w-7 h-7 text-[#E07B39]" />
+              <div className="w-12 h-12 bg-terracotta/10 rounded-xl flex items-center justify-center mb-5">
+                <Target className="w-6 h-6 text-terracotta" />
               </div>
-              <h2 className="font-[family-name:var(--font-playfair)] text-3xl font-semibold text-[#2C2416] mb-4">
+              <h2 className="font-heading text-xl font-medium mb-4 tracking-tight">
                 Our Mission
               </h2>
-              <p className="text-[#6B5B4F] text-lg leading-relaxed">
-                To create sustainable change through empowerment, education, and care. 
-                We work with communities, not just for them, building lasting solutions 
+              <p className="text-muted-foreground">
+                To create sustainable change through empowerment, education, and care.
+                We work with communities, not just for them, building lasting solutions
                 that honor local wisdom and culture.
               </p>
             </motion.div>
@@ -90,25 +88,24 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Core Values */}
-      <section className="py-24 bg-[#FAF7F2]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="section-padding bg-muted/30">
+        <div className="section-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             className="text-center max-w-2xl mx-auto mb-16"
           >
-            <span className="text-[#E07B39] font-medium text-sm tracking-wider uppercase">
+            <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
               What Guides Us
             </span>
-            <h2 className="font-[family-name:var(--font-playfair)] text-4xl font-semibold text-[#2C2416] mt-4">
+            <h2 className="font-heading text-fluid-section text-foreground tracking-tight">
               Our Core Values
             </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-4 gap-6">
             {[
               { icon: Heart, title: "Compassion", desc: "Every action is driven by genuine care and empathy" },
               { icon: Lightbulb, title: "Innovation", desc: "Finding creative solutions to complex challenges" },
@@ -120,73 +117,86 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-center"
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="bg-card border border-border rounded shadow-sm p-8 text-center"
               >
-                <div className="w-16 h-16 mx-auto mb-4 bg-[#2D5A3D]/10 rounded-2xl flex items-center justify-center">
-                  <value.icon className="w-8 h-8 text-[#2D5A3D]" />
+                <div className="w-12 h-12 mx-auto mb-4 bg-primary/5 rounded flex items-center justify-center">
+                  <value.icon className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-[family-name:var(--font-playfair)] text-xl font-semibold text-[#2C2416] mb-2">
+                <h3 className="font-heading text-xl font-medium text-foreground mb-2 tracking-tight">
                   {value.title}
                 </h3>
-                <p className="text-[#6B5B4F] text-sm">{value.desc}</p>
+                <p className="text-muted-foreground text-sm">{value.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="section-padding">
+        <div className="section-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             className="text-center max-w-2xl mx-auto mb-16"
           >
-            <span className="text-[#E07B39] font-medium text-sm tracking-wider uppercase">
+            <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
               Our Journey
             </span>
-            <h2 className="font-[family-name:var(--font-playfair)] text-4xl font-semibold text-[#2C2416] mt-4">
+            <h2 className="font-heading text-fluid-section text-foreground tracking-tight">
               Milestones of Impact
             </h2>
           </motion.div>
 
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-[#E5DDD3] hidden md:block" />
-
-            <div className="space-y-12">
-              {milestones.map((milestone, index) => (
-                <motion.div
-                  key={milestone.year}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className={`flex flex-col md:flex-row items-center gap-8 ${
-                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                  }`}
-                >
-                  <div className="flex-1 text-center md:text-right">
-                    <div className={`${index % 2 === 0 ? "md:pr-12" : "md:text-left md:pl-12"}`}>
-                      <div className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#E07B39] mb-2">
-                        {milestone.year}
-                      </div>
-                      <h3 className="text-xl font-semibold text-[#2C2416] mb-2">{milestone.title}</h3>
-                      <p className="text-[#6B5B4F]">{milestone.description}</p>
-                    </div>
+          <div className="space-y-6 max-w-3xl mx-auto">
+            {milestones.map((milestone, index) => (
+              <motion.div
+                key={milestone.year}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="bg-card border border-border rounded shadow-sm p-8 flex items-start gap-6"
+              >
+                <div className="flex-shrink-0 w-20 text-center">
+                  <div className="font-heading text-2xl font-medium text-terracotta">
+                    {milestone.year}
                   </div>
-                  <div className="w-4 h-4 bg-[#E07B39] rounded-full border-4 border-white shadow-lg z-10" />
-                  <div className="flex-1 hidden md:block" />
-                </motion.div>
-              ))}
-            </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading text-xl font-medium text-foreground mb-1 tracking-tight">{milestone.title}</h3>
+                  <p className="text-muted-foreground text-sm">{milestone.description}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
-    </>
+
+      <section className="section-padding bg-primary text-primary-foreground">
+        <div className="section-container text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="font-heading text-fluid-section text-primary-foreground mb-4 tracking-tight">
+              Join Our Mission
+            </h2>
+            <p className="text-primary-foreground/70 mb-8 max-w-xl mx-auto">
+              Be part of a movement that believes in dignity and care for every life.
+            </p>
+            <Link href="/volunteer">
+              <Button variant="secondary" size="xl">
+                Get Involved
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+    </div>
   );
 }

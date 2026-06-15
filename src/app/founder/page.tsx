@@ -1,102 +1,85 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Quote, Heart, Award, Users } from "lucide-react";
 import Image from "next/image";
 
 export default function FounderPage() {
   return (
-    <>
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-[#FAF7F2]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="planner-bg">
+      <section className="pt-32 pb-20">
+        <div className="section-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             className="text-center"
           >
-            <span className="text-[#E07B39] font-medium text-sm tracking-wider uppercase">
+            <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
               Meet Our Founder
             </span>
-            <h1 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-semibold text-[#2C2416] mt-4 mb-6">
+            <h1 className="font-heading text-fluid-hero text-foreground tracking-tight">
               The Heart Behind Our Mission
             </h1>
           </motion.div>
         </div>
       </section>
 
-      {/* Founder Profile */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            {/* Founder Image */}
+      <section className="section-padding border-t border-border">
+        <div className="section-container">
+          <div className="md:flex-row flex flex-col gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5 }}
               className="relative"
             >
-              <div className="aspect-[4/5] rounded-3xl overflow-hidden relative">
+              <div className="rounded-2xl mb-10">
                 <Image
                   src="/images/founders.jpeg"
                   alt="Khushi Kalpesh Joshi - Founder of CAMPASION CREW"
-                  fill
+                  height={600}
+                  width={600}
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  
                   priority
                 />
               </div>
-              {/* Decorative element */}
-              <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-[#FCE5CD] rounded-3xl -z-10" />
             </motion.div>
 
-            {/* Founder Info */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
+              initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
               className="space-y-6"
             >
               <div>
-                <h2 className="font-[family-name:var(--font-playfair)] text-4xl font-semibold text-[#2C2416] mb-2">
+                <h2 className="font-heading text-xl font-medium text-foreground mb-2 tracking-tight">
                   Khushi Kalpesh Joshi
-
                 </h2>
-                <p className="text-[#E07B39] font-medium text-lg">Founder & Director</p>
+                <p className="text-terracotta font-medium">
+                  Founder &amp; Director
+                </p>
               </div>
 
-              <p className="text-[#6B5B4F] text-lg leading-relaxed">
-                Khushi Kalpesh Joshi
-                founded CAMPASION CREW in 2018 with a simple yet profound
-                vision: to create a world where every life is valued equally. Her journey
-                began after witnessing the struggles of marginalized communities during her
-                travels across rural India.
+              <p className="text-muted-foreground">
+                Khushi Kalpesh Joshi founded CAMPASION CREW in 2018 with a
+                simple yet profound vision: to create a world where every life
+                is valued equally. Her journey began after witnessing the
+                struggles of marginalized communities during her travels across
+                rural India.
               </p>
 
-              <p className="text-[#6B5B4F] leading-relaxed">
-                With a background in social work and a heart that beats for service, Khushi
-                has dedicated her life to bridging the gap between privilege and poverty.
-                Under her leadership, CAMPASION CREW has grown from a small initiative to
-                a nationwide movement touching over 50,000 lives.
+              <p className="text-muted-foreground">
+                With a background in social work and a heart that beats for
+                service, Khushi has dedicated her life to bridging the gap
+                between privilege and poverty. Under her leadership, CAMPASION
+                CREW has grown from a small initiative to a nationwide movement
+                touching over 50,000 lives.
               </p>
-
-              {/* Stats */}
-              <div className="grid grid-cols-1 gap-6 pt-6 border-t border-[#E5DDD3] center">
-                <div className= "flex flex-col items-center justify-center">
-                  <div className="font-[family-name:var(--font-playfair) ] text-2xl font-bold text-[#2D5A3D]">
-                    2+
-                  </div>
-                  <div className="text-sm text-[#6B5B4F]  ">Years Leading</div>
-                </div>
-                
-              </div>
             </motion.div>
           </div>
         </div>
       </section>
-
-    
-    </>
+    </div>
   );
 }

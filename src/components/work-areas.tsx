@@ -1,134 +1,112 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const workAreas = [
   {
     id: "women",
     title: "Women Empowerment",
-    description: "Every woman deserves the chance to dream, grow, and lead. Our organization works alongside women from underserved communities by providing education, vocational training, self-employment opportunities, and emotional support that help transform lives with dignity and confidence.",
-    color: "text-secondary",
+    description:
+      "Every woman deserves the chance to dream, grow, and lead. Our organization works alongside women from underserved communities by providing education, vocational training, self-employment opportunities, and emotional support that help transform lives with dignity and confidence.",
     image: "/images/women.png",
     href: "/work/women",
+    number: "01",
   },
   {
     id: "children",
     title: "Children Welfare",
-    description: "We work towards building a world where every child feels safe, valued, and empowered. By providing access to education, nutritious meals, healthcare, and emotional support, we help children grow into confident and capable individuals.",
- 
+    description:
+      "We work towards building a world where every child feels safe, valued, and empowered. By providing access to education, nutritious meals, healthcare, and emotional support, we help children grow into confident and capable individuals.",
     image: "/images/child.png",
     href: "/work/children",
+    number: "02",
   },
   {
     id: "animals",
     title: "Animal Rescue",
-    description: "Every animal matters and should be treated with kindness and care. Our organization rescues abandoned and injured animals, provides medical treatment and shelter, and works towards creating a more compassionate world for all living beings. ",
-    color: "text-accent",
+    description:
+      "Every animal matters and should be treated with kindness and care. Our organization rescues abandoned and injured animals, provides medical treatment and shelter, and works towards creating a more compassionate world for all living beings.",
     image: "/images/animal.png",
     href: "/work/animals",
+    number: "03",
   },
 ];
 
 export function WorkAreas() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   return (
-    <section id="work" ref={containerRef} className="bg-background relative">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-24 md:py-32">
+    <section id="work" className="bg-background">
+      <div className="section-container section-padding">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="max-w-3xl mb-24"
+          transition={{ duration: 0.5 }}
+          className="max-w mb-16"
         >
-          <span className="text-secondary font-medium text-sm tracking-[0.2em] uppercase">
+          <span className="font-mono text-xs uppercase tracking-widest text-primary block mb-3">
             Our Focus Areas
           </span>
-          <h2 className="font-heading text-fluid-h2 text-foreground mt-6 mb-8 tracking-tight">
-            Where we make a lasting <span className="italic text-primary">impact</span>.
+          <h2 className="font-heading text-fluid-section text-foreground tracking-tight">
+            Where we make a lasting{" "}
+            <span className="italic text-primary">impact</span>.
           </h2>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row gap-16 relative">
-          
-          {/* Left Side - Sticky Images (Desktop) */}
-          <div className="hidden lg:block lg:w-1/2 relative h-[80vh] sticky top-[10vh]">
-            {workAreas.map((area, index) => (
-              <WorkAreaImage key={area.id} area={area} index={index} />
-            ))}
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
+          <div className="hidden lg:block lg:w-1/2 relative h-[55vh] max-h-[500px] sticky top-[12vh]">
+            <div className="w-full h-full rounded overflow-hidden border border-border/50 shadow-sm">
+              <Image
+                src="/images/hero.png"
+                alt="Our Work"
+                fill
+                sizes="50vw"
+                className="object-cover"
+              />
+            </div>
           </div>
 
-          {/* Right Side - Scrolling Content */}
-          <div className="w-full lg:w-1/2 flex flex-col gap-[20vh] pb-[20vh]">
+          <div className="w-full lg:w-1/2 flex flex-col gap-16 lg:gap-24">
             {workAreas.map((area, index) => (
-              <div 
-                key={area.id} 
-                className="flex flex-col justify-center min-h-[60vh] lg:min-h-0"
+              <motion.div
+                key={area.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
               >
-                {/* Mobile Image */}
-                <div className="block lg:hidden w-full h-[400px] relative rounded-[2rem] overflow-hidden mb-12 organic-shape">
-                  <Image 
-                    src={area.image} 
-                    alt={area.title} 
-                    fill 
+                <div className="block lg:hidden w-full h-[300px] relative rounded overflow-hidden mb-8 border border-border/50">
+                  <Image
+                    src={area.image}
+                    alt={area.title}
+                    fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"
                   />
                 </div>
 
-                <div className="flex items-center gap-4 mb-8">
-                  <span className={`text-6xl font-heading font-light ${area.color} opacity-40`}>
-                    0{index + 1}
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="font-heading text-5xl font-light text-primary/20">
+                    {area.number}
                   </span>
-                  <div className="h-[1px] w-12 bg-border" />
+                  <div className="h-px w-12 bg-border" />
                 </div>
-                
-                <h3 className="font-heading text-4xl md:text-5xl font-medium text-foreground mb-6">
+
+                <h3 className="font-heading text-xl font-medium text-foreground mb-4 tracking-tight">
                   {area.title}
                 </h3>
-                <p className="text-xl text-muted-foreground leading-relaxed mb-10 max-w-lg">
+
+                <p className="text-muted-foreground mb-8 max-w-lg">
                   {area.description}
                 </p>
-
-                <div className="flex items-center justify-between border-t border-border pt-8 mt-auto">
-                 
-                 
-                </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function WorkAreaImage({ area, index }: { area: typeof workAreas[0], index: number }) {
-  // Using sticky positioning and intersection observer-like behavior in framer motion
-  // However, since we are keeping it simple, we use a CSS sticky approach on the parent
-  // and animate the images based on standard scroll behavior.
-  
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1, zIndex: 10 }}
-      exit={{ opacity: 0 }}
-      viewport={{ margin: "-50% 0px -50% 0px" }}
-      transition={{ duration: 0.6 }}
-      className="absolute inset-0 w-full h-full organic-shape overflow-hidden shadow-2xl"
-    >
-      <Image 
-        src={area.image} 
-        alt={area.title} 
-        fill 
-        sizes="50vw"
-        className="object-cover transform hover:scale-105 transition-transform duration-1000"
-      />
-    </motion.div>
   );
 }

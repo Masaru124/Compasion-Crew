@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
-import { Calendar, MapPin, Clock, CheckCircle, ArrowLeft, Send } from "lucide-react";
+import { Calendar, MapPin, CheckCircle, ArrowLeft, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
@@ -21,7 +22,7 @@ const events = [
 function RegisterContent() {
   const searchParams = useSearchParams();
   const eventId = searchParams.get("event");
-  
+
   const [selectedEvent, setSelectedEvent] = useState<string>(eventId || "");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,10 +30,7 @@ function RegisterContent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    
     setIsSubmitting(false);
     setIsSubmitted(true);
   };
@@ -41,30 +39,29 @@ function RegisterContent() {
 
   if (isSubmitted) {
     return (
-      <section className="pt-32 pb-24 bg-[#FAF7F2] min-h-screen">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="pt-32 pb-24 min-h-screen">
+        <div className="section-container">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-3xl p-10 md:p-16 text-center shadow-sm"
+            transition={{ duration: 0.4 }}
+            className="bg-card border border-border rounded-xl shadow-sm p-8 text-center"
           >
-            <div className="w-20 h-20 mx-auto mb-6 bg-[#2D5A3D]/10 rounded-full flex items-center justify-center">
-              <CheckCircle className="w-10 h-10 text-[#2D5A3D]" />
+            <div className="w-12 h-12 mx-auto mb-5 bg-success/10 rounded-2xl flex items-center justify-center">
+              <CheckCircle className="w-6 h-6 text-success" />
             </div>
-            <h2 className="font-[family-name:var(--font-playfair)] text-3xl md:text-4xl font-semibold text-[#2C2416] mb-4">
+            <h2 className="font-heading text-xl font-medium text-foreground mb-4 tracking-tight">
               Registration Confirmed!
             </h2>
-            <p className="text-[#6B5B4F] text-lg mb-8">
-              Thank you for registering. We've sent a confirmation email with all the details. 
+            <p className="text-muted-foreground mb-8">
+              Thank you for registering. We&apos;ve sent a confirmation email with all the details.
               We look forward to seeing you at the event!
             </p>
-            <Link
-              href="/events"
-              className="inline-flex items-center gap-2 bg-[#2D5A3D] hover:bg-[#1F3D2A] text-white font-medium px-8 py-4 rounded-full transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Events
+            <Link href="/events">
+              <Button variant="outline">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Events
+              </Button>
             </Link>
           </motion.div>
         </div>
@@ -73,91 +70,60 @@ function RegisterContent() {
   }
 
   return (
-    <section className="pt-32 pb-24 bg-[#FAF7F2] min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+    <section className="pt-32 pb-24 min-h-screen">
+      <div className="section-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="mb-12"
         >
           <Link
             href="/events"
-            className="inline-flex items-center gap-2 text-[#6B5B4F] hover:text-[#2D5A3D] transition-colors mb-6"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-6 text-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Events
           </Link>
-          <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-semibold text-[#2C2416] mb-4">
+          <h1 className="font-heading text-fluid-hero text-foreground mb-4 tracking-tight">
             Event Registration
           </h1>
-          <p className="text-lg text-[#6B5B4F]">
+          <p className="text-muted-foreground">
             Complete the form below to secure your spot at our upcoming event.
           </p>
         </motion.div>
 
         <div className="grid md:grid-cols-5 gap-8">
-          {/* Form */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
             className="md:col-span-3"
           >
-            <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-sm space-y-6">
-              {/* Name */}
+            <form onSubmit={handleSubmit} className="bg-card border border-border rounded-xl shadow-sm p-8 space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-[#2C2416] font-medium">
-                  Full Name *
-                </Label>
-                <Input
-                  id="name"
-                  required
-                  placeholder="Enter your full name"
-                  className="border-[#E5DDD3] focus:border-[#2D5A3D] focus:ring-[#2D5A3D] rounded-xl h-12"
-                />
+                <Label htmlFor="name">Full Name *</Label>
+                <Input id="name" required placeholder="Enter your full name" />
               </div>
 
-              {/* Email */}
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-[#2C2416] font-medium">
-                  Email Address *
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  required
-                  placeholder="Enter your email"
-                  className="border-[#E5DDD3] focus:border-[#2D5A3D] focus:ring-[#2D5A3D] rounded-xl h-12"
-                />
+                <Label htmlFor="email">Email Address *</Label>
+                <Input id="email" type="email" required placeholder="Enter your email" />
               </div>
 
-              {/* Phone */}
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-[#2C2416] font-medium">
-                  Phone Number *
-                </Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  required
-                  placeholder="Enter your phone number"
-                  className="border-[#E5DDD3] focus:border-[#2D5A3D] focus:ring-[#2D5A3D] rounded-xl h-12"
-                />
+                <Label htmlFor="phone">Phone Number *</Label>
+                <Input id="phone" type="tel" required placeholder="Enter your phone number" />
               </div>
 
-              {/* Event Selection */}
               <div className="space-y-2">
-                <Label htmlFor="event" className="text-[#2C2416] font-medium">
-                  Select Event *
-                </Label>
+                <Label htmlFor="event">Select Event *</Label>
                 <select
                   id="event"
                   required
                   value={selectedEvent}
                   onChange={(e) => setSelectedEvent(e.target.value)}
-                  className="w-full h-12 px-4 border border-[#E5DDD3] rounded-xl focus:border-[#2D5A3D] focus:ring-1 focus:ring-[#2D5A3D] outline-none bg-white text-[#2C2416]"
+                  className="h-12 w-full min-w-0 rounded-xl border border-input bg-white px-3 py-2 text-sm text-foreground transition-all outline-none appearance-none cursor-pointer focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 dark:bg-muted/50"
                 >
                   <option value="">Choose an event</option>
                   {events.map((event) => (
@@ -168,24 +134,20 @@ function RegisterContent() {
                 </select>
               </div>
 
-              {/* Message */}
               <div className="space-y-2">
-                <Label htmlFor="message" className="text-[#2C2416] font-medium">
-                  Message (Optional)
-                </Label>
-                <textarea
+                <Label htmlFor="message">Message (Optional)</Label>
+                <Textarea
                   id="message"
                   rows={4}
                   placeholder="Any special requirements or questions?"
-                  className="w-full px-4 py-3 border border-[#E5DDD3] rounded-xl focus:border-[#2D5A3D] focus:ring-1 focus:ring-[#2D5A3D] outline-none resize-none"
                 />
               </div>
 
-              {/* Submit */}
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#E07B39] hover:bg-[#C45C3E] text-white font-semibold py-6 rounded-xl text-base transition-all duration-300"
+                size="xl"
+                className="w-full"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">
@@ -205,49 +167,48 @@ function RegisterContent() {
             </form>
           </motion.div>
 
-          {/* Event Details Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             className="md:col-span-2"
           >
-            <div className="bg-[#2D5A3D] rounded-2xl p-8 text-white sticky top-32">
-              <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-semibold mb-6">
+            <div className="bg-card border border-border rounded-xl shadow-sm p-8 sticky top-32">
+              <h3 className="font-heading text-xl font-medium text-foreground mb-6 tracking-tight">
                 {selectedEventData ? "Event Details" : "Select an Event"}
               </h3>
-              
+
               {selectedEventData ? (
                 <div className="space-y-4">
-                  <div className="pb-4 border-b border-white/20">
-                    <h4 className="font-semibold text-lg mb-1">{selectedEventData.title}</h4>
+                  <div className="pb-4 border-b border-border">
+                    <h4 className="font-medium text-foreground mb-1">{selectedEventData.title}</h4>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <Calendar className="w-5 h-5 text-[#F4A261]" />
+                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <Calendar className="w-4 h-4 text-terracotta shrink-0" />
                     <span>{selectedEventData.date}</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <MapPin className="w-5 h-5 text-[#F4A261]" />
+                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <MapPin className="w-4 h-4 text-terracotta shrink-0" />
                     <span>{selectedEventData.location}</span>
                   </div>
-                  <div className="pt-4 border-t border-white/20 mt-4">
-                    <p className="text-white/80 text-sm">
+                  <div className="pt-4 border-t border-border mt-4">
+                    <p className="text-sm text-muted-foreground">
                       We will send a confirmation email with complete event details including timing and any items to bring.
                     </p>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <p className="text-white/80">
+                  <p className="text-sm text-muted-foreground">
                     Choose an event from the dropdown to see details here.
                   </p>
-                  <div className="pt-4 border-t border-white/20">
-                    <h4 className="font-semibold mb-2">Why Attend?</h4>
-                    <ul className="text-white/80 text-sm space-y-2">
-                      <li>• Connect with like-minded individuals</li>
-                      <li>• Learn about our impact firsthand</li>
-                      <li>• Contribute to meaningful causes</li>
-                      <li>• Get involved with our programs</li>
+                  <div className="pt-4 border-t border-border">
+                    <h4 className="font-medium text-foreground text-sm mb-2">Why Attend?</h4>
+                    <ul className="text-muted-foreground text-sm space-y-1.5">
+                      <li>&bull; Connect with like-minded individuals</li>
+                      <li>&bull; Learn about our impact firsthand</li>
+                      <li>&bull; Contribute to meaningful causes</li>
+                      <li>&bull; Get involved with our programs</li>
                     </ul>
                   </div>
                 </div>
@@ -262,7 +223,7 @@ function RegisterContent() {
 
 export default function RegisterPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>}>
       <RegisterContent />
     </Suspense>
   );

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Heart, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const donationOptions = [
   { amount: 500, impact: "Provides educational materials for 5 children" },
@@ -13,99 +14,97 @@ const donationOptions = [
 
 export default function DonatePage() {
   return (
-    <>
-      <section className="pt-32 pb-20 bg-[#FAF7F2]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="planner-bg">
+      <section className="pt-32 pb-20">
+        <div className="section-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <div className="w-16 h-16 mx-auto mb-6 bg-[#E07B39]/10 rounded-full flex items-center justify-center">
-              <Heart className="w-8 h-8 text-[#E07B39] fill-[#E07B39]" />
+            <div className="w-12 h-12 mx-auto mb-5 bg-terracotta/10 rounded flex items-center justify-center">
+              <Heart className="w-6 h-6 text-terracotta" />
             </div>
-            <h1 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-semibold text-[#2C2416] mb-6">
+            <h1 className="font-heading text-fluid-hero text-foreground mb-6 tracking-tight">
               Support Our Mission
             </h1>
-            <p className="text-lg text-[#6B5B4F] leading-relaxed">
-              Your contribution helps us continue our work of empowering women, 
+            <p className="text-muted-foreground">
+              Your contribution helps us continue our work of empowering women,
               educating children, and caring for animals across India.
             </p>
           </motion.div>
         </div>
       </section>
 
-      <section className="py-24 bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="section-padding border-t border-border">
+        <div className="section-container">
           <div className="grid md:grid-cols-2 gap-12 items-start">
-            {/* Donation Options */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5 }}
             >
-              <h2 className="font-[family-name:var(--font-playfair)] text-3xl font-semibold text-[#2C2416] mb-8">
+              <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
+                Donation Options
+              </span>
+              <h2 className="font-heading text-fluid-section text-foreground mb-8 tracking-tight">
                 Choose Your Impact
               </h2>
               <div className="space-y-4">
                 {donationOptions.map((option) => (
                   <button
                     key={option.amount}
-                    className="w-full bg-[#FAF7F2] hover:bg-[#FCE5CD] border-2 border-transparent hover:border-[#E07B39] rounded-2xl p-6 text-left transition-all group"
+                    className="w-full bg-card border border-border rounded shadow-sm p-8 text-left hover:border-primary/30 transition-all group"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#2D5A3D]">
-                        ₹{option.amount.toLocaleString()}
+                      <span className="font-heading text-3xl font-medium text-primary tracking-tight">
+                        &#8377;{option.amount.toLocaleString()}
                       </span>
-                      <CheckCircle className="w-6 h-6 text-[#E07B39] opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <CheckCircle className="w-5 h-5 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
-                    <p className="text-[#6B5B4F]">{option.impact}</p>
+                    <p className="text-muted-foreground text-sm">{option.impact}</p>
                   </button>
                 ))}
               </div>
             </motion.div>
 
-            {/* Custom Amount */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-[#2D5A3D] rounded-3xl p-8 text-white"
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-semibold mb-4">
-                Custom Amount
-              </h3>
-              <p className="text-white/80 mb-6">
-                Enter any amount you wish to contribute. Every rupee counts towards 
-                creating a better world.
-              </p>
-              <div className="space-y-4">
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 text-lg">₹</span>
-                  <input
-                    type="number"
-                    placeholder="Enter amount"
-                    className="w-full pl-10 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-white/50 focus:outline-none focus:border-[#F4A261]"
-                  />
-                </div>
-                <Button className="w-full bg-[#E07B39] hover:bg-[#C45C3E] text-white font-semibold py-6 rounded-xl text-base">
-                  <Heart className="w-5 h-5 mr-2 fill-current" />
-                  Donate Now
-                </Button>
-              </div>
-              <div className="mt-6 pt-6 border-t border-white/20">
-                <p className="text-sm text-white/60">
-                  All donations are tax-deductible under Section 80G. 
-                  You will receive a receipt via email.
+              <div className="bg-card border border-border rounded shadow-sm p-8">
+                <h3 className="font-heading text-xl font-medium text-foreground mb-1 tracking-tight">
+                  Custom Amount
+                </h3>
+                <p className="text-muted-foreground text-sm mb-6">
+                  Enter any amount you wish to contribute. Every rupee counts towards
+                  creating a better world.
                 </p>
+                <div className="space-y-4">
+                  <div className="relative">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground">&#8377;</span>
+                    <Input type="number" placeholder="Enter amount" className="pl-8 h-12" />
+                  </div>
+                  <Button size="xl" className="w-full">
+                    <Heart className="w-5 h-5 mr-2" />
+                    Donate Now
+                  </Button>
+                </div>
+                <div className="mt-6 pt-6 border-t border-border">
+                  <p className="text-xs text-muted-foreground">
+                    All donations are tax-deductible under Section 80G.
+                    You will receive a receipt via email.
+                  </p>
+                </div>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
