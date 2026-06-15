@@ -84,7 +84,7 @@ export default function DonatePage() {
                   Enter any amount you wish to contribute. Every rupee counts towards
                   creating a better world.
                 </p>
-                <div className="space-y-4">
+                {/* <div className="space-y-4">
                   <div className="relative">
                     <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground">&#8377;</span>
                     <Input type="number" placeholder="Enter amount" className="pl-8 h-12" />
@@ -93,6 +93,9 @@ export default function DonatePage() {
                     <Heart className="w-5 h-5 mr-2" />
                     Donate Now
                   </Button>
+                </div> */}
+                <div className="space-y-4">
+                  Coming Soon
                 </div>
                 <div className="mt-6 pt-6 border-t border-border">
                   <p className="text-xs text-muted-foreground">
