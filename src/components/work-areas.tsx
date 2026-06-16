@@ -5,8 +5,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { urlFor } from "@/sanity/client";
 
-const workAreas = [
+interface WorkAreaItem {
+  id: string;
+  title: string;
+  description: string;
+  image: any;
+  href?: string;
+  number: string;
+}
+
+const workAreas: WorkAreaItem[] = [
   {
     id: "women",
     title: "Women Empowerment",
@@ -36,7 +46,22 @@ const workAreas = [
   },
 ];
 
-export function WorkAreas() {
+interface WorkAreasProps {
+  initialWorkAreas?: WorkAreaItem[];
+}
+
+export function WorkAreas({ initialWorkAreas }: WorkAreasProps) {
+  const displayWorkAreas = initialWorkAreas || workAreas;
+
+  const getImageUrl = (img: any) => {
+    if (!img) return "/images/hero.png";
+    if (typeof img === "string") return img;
+    // Check if it's a Sanity image reference
+    if (img.asset || img._type === "image") {
+      return urlFor(img).url() || "/images/hero.png";
+    }
+    return "/images/hero.png";
+  };
   return (
     <section id="work" className="bg-background">
       <div className="section-container section-padding">
@@ -70,7 +95,7 @@ export function WorkAreas() {
           </div>
 
           <div className="w-full lg:w-1/2 flex flex-col gap-16 lg:gap-24">
-            {workAreas.map((area, index) => (
+            {displayWorkAreas.map((area, index) => (
               <motion.div
                 key={area.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -80,7 +105,7 @@ export function WorkAreas() {
               >
                 <div className="block lg:hidden w-full h-[300px] relative rounded overflow-hidden mb-8 border border-border/50">
                   <Image
-                    src={area.image}
+                    src={getImageUrl(area.image)}
                     alt={area.title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"

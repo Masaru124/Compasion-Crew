@@ -1,9 +1,9 @@
-"use client";
-
 import Link from "next/link";
 import { Heart, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { client } from "@/sanity/client";
+import { siteSettingsQuery } from "@/sanity/queries";
 
 const footerLinks = {
   organization: [
@@ -18,7 +18,42 @@ const footerLinks = {
   ],
 };
 
-export function Footer() {
+interface SiteSettings {
+  email: string;
+  phone: string;
+  address: string;
+  footerDescription: string;
+  copyrightText?: string;
+}
+
+const defaultSettings: SiteSettings = {
+  email: "contact@campasioncrew.org",
+  phone: "+91 8884156247",
+  address: "Bangalore, Karnataka, India",
+  footerDescription: "Dignity, care, and equal value for every life. Supporting women, children, and animals across India.",
+  copyrightText: "CAMPASION CREW. All rights reserved.",
+};
+
+export async function Footer() {
+  let settings: SiteSettings = defaultSettings;
+
+  try {
+    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
+      const data = await client.fetch(siteSettingsQuery);
+      if (data) {
+        settings = {
+          email: data.email || defaultSettings.email,
+          phone: data.phone || defaultSettings.phone,
+          address: data.address || defaultSettings.address,
+          footerDescription: data.footerDescription || defaultSettings.footerDescription,
+          copyrightText: data.copyrightText || defaultSettings.copyrightText,
+        };
+      }
+    }
+  } catch (error) {
+    console.error("Failed to fetch footer settings from Sanity:", error);
+  }
+
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="section-container py-20 pb-10">
@@ -41,28 +76,27 @@ export function Footer() {
             </div>
 
             <p className="text-primary-foreground/70 text-sm max-w-sm mb-6">
-              Dignity, care, and equal value for every life. Supporting women,
-              children, and animals across India.
+              {settings.footerDescription}
             </p>
 
             <div className="space-y-3">
               <a
-                href="mailto:contact@campasioncrew.org"
+                href={`mailto:${settings.email}`}
                 className="flex items-center gap-3 text-primary-foreground/60 hover:text-primary-foreground transition-colors text-sm"
               >
                 <Mail className="w-4 h-4" />
-                <span>contact@campasioncrew.org</span>
+                <span>{settings.email}</span>
               </a>
               <a
-                href="tel:+919876543210"
+                href={`tel:${settings.phone.replace(/\s+/g, "")}`}
                 className="flex items-center gap-3 text-primary-foreground/60 hover:text-primary-foreground transition-colors text-sm"
               >
                 <Phone className="w-4 h-4" />
-                <span>+91 8884156247</span>
+                <span>{settings.phone}</span>
               </a>
               <div className="flex items-center gap-3 text-primary-foreground/60 text-sm">
                 <MapPin className="w-4 h-4" />
-                <span>Bangalore, Karnataka, India</span>
+                <span>{settings.address}</span>
               </div>
             </div>
           </div>
@@ -117,8 +151,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-primary-foreground/40 text-xs">
-            &copy; {new Date().getFullYear()} CAMPASION CREW. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} {settings.copyrightText}
           </p>
           <p className="text-primary-foreground/40 text-xs flex items-center gap-1">
             Made with <Heart className="w-3 h-3 text-terracotta" /> for every

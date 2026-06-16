@@ -4,7 +4,14 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Quote } from "lucide-react";
 
-const stories = [
+interface StoryItem {
+  quote: string;
+  name: string;
+  role: string;
+  location: string;
+}
+
+const stories: StoryItem[] = [
   {
     quote: "CAMPASION CREW didn't just give me skills, they gave me confidence. Today, I run my own tailoring business and support my family with dignity.",
     name: "Lakshmi Devi",
@@ -25,7 +32,12 @@ const stories = [
   },
 ];
 
-export function StorySection() {
+interface StorySectionProps {
+  initialStories?: StoryItem[];
+}
+
+export function StorySection({ initialStories }: StorySectionProps) {
+  const displayStories = initialStories || stories;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -51,7 +63,7 @@ export function StorySection() {
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {stories.map((story, index) => (
+          {displayStories.map((story, index) => (
             <motion.div
               key={story.name}
               initial={{ opacity: 0, y: 20 }}

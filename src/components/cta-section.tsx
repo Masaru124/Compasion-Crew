@@ -6,7 +6,30 @@ import Link from "next/link";
 import { Heart, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function CTASection() {
+interface CTAData {
+  title: string;
+  description: string;
+  primaryBtnText: string;
+  primaryBtnLink: string;
+  secondaryBtnText: string;
+  secondaryBtnLink: string;
+}
+
+const defaultCTA: CTAData = {
+  title: "Be Part of the Change",
+  description: "Every contribution—whether your time, skills, or resources—helps us continue our mission of dignity and care for every life.",
+  primaryBtnText: "Donate Now",
+  primaryBtnLink: "/donate",
+  secondaryBtnText: "Join as Volunteer",
+  secondaryBtnLink: "/volunteer",
+};
+
+interface CTASectionProps {
+  initialCTA?: CTAData;
+}
+
+export function CTASection({ initialCTA }: CTASectionProps) {
+  const data = initialCTA || defaultCTA;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -23,24 +46,23 @@ export function CTASection() {
           </div>
 
           <h2 className="font-heading text-fluid-section text-foreground mb-4 tracking-tight">
-            Be Part of the Change
+            {data.title}
           </h2>
 
           <p className="text-muted-foreground max-w-xl mx-auto mb-10">
-            Every contribution—whether your time, skills, or resources—helps us
-            continue our mission of dignity and care for every life.
+            {data.description}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/donate">
+            <Link href={data.primaryBtnLink}>
               <Button variant="accent" size="xl" className="group">
                 <Heart className="w-5 h-5 mr-2" />
-                Donate Now
+                {data.primaryBtnText}
               </Button>
             </Link>
-            <Link href="/volunteer">
+            <Link href={data.secondaryBtnLink}>
               <Button variant="outline" className="group">
-                Join as Volunteer
+                {data.secondaryBtnText}
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-0.5 transition-transform" />
               </Button>
             </Link>

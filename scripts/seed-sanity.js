@@ -1,0 +1,520 @@
+const fs = require("fs");
+const path = require("path");
+const { createClient } = require("@sanity/client");
+
+// Custom environment variables parser for .env.local
+const envLocalPath = path.join(__dirname, "..", ".env.local");
+if (fs.existsSync(envLocalPath)) {
+  const envContent = fs.readFileSync(envLocalPath, "utf8");
+  envContent.split(/\r?\n/).forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) return;
+    const parts = trimmed.split("=");
+    if (parts.length >= 2) {
+      const key = parts[0].trim();
+      let val = parts.slice(1).join("=").trim();
+      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+        val = val.slice(1, -1);
+      }
+      process.env[key] = val;
+    }
+  });
+}
+
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
+const token = process.env.SANITY_API_WRITE_TOKEN;
+
+if (!projectId || !token) {
+  console.error("❌ Error: Missing Sanity credentials in .env.local!");
+  console.error("Please configure:");
+  console.error("  - NEXT_PUBLIC_SANITY_PROJECT_ID");
+  console.error("  - SANITY_API_WRITE_TOKEN");
+  process.exit(1);
+}
+
+const client = createClient({
+  projectId,
+  dataset,
+  apiVersion: "2023-01-01",
+  token,
+  useCdn: false, // Mutation needs to bypass CDN
+});
+
+const milestones = [
+  { year: "2018", title: "Foundation", description: "CAMPASION CREW was founded with a mission to serve every life with dignity." },
+  { year: "2019", title: "First State Expansion", description: "Extended operations to 5 states across India." },
+  { year: "2020", title: "Pandemic Response", description: "Served 10,000+ families during COVID-19 crisis." },
+  { year: "2021", title: "Women Centers", description: "Opened 10 skill development centers for women." },
+  { year: "2022", title: "Animal Shelter", description: "Established our first dedicated animal rescue center." },
+  { year: "2023", title: "Education Program", description: "Launched scholarship program for underprivileged children." },
+];
+
+const teamMembers = [
+  {
+    name: "Khushi Kalpesh Joshi",
+    role: "Co-Founder & COO",
+    bio: "Operations expert with 10+ years in NGO management. Leads our ground initiatives across India.",
+    linkedin: "https://linkedin.com",
+    x: "https://x.com",
+    email: "khushi@campasioncrew.org"
+  },
+  {
+    name: "Dr. Arun Kumar",
+    role: "Head of Programs",
+    bio: "Development professional specializing in education and women's empowerment programs.",
+    linkedin: "https://linkedin.com",
+    x: "https://x.com",
+    email: "arun@campasioncrew.org"
+  },
+  {
+    name: "Meera Singh",
+    role: "Animal Welfare Director",
+    bio: "Veterinarian and animal rights activist. Heads our rescue and rehabilitation centers.",
+    linkedin: "https://linkedin.com",
+    x: "https://x.com",
+    email: "meera@campasioncrew.org"
+  },
+  {
+    name: "Vikram Desai",
+    role: "Finance Director",
+    bio: "CA with expertise in nonprofit financial management. Ensures transparency in all operations.",
+    linkedin: "https://linkedin.com",
+    x: "https://x.com",
+    email: "vikram@campasioncrew.org"
+  },
+  {
+    name: "Anjali Rao",
+    role: "Communications Lead",
+    bio: "Journalist turned communications expert. Tells our stories to inspire action.",
+    linkedin: "https://linkedin.com",
+    x: "https://x.com",
+    email: "anjali@campasioncrew.org"
+  },
+  {
+    name: "Rahul Menon",
+    role: "Volunteer Coordinator",
+    bio: "Community builder managing our network of 500+ volunteers across 15 states.",
+    linkedin: "https://linkedin.com",
+    x: "https://x.com",
+    email: "rahul@campasioncrew.org"
+  },
+];
+
+const events = [
+  {
+    id: 1,
+    title: "Annual Fundraising Gala",
+    description: "An evening of inspiration, stories, and celebration of our collective impact.",
+    date: "December 15, 2024",
+    time: "6:00 PM - 10:00 PM",
+    location: "Taj Mahal Palace, Mumbai",
+    category: "Fundraiser",
+    spots: 200,
+  },
+  {
+    id: 2,
+    title: "Women Empowerment Workshop",
+    description: "A free skill development workshop focusing on entrepreneurship and digital literacy.",
+    date: "November 20, 2024",
+    time: "10:00 AM - 4:00 PM",
+    location: "Community Center, Delhi",
+    category: "Workshop",
+    spots: 50,
+  },
+  {
+    id: 3,
+    title: "Animal Adoption Drive",
+    description: "Meet rescued animals looking for forever homes with guidance from our team.",
+    date: "December 5, 2024",
+    time: "11:00 AM - 5:00 PM",
+    location: "CAMPASION Animal Shelter, Pune",
+    category: "Adoption",
+    spots: 100,
+  },
+  {
+    id: 4,
+    title: "Children's Education Camp",
+    description: "A week-long educational camp featuring interactive learning, arts, and sports.",
+    date: "January 10-16, 2025",
+    time: "9:00 AM - 3:00 PM",
+    location: "Rural School, Rajasthan",
+    category: "Education",
+    spots: 150,
+  },
+  {
+    id: 5,
+    title: "Volunteer Training Program",
+    description: "Comprehensive training covering our programs, values, and community engagement.",
+    date: "December 1, 2024",
+    time: "9:00 AM - 1:00 PM",
+    location: "Online (Zoom)",
+    category: "Training",
+    spots: 100,
+  },
+  {
+    id: 6,
+    title: "Clean Water Initiative Launch",
+    description: "Inauguration of 25 new water purification systems in drought-affected villages.",
+    date: "November 30, 2024",
+    time: "2:00 PM - 5:00 PM",
+    location: "Village Square, Maharashtra",
+    category: "Launch",
+    spots: 75,
+  },
+];
+
+const workAreas = [
+  {
+    id: "women",
+    title: "Women Empowerment",
+    description: "Every woman deserves the chance to dream, grow, and lead. Our organization works alongside women from underserved communities by providing education, vocational training, self-employment opportunities, and emotional support that help transform lives with dignity and confidence.",
+    imagePath: "public/images/women.png",
+    number: "01",
+  },
+  {
+    id: "children",
+    title: "Children Welfare",
+    description: "We work towards building a world where every child feels safe, valued, and empowered. By providing access to education, nutritious meals, healthcare, and emotional support, we help children grow into confident and capable individuals.",
+    imagePath: "public/images/child.png",
+    number: "02",
+  },
+  {
+    id: "animals",
+    title: "Animal Rescue",
+    description: "Every animal matters and should be treated with kindness and care. Our organization rescues abandoned and injured animals, provides medical treatment and shelter, and works towards creating a more compassionate world for all living beings.",
+    imagePath: "public/images/animal.png",
+    number: "03",
+  },
+];
+
+const stories = [
+  {
+    quote: "CAMPASION CREW didn't just give me skills, they gave me confidence. Today, I run my own tailoring business and support my family with dignity.",
+    name: "Lakshmi Devi",
+    role: "Women Empowerment Program",
+    location: "Rajasthan",
+  },
+  {
+    quote: "My daughter now goes to school every day with a smile. The educational support changed not just her life, but our entire family's future.",
+    name: "Mohammed Rafiq",
+    role: "Children Education Program",
+    location: "Kerala",
+  },
+  {
+    quote: "When they rescued my street dog friend Bruno, I saw true compassion in action. They treat every animal with the love they deserve.",
+    name: "Priya Sharma",
+    role: "Animal Rescue Volunteer",
+    location: "Mumbai",
+  },
+];
+
+const stats = [
+  { icon: "Heart", value: 50000, suffix: "+", label: "Lives Impacted" },
+  { icon: "Users", value: 25000, suffix: "+", label: "Women Empowered" },
+  { icon: "Baby", value: 15000, suffix: "+", label: "Children Educated" },
+  { icon: "PawPrint", value: 10000, suffix: "+", label: "Animals Rescued" },
+  { icon: "Award", value: 150, suffix: "", label: "Awards Won" },
+  { icon: "Globe", value: 15, suffix: "+", label: "States Covered" },
+];
+
+const heroData = {
+  eyebrow: "Non-Profit Organization",
+  title: "Every life *matters.*",
+  description: "We believe in dignity, care, and equal value for every living being. Join our mission in supporting women, children, and animals across India.",
+  primaryBtnText: "Get Involved",
+  primaryBtnLink: "/volunteer",
+  secondaryBtnText: "Learn More",
+  secondaryBtnLink: "/about",
+  imagePath: "public/images/hero.png"
+};
+
+const ctaData = {
+  title: "Be Part of the Change",
+  description: "Every contribution—whether your time, skills, or resources—helps us continue our mission of dignity and care for every life.",
+  primaryBtnText: "Donate Now",
+  primaryBtnLink: "/donate",
+  secondaryBtnText: "Join as Volunteer",
+  secondaryBtnLink: "/volunteer"
+};
+
+const founderData = {
+  name: "Khushi Kalpesh Joshi",
+  role: "Founder & Director",
+  biography: [
+    "Khushi Kalpesh Joshi founded CAMPASION CREW in 2018 with a simple yet profound vision: to create a world where every life is valued equally. Her journey began after witnessing the struggles of marginalized communities during her travels across rural India.",
+    "With a background in social work and a heart that beats for service, Khushi has dedicated her life to bridging the gap between privilege and poverty. Under her leadership, CAMPASION CREW has grown from a small initiative to a nationwide movement touching over 50,000 lives."
+  ],
+  imagePath: "public/images/founders.jpeg"
+};
+
+const volunteerData = {
+  title: "Join Our Volunteer Team",
+  description: "Thank you for your interest in volunteering with us. Please complete the application form below. We will review your submission and contact shortlisted applicants.",
+  formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeYJ4-OKlvkBQm0vSaGKHMrNWHflIMaKZQKAQxeN73b7PFoUg/viewform?embedded=true",
+  formHeight: 3600
+};
+
+const donateData = {
+  title: "Support Our Mission",
+  description: "Your contribution helps us continue our work of empowering women, educating children, and caring for animals across India.",
+  donationOptions: [
+    { amount: 500, impact: "Provides educational materials for 5 children" },
+    { amount: 1000, impact: "Supports skill training for 2 women" },
+    { amount: 2500, impact: "Feeds and cares for 5 rescued animals for a month" },
+    { amount: 5000, impact: "Sponsors a child's education for 3 months" },
+  ],
+  customAmountTitle: "Custom Amount",
+  customAmountDesc: "Enter any amount you wish to contribute. Every rupee counts towards creating a better world.",
+  taxNote: "All donations are tax-deductible under Section 80G. You will receive a receipt via email."
+};
+
+const siteSettingsData = {
+  email: "contact@campasioncrew.org",
+  phone: "+91 8884156247",
+  address: "Bangalore, Karnataka, India",
+  footerDescription: "Dignity, care, and equal value for every life. Supporting women, children, and animals across India.",
+  copyrightText: "CAMPASION CREW. All rights reserved."
+};
+
+async function uploadImageAsset(localPath) {
+  const fullPath = path.join(__dirname, "..", localPath);
+  if (!fs.existsSync(fullPath)) {
+    console.warn(`  ⚠ Warning: Local image not found at ${fullPath}. Skipping image upload.`);
+    return null;
+  }
+  const fileStream = fs.createReadStream(fullPath);
+  return await client.assets.upload("image", fileStream, {
+    filename: path.basename(fullPath),
+  });
+}
+
+async function seedData() {
+  try {
+    console.log("🚀 Starting data migration seeding to Sanity CMS...");
+
+    // 1. Seed Milestones
+    console.log("\n📅 Seeding Milestones...");
+    for (let i = 0; i < milestones.length; i++) {
+      const ms = milestones[i];
+      const doc = {
+        _id: `milestone-${i}`,
+        _type: "milestone",
+        year: ms.year,
+        title: ms.title,
+        description: ms.description,
+      };
+      await client.createOrReplace(doc);
+      console.log(`  ✔ Seeded milestone: ${ms.year} - ${ms.title}`);
+    }
+
+    // 2. Seed Team Members
+    console.log("\n👥 Seeding Team Members...");
+    for (let i = 0; i < teamMembers.length; i++) {
+      const tm = teamMembers[i];
+      const doc = {
+        _id: `team-member-${i}`,
+        _type: "teamMember",
+        name: tm.name,
+        role: tm.role,
+        bio: tm.bio,
+        linkedin: tm.linkedin,
+        x: tm.x,
+        email: tm.email,
+      };
+      await client.createOrReplace(doc);
+      console.log(`  ✔ Seeded team member: ${tm.name}`);
+    }
+
+    // 3. Seed Events
+    console.log("\n🎉 Seeding Events...");
+    for (let i = 0; i < events.length; i++) {
+      const ev = events[i];
+      const doc = {
+        _id: `event-${ev.id}`,
+        _type: "event",
+        title: ev.title,
+        description: ev.description,
+        date: ev.date,
+        time: ev.time,
+        location: ev.location,
+        category: ev.category,
+        spots: ev.spots,
+      };
+      await client.createOrReplace(doc);
+      console.log(`  ✔ Seeded event: ${ev.title}`);
+    }
+
+    // 4. Seed Stories
+    console.log("\n✍ Seeding Real Stories...");
+    for (let i = 0; i < stories.length; i++) {
+      const st = stories[i];
+      const doc = {
+        _id: `story-${i}`,
+        _type: "story",
+        quote: st.quote,
+        name: st.name,
+        role: st.role,
+        location: st.location,
+      };
+      await client.createOrReplace(doc);
+      console.log(`  ✔ Seeded story: ${st.name}`);
+    }
+
+    // 5. Seed Impact Stats
+    console.log("\n📊 Seeding Impact Stats...");
+    for (let i = 0; i < stats.length; i++) {
+      const stat = stats[i];
+      const doc = {
+        _id: `impact-stat-${i}`,
+        _type: "impactStat",
+        icon: stat.icon,
+        value: stat.value,
+        suffix: stat.suffix,
+        label: stat.label,
+      };
+      await client.createOrReplace(doc);
+      console.log(`  ✔ Seeded impact stat: ${stat.label}`);
+    }
+
+    // 6. Seed Work Areas
+    console.log("\n🛠 Seeding Work Areas...");
+    for (let i = 0; i < workAreas.length; i++) {
+      const area = workAreas[i];
+      const imageAsset = await uploadImageAsset(area.imagePath);
+      
+      const doc = {
+        _id: `work-area-${area.id}`,
+        _type: "workArea",
+        id: area.id,
+        number: area.number,
+        title: area.title,
+        description: area.description,
+      };
+
+      if (imageAsset) {
+        doc.image = {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: imageAsset._id,
+          },
+        };
+      }
+
+      await client.createOrReplace(doc);
+      console.log(`  ✔ Seeded work area: ${area.title}`);
+    }
+
+    // 7. Seed Hero Section
+    console.log("\n🔥 Seeding Hero Section...");
+    const heroAsset = await uploadImageAsset(heroData.imagePath);
+    const heroDoc = {
+      _id: "singleton-heroSection",
+      _type: "heroSection",
+      eyebrow: heroData.eyebrow,
+      title: heroData.title,
+      description: heroData.description,
+      primaryBtnText: heroData.primaryBtnText,
+      primaryBtnLink: heroData.primaryBtnLink,
+      secondaryBtnText: heroData.secondaryBtnText,
+      secondaryBtnLink: heroData.secondaryBtnLink,
+    };
+    if (heroAsset) {
+      heroDoc.image = {
+        _type: "image",
+        asset: {
+          _type: "reference",
+          _ref: heroAsset._id,
+        },
+      };
+    }
+    await client.createOrReplace(heroDoc);
+    console.log("  ✔ Seeded Hero Section settings");
+
+    // 8. Seed CTA Section
+    console.log("\n🎯 Seeding CTA Section...");
+    const ctaDoc = {
+      _id: "singleton-ctaSection",
+      _type: "ctaSection",
+      title: ctaData.title,
+      description: ctaData.description,
+      primaryBtnText: ctaData.primaryBtnText,
+      primaryBtnLink: ctaData.primaryBtnLink,
+      secondaryBtnText: ctaData.secondaryBtnText,
+      secondaryBtnLink: ctaData.secondaryBtnLink,
+    };
+    await client.createOrReplace(ctaDoc);
+    console.log("  ✔ Seeded CTA Section settings");
+
+    // 9. Seed Founder Page
+    console.log("\n👩 Seeding Founder Page...");
+    const founderAsset = await uploadImageAsset(founderData.imagePath);
+    const founderDoc = {
+      _id: "singleton-founderPage",
+      _type: "founderPage",
+      name: founderData.name,
+      role: founderData.role,
+      biography: founderData.biography,
+    };
+    if (founderAsset) {
+      founderDoc.image = {
+        _type: "image",
+        asset: {
+          _type: "reference",
+          _ref: founderAsset._id,
+        },
+      };
+    }
+    await client.createOrReplace(founderDoc);
+    console.log("  ✔ Seeded Founder Page settings");
+
+    // 10. Seed Volunteer Page
+    console.log("\n🙋 Seeding Volunteer Page...");
+    const volunteerDoc = {
+      _id: "singleton-volunteerPage",
+      _type: "volunteerPage",
+      title: volunteerData.title,
+      description: volunteerData.description,
+      formUrl: volunteerData.formUrl,
+      formHeight: volunteerData.formHeight,
+    };
+    await client.createOrReplace(volunteerDoc);
+    console.log("  ✔ Seeded Volunteer Page settings");
+
+    // 11. Seed Donate Page
+    console.log("\n💳 Seeding Donate Page...");
+    const donateDoc = {
+      _id: "singleton-donatePage",
+      _type: "donatePage",
+      title: donateData.title,
+      description: donateData.description,
+      donationOptions: donateData.donationOptions,
+      customAmountTitle: donateData.customAmountTitle,
+      customAmountDesc: donateData.customAmountDesc,
+      taxNote: donateData.taxNote,
+    };
+    await client.createOrReplace(donateDoc);
+    console.log("  ✔ Seeded Donate Page settings");
+
+    // 12. Seed Site Global Settings
+    console.log("\n🌐 Seeding Site Global Settings...");
+    const settingsDoc = {
+      _id: "singleton-siteSettings",
+      _type: "siteSettings",
+      email: siteSettingsData.email,
+      phone: siteSettingsData.phone,
+      address: siteSettingsData.address,
+      footerDescription: siteSettingsData.footerDescription,
+      copyrightText: siteSettingsData.copyrightText,
+    };
+    await client.createOrReplace(settingsDoc);
+    console.log("  ✔ Seeded Site Global Settings");
+
+    console.log("\n🎉 All data successfully migrated to Sanity CMS! 🎉");
+  } catch (err) {
+    console.error("\n❌ Seeding failed with error:", err);
+  }
+}
+
+seedData();

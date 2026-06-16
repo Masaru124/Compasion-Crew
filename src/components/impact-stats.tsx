@@ -59,7 +59,23 @@ function StatItem({ icon: Icon, value, suffix, label, delay, isInView }: StatIte
   );
 }
 
-const stats = [
+const iconMap: Record<string, React.ElementType> = {
+  Heart,
+  Users,
+  Baby,
+  PawPrint,
+  Award,
+  Globe
+};
+
+interface ImpactStatInput {
+  icon: string | React.ElementType;
+  value: number;
+  suffix: string;
+  label: string;
+}
+
+const stats: ImpactStatInput[] = [
   { icon: Heart, value: 50000, suffix: "+", label: "Lives Impacted" },
   { icon: Users, value: 25000, suffix: "+", label: "Women Empowered" },
   { icon: Baby, value: 15000, suffix: "+", label: "Children Educated" },
@@ -68,7 +84,12 @@ const stats = [
   { icon: Globe, value: 15, suffix: "+", label: "States Covered" },
 ];
 
-export function ImpactStats() {
+interface ImpactStatsProps {
+  initialStats?: ImpactStatInput[];
+}
+
+export function ImpactStats({ initialStats }: ImpactStatsProps) {
+  const displayStats = initialStats || stats;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -94,14 +115,20 @@ export function ImpactStats() {
         </motion.div>
 
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
-          {stats.map((stat, index) => (
-            <StatItem
-              key={stat.label}
-              {...stat}
-              delay={index * 0.1}
-              isInView={isInView}
-            />
-          ))}
+          {displayStats.map((stat, index) => {
+            const IconComponent = typeof stat.icon === "string" ? (iconMap[stat.icon] || Heart) : stat.icon;
+            return (
+              <StatItem
+                key={stat.label}
+                icon={IconComponent}
+                value={stat.value}
+                suffix={stat.suffix}
+                label={stat.label}
+                delay={index * 0.1}
+                isInView={isInView}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
