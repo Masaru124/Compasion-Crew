@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Donate Online - Support Social Impact (80G Tax Benefits)",
   description: "Support CAMPASION CREW's social impact community. Sponsoring expert talks, volunteer drives, and local initiatives is tax-deductible under Section 80G.",
   keywords: ["donate to social impact", "80G tax deductible donations", "online donation NGO", "support community Bangalore"],
+  alternates: {
+    canonical: "/donate",
+  }
 };
 
 export const revalidate = 60; // Revalidate page every 60 seconds (ISR)

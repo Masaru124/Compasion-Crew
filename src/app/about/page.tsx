@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "About Our Community & Mission",
   description: "Learn about CAMPASION CREW, a community-driven social impact organization. Discover our vision, mission, and programs empowering people to learn, connect, and contribute.",
   keywords: ["about CAMPASION CREW", "social impact community", "community building India", "changemaker networking"],
+  alternates: {
+    canonical: "/about",
+  }
 };
 
 export const revalidate = 60; // Revalidate page every 60 seconds (ISR)

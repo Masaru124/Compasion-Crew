@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Upcoming Community Events & Expert Talks",
   description: "Join our community expert talks, networking sessions, and volunteer service drives organized by CAMPASION CREW across India.",
   keywords: ["social impact events India", "expert talks Bangalore", "networking meetups Bangalore", "volunteering drives"],
+  alternates: {
+    canonical: "/events",
+  }
 };
 
 export const revalidate = 60; // Revalidate page every 60 seconds (ISR)

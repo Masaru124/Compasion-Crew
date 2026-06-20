@@ -28,7 +28,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://campasioncrew.org"),
   title: {
-    default: "CAMPASION CREW | Empowering People to Learn, Connect & Contribute",
+    default: "CAMPASION CREW | Learn, Connect, Contribute",
     template: "%s | CAMPASION CREW"
   },
   description: "CAMPASION CREW is a community-driven social impact organization. We empower students, professionals, and changemakers to learn, connect, and contribute through expert talks, networking, and volunteer initiatives.",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://campasioncrew.org",
     siteName: "CAMPASION CREW",
-    title: "CAMPASION CREW | Empowering People to Learn, Connect & Contribute",
+    title: "CAMPASION CREW | Learn, Connect, Contribute",
     description: "A community that empowers people to learn, connect, and contribute through expert talks, networking events, volunteering, and social campaigns.",
     images: [
       {
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "CAMPASION CREW | Empowering People to Learn, Connect & Contribute",
+    title: "CAMPASION CREW | Learn, Connect, Contribute",
     description: "A community that empowers people to learn, connect, and contribute.",
     images: ["/images/logo.png"],
   },
@@ -71,6 +71,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "iYQMnpxhs_xgJRd7PdomyRKrge7lw8LUp_1UjDPPmUs",
+  },
+  alternates: {
+    canonical: "/",
   }
 };
 

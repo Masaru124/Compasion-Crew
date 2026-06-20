@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Volunteer Opportunities - Join Our Community",
   description: "Apply to volunteer with CAMPASION CREW. Support our community drives, contribute your professional skills, and help run social impact programs.",
   keywords: ["volunteer social community", "volunteer opportunities Bangalore", "changemaker volunteering", "charity work India"],
+  alternates: {
+    canonical: "/volunteer",
+  }
 };
 
 export const revalidate = 60; // Revalidate page every 60 seconds (ISR)

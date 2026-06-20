@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Meet Our Team",
   description: "Meet the community coordinators and program leaders behind CAMPASION CREW, dedicating their expertise to empower learning and connection.",
   keywords: ["CAMPASION CREW team", "community coordinators India", "social program leaders Bangalore"],
+  alternates: {
+    canonical: "/team",
+  }
 };
 
 export const revalidate = 60; // Revalidate page every 60 seconds (ISR)
