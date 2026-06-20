@@ -22,9 +22,9 @@ interface HeroSectionProps {
 }
 
 const defaultHero: HeroData = {
-  eyebrow: "Non-Profit Organization",
-  title: "Every life *matters.*",
-  description: "We believe in dignity, care, and equal value for every living being. Join our mission in supporting women, children, and animals across India.",
+  eyebrow: "Social Impact Community",
+  title: "Learn. Connect. *Contribute.*",
+  description: "A community that empowers people to learn, connect, and contribute through expert talks, networking events, volunteering, and social campaigns.",
   primaryBtnText: "Get Involved",
   primaryBtnLink: "/volunteer",
   secondaryBtnText: "Learn More",
@@ -99,7 +99,7 @@ export function HeroSection({ initialHero }: HeroSectionProps) {
           <div className="w-full h-full rounded-2xl overflow-hidden shadow-lg border border-border/50">
             <Image
               src={getImageUrl(data.image)}
-              alt="Compassion Crew Hero Image"
+              alt="CAMPASION CREW (Compassion Crew) NGO India - Helping women, children, and rescuing animals"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover rounded"

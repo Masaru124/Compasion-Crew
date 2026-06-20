@@ -1,6 +1,13 @@
 import { TeamPageClient } from "./team-client";
 import { client } from "@/sanity/client";
 import { teamMembersQuery } from "@/sanity/queries";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Meet Our Team",
+  description: "Meet the community coordinators and program leaders behind CAMPASION CREW, dedicating their expertise to empower learning and connection.",
+  keywords: ["CAMPASION CREW team", "community coordinators India", "social program leaders Bangalore"],
+};
 
 export const revalidate = 60; // Revalidate page every 60 seconds (ISR)
 

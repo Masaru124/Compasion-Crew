@@ -1,5 +1,12 @@
 import { client } from "@/sanity/client";
 import { volunteerPageQuery } from "@/sanity/queries";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Volunteer Opportunities - Join Our Community",
+  description: "Apply to volunteer with CAMPASION CREW. Support our community drives, contribute your professional skills, and help run social impact programs.",
+  keywords: ["volunteer social community", "volunteer opportunities Bangalore", "changemaker volunteering", "charity work India"],
+};
 
 export const revalidate = 60; // Revalidate page every 60 seconds (ISR)
 
@@ -60,7 +67,7 @@ export default async function VolunteerPage() {
               marginHeight={0}
               marginWidth={0}
               loading="lazy"
-              title="Contact form"
+              title="Volunteer registration form"
             ></iframe>
           </div>
         </div>

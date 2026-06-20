@@ -18,17 +18,17 @@ interface DonateData {
 }
 
 const defaultDonate: DonateData = {
-  title: "Support Our Mission",
-  description: "Your contribution helps us continue our work of empowering women, educating children, and caring for animals across India.",
+  title: "Support Our Mission - 80G Tax Deductible NGO Donations",
+  description: "Your contribution directly supports our community events, expert talk sessions, volunteer initiatives, and future compassion projects. All donations are tax-deductible under Section 80G.",
   donationOptions: [
-    { amount: 500, impact: "Provides educational materials for 5 children" },
-    { amount: 1000, impact: "Supports skill training for 2 women" },
-    { amount: 2500, impact: "Feeds and cares for 5 rescued animals for a month" },
-    { amount: 5000, impact: "Sponsors a child's education for 3 months" },
+    { amount: 500, impact: "Sponsors workshop materials for 5 community participants" },
+    { amount: 1000, impact: "Sponsors an online Expert Talk event session" },
+    { amount: 2500, impact: "Supports organization and logistics of 1 volunteer service drive" },
+    { amount: 5000, impact: "Sponsors digital learning resources and tools for youth development programs" },
   ],
   customAmountTitle: "Custom Amount",
   customAmountDesc: "Enter any amount you wish to contribute. Every rupee counts towards creating a better world.",
-  taxNote: "All donations are tax-deductible under Section 80G. You will receive a receipt via email."
+  taxNote: "All donations are tax-deductible under Section 80G. You will receive an official tax receipt via email."
 };
 
 interface DonatePageClientProps {
@@ -38,8 +38,24 @@ interface DonatePageClientProps {
 export function DonatePageClient({ initialDonate }: DonatePageClientProps) {
   const data = initialDonate || defaultDonate;
 
+  const donateSchema = {
+    "@context": "https://schema.org",
+    "@type": "DonatePage",
+    "name": "Donate to CAMPASION CREW NGO",
+    "description": "Support CAMPASION CREW by donating online. All donations are tax-deductible under Section 80G in India.",
+    "publisher": {
+      "@type": "NGO",
+      "name": "CAMPASION CREW",
+      "url": "https://campasioncrew.org"
+    }
+  };
+
   return (
     <div className="planner-bg">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(donateSchema) }}
+      />
       <section className="pt-32 pb-20">
         <div className="section-container">
           <motion.div
@@ -71,10 +87,10 @@ export function DonatePageClient({ initialDonate }: DonatePageClientProps) {
               transition={{ duration: 0.5 }}
             >
               <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
-                Donation Options
+                Tax-Exempt Donation Options
               </span>
               <h2 className="font-heading text-fluid-section text-foreground mb-8 tracking-tight">
-                Choose Your Impact
+                Empower Lives & Save Animals
               </h2>
               <div className="space-y-4">
                 {data.donationOptions.map((option) => (

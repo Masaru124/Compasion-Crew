@@ -18,31 +18,44 @@ interface WorkAreaItem {
 
 const workAreas: WorkAreaItem[] = [
   {
-    id: "women",
-    title: "Women Empowerment",
+    id: "expert-talks",
+    title: "Expert Talks & Knowledge Sessions",
     description:
-      "Every woman deserves the chance to dream, grow, and lead. Our organization works alongside women from underserved communities by providing education, vocational training, self-employment opportunities, and emotional support that help transform lives with dignity and confidence.",
+      "Bringing industry experts, leaders, and changemakers together to share insights, experiences, and practical knowledge that inspire personal growth and social impact.",
     image: "/images/women.png",
-    href: "/work/women",
     number: "01",
   },
   {
-    id: "children",
-    title: "Children Welfare",
+    id: "community-events",
+    title: "Community Engagement Events",
     description:
-      "We work towards building a world where every child feels safe, valued, and empowered. By providing access to education, nutritious meals, healthcare, and emotional support, we help children grow into confident and capable individuals.",
+      "Interactive events that foster networking, collaboration, and meaningful discussions around social responsibility and personal development.",
     image: "/images/child.png",
-    href: "/work/children",
     number: "02",
   },
   {
-    id: "animals",
-    title: "Animal Rescue",
+    id: "volunteer-initiatives",
+    title: "Volunteer & Service Initiatives",
     description:
-      "Every animal matters and should be treated with kindness and care. Our organization rescues abandoned and injured animals, provides medical treatment and shelter, and works towards creating a more compassionate world for all living beings.",
+      "Structured opportunities for students, professionals, and changemakers to contribute their time and skills to support local community needs and social causes.",
     image: "/images/animal.png",
-    href: "/work/animals",
     number: "03",
+  },
+  {
+    id: "awareness-campaigns",
+    title: "Social Awareness Campaigns",
+    description:
+      "Programs designed to educate, discuss, and raise awareness about important social issues affecting communities and underserved groups.",
+    image: "/images/hero.png",
+    number: "04",
+  },
+  {
+    id: "compassion-projects",
+    title: "Compassion Projects",
+    description:
+      "Targeted impact initiatives focusing on future community support systems for children, senior citizens, education, and animal welfare.",
+    image: "/images/founders.jpeg",
+    number: "05",
   },
 ];
 
@@ -73,10 +86,10 @@ export function WorkAreas({ initialWorkAreas }: WorkAreasProps) {
           className="max-w mb-16"
         >
           <span className="font-mono text-xs uppercase tracking-widest text-primary block mb-3">
-            Our Focus Areas
+            Our Core Programs
           </span>
           <h2 className="font-heading text-fluid-section text-foreground tracking-tight">
-            Where we make a lasting{" "}
+            How we create social{" "}
             <span className="italic text-primary">impact</span>.
           </h2>
         </motion.div>

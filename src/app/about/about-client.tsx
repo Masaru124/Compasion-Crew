@@ -30,8 +30,24 @@ export function AboutPageClient({ initialMilestones }: AboutPageClientProps) {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const displayMilestones = initialMilestones || defaultMilestones;
 
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About CAMPASION CREW NGO",
+    "description": "Learn about CAMPASION CREW, a registered NGO operating since 2018. Discover our mission, core values, and journey in empowering women, educating children, and rescuing animals across India.",
+    "publisher": {
+      "@type": "NGO",
+      "name": "CAMPASION CREW",
+      "url": "https://campasioncrew.org"
+    }
+  };
+
   return (
     <div className="planner-bg">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
       <section className="pt-32 pb-20">
         <div className="section-container">
           <motion.div
@@ -47,9 +63,10 @@ export function AboutPageClient({ initialMilestones }: AboutPageClientProps) {
               Our Story of Compassion
             </h1>
             <p className="text-muted-foreground">
-              CAMPASION CREW was born from a simple belief: every life—whether human
-              or animal—deserves dignity, care, and equal value. Since 2018, we have
-              been working tirelessly across India to turn this belief into reality.
+              CAMPASION CREW is a community-driven social impact organization dedicated to inspiring compassion, learning, and positive action. We bring together students, professionals, and changemakers through meaningful events, expert talks, volunteering opportunities, and community initiatives.
+            </p>
+            <p className="text-muted-foreground mt-4">
+              Our goal is to create a platform where people can connect, grow, and contribute to causes that make a difference in society.
             </p>
           </motion.div>
         </div>
@@ -71,9 +88,7 @@ export function AboutPageClient({ initialMilestones }: AboutPageClientProps) {
                 Our Vision
               </h2>
               <p className="text-primary-foreground/80">
-                A world where every life is treated with dignity and compassion.
-                Where women walk with confidence, children dream without boundaries,
-                and animals live without fear.
+                To build a compassionate society where individuals are empowered to learn, serve, and create meaningful change in their communities.
               </p>
             </motion.div>
 
@@ -89,12 +104,47 @@ export function AboutPageClient({ initialMilestones }: AboutPageClientProps) {
               <h2 className="font-heading text-xl font-medium mb-4 tracking-tight">
                 Our Mission
               </h2>
-              <p className="text-muted-foreground">
-                To create sustainable change through empowerment, education, and care.
-                We work with communities, not just for them, building lasting solutions
-                that honor local wisdom and culture.
-              </p>
+              <ul className="text-muted-foreground text-sm space-y-2 list-disc list-inside">
+                <li>Inspire people to become active contributors to society.</li>
+                <li>Create accessible platforms for learning, networking, and community engagement.</li>
+                <li>Support social causes through awareness, volunteering, and collaborative initiatives.</li>
+                <li>Build a strong community driven by empathy, responsibility, and action.</li>
+                <li>Encourage sustainable social impact through partnerships and innovation.</li>
+              </ul>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-padding bg-muted/20 border-t border-b border-border">
+        <div className="section-container">
+          <div className="max-w-3xl mx-auto">
+            <span className="font-mono text-xs uppercase tracking-widest text-primary block mb-3 text-center">
+              The Challenges
+            </span>
+            <h2 className="font-heading text-fluid-section text-foreground mb-8 tracking-tight text-center">
+              The Gaps We Bridge
+            </h2>
+            <p className="text-muted-foreground mb-8 text-center">
+              Many passionate individuals want to create a positive impact but face structural barriers:
+            </p>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {[
+                "Lack of awareness about critical social issues.",
+                "Limited opportunities to volunteer and contribute active skills.",
+                "Lack of guidance, structured mentorship, and inspiration.",
+                "Weak connections between communities, experts, and social causes.",
+                "Social issues affecting children, senior citizens, and animals going unnoticed."
+              ].map((problem, i) => (
+                <div key={i} className="bg-card border border-border/50 rounded-xl p-6 flex gap-3 items-start">
+                  <span className="font-mono text-xs text-terracotta mt-0.5">0{i+1}.</span>
+                  <p className="text-sm text-foreground/80">{problem}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-muted-foreground mt-8 text-center text-sm font-medium">
+              We aim to bridge these gaps by creating opportunities for active engagement, education, and collaborative action.
+            </p>
           </div>
         </div>
       </section>
@@ -118,10 +168,10 @@ export function AboutPageClient({ initialMilestones }: AboutPageClientProps) {
 
           <div className="grid md:grid-cols-4 gap-6">
             {[
-              { icon: Heart, title: "Compassion", desc: "Every action is driven by genuine care and empathy" },
-              { icon: Lightbulb, title: "Innovation", desc: "Finding creative solutions to complex challenges" },
-              { icon: Users, title: "Community", desc: "Building together with those we serve" },
-              { icon: Leaf, title: "Sustainability", desc: "Creating lasting change that endures" },
+              { icon: Heart, title: "Empathy", desc: "Inspiring compassion and active care in all initiatives." },
+              { icon: Lightbulb, title: "Learning", desc: "Fostering continuous growth and knowledge sharing." },
+              { icon: Users, title: "Connection", desc: "Bringing changemakers, professionals, and students together." },
+              { icon: Leaf, title: "Contribution", desc: "Enabling sustainable, structured social impact." },
             ].map((value, index) => (
               <motion.div
                 key={value.title}
@@ -198,13 +248,25 @@ export function AboutPageClient({ initialMilestones }: AboutPageClientProps) {
               Join Our Mission
             </h2>
             <p className="text-primary-foreground/70 mb-8 max-w-xl mx-auto">
-              Be part of a movement that believes in dignity and care for every life.
+              Be part of a movement that believes in dignity and care for every life. Volunteer your time, sponsor child education, or support animal rescues.
             </p>
-            <Link href="/volunteer">
-              <Button variant="secondary" size="xl">
-                Get Involved
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 items-center">
+              <Link href="/volunteer">
+                <Button variant="secondary" size="xl">
+                  Get Involved / Volunteer
+                </Button>
+              </Link>
+              <Link href="/donate">
+                <Button variant="outline" size="xl" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-colors">
+                  Donate to Our Cause
+                </Button>
+              </Link>
+              <Link href="/team">
+                <Button variant="ghost" size="xl" className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
+                  Meet Our Team
+                </Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

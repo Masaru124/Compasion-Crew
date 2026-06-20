@@ -104,87 +104,91 @@ const teamMembers = [
 const events = [
   {
     id: 1,
-    title: "Annual Fundraising Gala",
-    description: "An evening of inspiration, stories, and celebration of our collective impact.",
-    date: "December 15, 2024",
-    time: "6:00 PM - 10:00 PM",
-    location: "Taj Mahal Palace, Mumbai",
-    category: "Fundraiser",
-    spots: 200,
-  },
-  {
-    id: 2,
-    title: "Women Empowerment Workshop",
-    description: "A free skill development workshop focusing on entrepreneurship and digital literacy.",
-    date: "November 20, 2024",
-    time: "10:00 AM - 4:00 PM",
-    location: "Community Center, Delhi",
-    category: "Workshop",
-    spots: 50,
-  },
-  {
-    id: 3,
-    title: "Animal Adoption Drive",
-    description: "Meet rescued animals looking for forever homes with guidance from our team.",
-    date: "December 5, 2024",
-    time: "11:00 AM - 5:00 PM",
-    location: "CAMPASION Animal Shelter, Pune",
-    category: "Adoption",
-    spots: 100,
-  },
-  {
-    id: 4,
-    title: "Children's Education Camp",
-    description: "A week-long educational camp featuring interactive learning, arts, and sports.",
-    date: "January 10-16, 2025",
-    time: "9:00 AM - 3:00 PM",
-    location: "Rural School, Rajasthan",
-    category: "Education",
+    title: "Expert Talk: Inspiring Social Changemakers",
+    description: "Join us for an inspiring session with social leaders sharing practical knowledge on sustainable development and social entrepreneurship.",
+    date: "October 10, 2026",
+    time: "5:00 PM - 7:00 PM",
+    location: "National Institute of Design, Bangalore",
+    category: "Expert Talk",
     spots: 150,
   },
   {
-    id: 5,
-    title: "Volunteer Training Program",
-    description: "Comprehensive training covering our programs, values, and community engagement.",
-    date: "December 1, 2024",
-    time: "9:00 AM - 1:00 PM",
-    location: "Online (Zoom)",
-    category: "Training",
-    spots: 100,
+    id: 2,
+    title: "Community Connection: Local Action Meetup",
+    description: "An interactive networking event to exchange ideas, connect with fellow changemakers, and discuss grassroots collaboration.",
+    date: "November 14, 2026",
+    time: "4:00 PM - 6:30 PM",
+    location: "Community Center, Indiranagar, Bangalore",
+    category: "Community Meetup",
+    spots: 80,
   },
   {
-    id: 6,
-    title: "Clean Water Initiative Launch",
-    description: "Inauguration of 25 new water purification systems in drought-affected villages.",
-    date: "November 30, 2024",
-    time: "2:00 PM - 5:00 PM",
-    location: "Village Square, Maharashtra",
-    category: "Launch",
-    spots: 75,
+    id: 3,
+    title: "Volunteer Service Drive: Youth Mentorship Camp",
+    description: "Contribute your time and skills by mentoring children from underserved communities in basic digital and creative skills.",
+    date: "December 5, 2026",
+    time: "10:00 AM - 3:00 PM",
+    location: "Government High School, Bangalore",
+    category: "Service Drive",
+    spots: 50,
+  },
+  {
+    id: 4,
+    title: "Social Awareness Campaign: Sustainable Living",
+    description: "A public campaign promoting sustainable lifestyle practices, zero-waste initiatives, and ecological responsibility.",
+    date: "December 20, 2026",
+    time: "9:00 AM - 1:00 PM",
+    location: "Cubbon Park, Bangalore",
+    category: "Campaign",
+    spots: 120,
+  },
+  {
+    id: 5,
+    title: "Compassion Project Planning Workshop",
+    description: "Co-create our future compassion initiatives focusing on child support, education assistance, and senior citizen welfare.",
+    date: "January 15, 2027",
+    time: "11:00 AM - 1:30 PM",
+    location: "Online (Zoom)",
+    category: "Workshop",
+    spots: 250,
   },
 ];
 
 const workAreas = [
   {
-    id: "women",
-    title: "Women Empowerment",
-    description: "Every woman deserves the chance to dream, grow, and lead. Our organization works alongside women from underserved communities by providing education, vocational training, self-employment opportunities, and emotional support that help transform lives with dignity and confidence.",
+    id: "expert-talks",
+    title: "Expert Talks & Knowledge Sessions",
+    description: "Bringing industry experts, leaders, and changemakers together to share insights, experiences, and practical knowledge that inspire personal growth and social impact.",
     imagePath: "public/images/women.png",
     number: "01",
   },
   {
-    id: "children",
-    title: "Children Welfare",
-    description: "We work towards building a world where every child feels safe, valued, and empowered. By providing access to education, nutritious meals, healthcare, and emotional support, we help children grow into confident and capable individuals.",
+    id: "community-events",
+    title: "Community Engagement Events",
+    description: "Interactive events that foster networking, collaboration, and meaningful discussions around social responsibility and personal development.",
     imagePath: "public/images/child.png",
     number: "02",
   },
   {
-    id: "animals",
-    title: "Animal Rescue",
-    description: "Every animal matters and should be treated with kindness and care. Our organization rescues abandoned and injured animals, provides medical treatment and shelter, and works towards creating a more compassionate world for all living beings.",
+    id: "volunteer-initiatives",
+    title: "Volunteer & Service Initiatives",
+    description: "Structured opportunities for students, professionals, and changemakers to contribute their time and skills to support local community needs and social causes.",
     imagePath: "public/images/animal.png",
     number: "03",
+  },
+  {
+    id: "awareness-campaigns",
+    title: "Social Awareness Campaigns",
+    description: "Programs designed to educate, discuss, and raise awareness about important social issues affecting communities and underserved groups.",
+    imagePath: "public/images/hero.png",
+    number: "04",
+  },
+  {
+    id: "compassion-projects",
+    title: "Compassion Projects",
+    description: "Targeted impact initiatives focusing on future community support systems for children, senior citizens, education, and animal welfare.",
+    imagePath: "public/images/founders.jpeg",
+    number: "05",
   },
 ];
 
@@ -219,9 +223,9 @@ const stats = [
 ];
 
 const heroData = {
-  eyebrow: "Non-Profit Organization",
-  title: "Every life *matters.*",
-  description: "We believe in dignity, care, and equal value for every living being. Join our mission in supporting women, children, and animals across India.",
+  eyebrow: "Social Impact Community",
+  title: "Learn. Connect. *Contribute.*",
+  description: "A community that empowers people to learn, connect, and contribute through expert talks, networking events, volunteering, and social campaigns.",
   primaryBtnText: "Get Involved",
   primaryBtnLink: "/volunteer",
   secondaryBtnText: "Learn More",
@@ -242,8 +246,8 @@ const founderData = {
   name: "Khushi Kalpesh Joshi",
   role: "Founder & Director",
   biography: [
-    "Khushi Kalpesh Joshi founded CAMPASION CREW in 2018 with a simple yet profound vision: to create a world where every life is valued equally. Her journey began after witnessing the struggles of marginalized communities during her travels across rural India.",
-    "With a background in social work and a heart that beats for service, Khushi has dedicated her life to bridging the gap between privilege and poverty. Under her leadership, CAMPASION CREW has grown from a small initiative to a nationwide movement touching over 50,000 lives."
+    "Khushi Kalpesh Joshi founded CAMPASION CREW in 2018 with a simple yet profound vision: to build a compassionate society where individuals are empowered to learn, serve, and create meaningful change in their communities.",
+    "With a heart that beats for service, Khushi has dedicated her life to creating platforms for connection and learning. Under her leadership, CAMPASION CREW has grown from a small initiative to a social impact movement connecting students, professionals, and leaders across India."
   ],
   imagePath: "public/images/founders.jpeg"
 };
@@ -256,17 +260,17 @@ const volunteerData = {
 };
 
 const donateData = {
-  title: "Support Our Mission",
-  description: "Your contribution helps us continue our work of empowering women, educating children, and caring for animals across India.",
+  title: "Support Our Mission - 80G Tax Deductible NGO Donations",
+  description: "Your contribution directly supports our community events, expert talk sessions, volunteer initiatives, and future compassion projects. All donations are tax-deductible under Section 80G.",
   donationOptions: [
-    { amount: 500, impact: "Provides educational materials for 5 children" },
-    { amount: 1000, impact: "Supports skill training for 2 women" },
-    { amount: 2500, impact: "Feeds and cares for 5 rescued animals for a month" },
-    { amount: 5000, impact: "Sponsors a child's education for 3 months" },
+    { amount: 500, impact: "Sponsors workshop materials for 5 community participants" },
+    { amount: 1000, impact: "Sponsors an online Expert Talk event session" },
+    { amount: 2500, impact: "Supports organization and logistics of 1 volunteer service drive" },
+    { amount: 5000, impact: "Sponsors digital learning resources and tools for youth development programs" },
   ],
   customAmountTitle: "Custom Amount",
   customAmountDesc: "Enter any amount you wish to contribute. Every rupee counts towards creating a better world.",
-  taxNote: "All donations are tax-deductible under Section 80G. You will receive a receipt via email."
+  taxNote: "All donations are tax-deductible under Section 80G. You will receive an official tax receipt via email."
 };
 
 const siteSettingsData = {
