@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Event Registration - Secure Your Spot",
-  description: "Register for CAMPASION CREW upcoming community events, expert talks, workshops, and volunteer activities across India.",
+  description: "Register for COMPASSION CREW upcoming community events, expert talks, workshops, and volunteer activities across India.",
   keywords: ["community event registration", "expert talk sign up India", "volunteer service signup"],
   alternates: {
     canonical: "/register",

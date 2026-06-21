@@ -41,12 +41,12 @@ export function DonatePageClient({ initialDonate }: DonatePageClientProps) {
   const donateSchema = {
     "@context": "https://schema.org",
     "@type": "DonatePage",
-    "name": "Donate to CAMPASION CREW NGO",
-    "description": "Support CAMPASION CREW by donating online. All donations are tax-deductible under Section 80G in India.",
+    "name": "Donate to COMPASSION CREW NGO",
+    "description": "Support COMPASSION CREW by donating online. All donations are tax-deductible under Section 80G in India.",
     "publisher": {
       "@type": "NGO",
-      "name": "CAMPASION CREW",
-      "url": "https://campasioncrew.org"
+      "name": "COMPASSION CREW",
+      "url": "https://compassioncrew.in"
     }
   };
 

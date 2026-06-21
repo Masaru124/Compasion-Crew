@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Upcoming Community Events & Expert Talks",
-  description: "Join our community expert talks, networking sessions, and volunteer service drives organized by CAMPASION CREW across India.",
+  description: "Join our community expert talks, networking sessions, and volunteer service drives organized by COMPASSION CREW across India.",
   keywords: ["social impact events India", "expert talks Bangalore", "networking meetups Bangalore", "volunteering drives"],
   alternates: {
     canonical: "/events",
@@ -85,7 +85,7 @@ export default async function EventsPage() {
     "location": event.location.toLowerCase().includes("zoom") || event.location.toLowerCase().includes("online")
       ? {
           "@type": "VirtualLocation",
-          "url": "https://campasioncrew.org/events"
+          "url": "https://compassioncrew.in/events"
         }
       : {
           "@type": "Place",
@@ -98,8 +98,8 @@ export default async function EventsPage() {
         },
     "organizer": {
       "@type": "NGO",
-      "name": "CAMPASION CREW",
-      "url": "https://campasioncrew.org"
+      "name": "COMPASSION CREW",
+      "url": "https://compassioncrew.in"
     }
   }));
 

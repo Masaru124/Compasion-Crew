@@ -42,15 +42,15 @@ export function Navbar() {
             <div className="relative w-10 h-10 bg-primary/5 rounded flex items-center justify-center overflow-hidden">
               <Image
                 src="/images/logo.png"
-                alt="Campasion Crew Logo"
+                alt="Compassion Crew Logo"
                 fill
-                sizes="px"
+                sizes="40px"
                 className="object-cover border  rounded"
               />
             </div>
             <div className="flex flex-col">
               <span className="font-heading text-base font-medium text-foreground leading-none tracking-tight">
-                CAMPASION
+                COMPASSION
               </span>
               <span className="text-[9px] text-muted-foreground tracking-[0.3em] font-medium">
                 CREW

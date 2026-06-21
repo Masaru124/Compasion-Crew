@@ -33,7 +33,7 @@ export const siteSettings = defineType({
       name: "copyrightText",
       title: "Copyright Text Override",
       type: "string",
-      description: "Default is 'CAMPASION CREW. All rights reserved.'",
+      description: "Default is 'COMPASSION CREW. All rights reserved.'",
     }),
   ],
 });

@@ -13,7 +13,7 @@ interface MilestoneItem {
 }
 
 const defaultMilestones: MilestoneItem[] = [
-  { year: "2018", title: "Foundation", description: "CAMPASION CREW was founded with a mission to serve every life with dignity." },
+  { year: "2018", title: "Foundation", description: "COMPASSION CREW was founded with a mission to serve every life with dignity." },
   { year: "2019", title: "First State Expansion", description: "Extended operations to 5 states across India." },
   { year: "2020", title: "Pandemic Response", description: "Served 10,000+ families during COVID-19 crisis." },
   { year: "2021", title: "Women Centers", description: "Opened 10 skill development centers for women." },
@@ -33,12 +33,12 @@ export function AboutPageClient({ initialMilestones }: AboutPageClientProps) {
   const aboutSchema = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
-    "name": "About CAMPASION CREW NGO",
-    "description": "Learn about CAMPASION CREW, a registered NGO operating since 2018. Discover our mission, core values, and journey in empowering women, educating children, and rescuing animals across India.",
+    "name": "About COMPASSION CREW NGO",
+    "description": "Learn about COMPASSION CREW, a registered NGO operating since 2018. Discover our mission, core values, and journey in empowering women, educating children, and rescuing animals across India.",
     "publisher": {
       "@type": "NGO",
-      "name": "CAMPASION CREW",
-      "url": "https://campasioncrew.org"
+      "name": "COMPASSION CREW",
+      "url": "https://compassioncrew.in"
     }
   };
 
@@ -63,7 +63,7 @@ export function AboutPageClient({ initialMilestones }: AboutPageClientProps) {
               Our Story of Compassion
             </h1>
             <p className="text-muted-foreground">
-              CAMPASION CREW is a community-driven social impact organization dedicated to inspiring compassion, learning, and positive action. We bring together students, professionals, and changemakers through meaningful events, expert talks, volunteering opportunities, and community initiatives.
+              COMPASSION CREW is a community-driven social impact organization dedicated to inspiring compassion, learning, and positive action. We bring together students, professionals, and changemakers through meaningful events, expert talks, volunteering opportunities, and community initiatives.
             </p>
             <p className="text-muted-foreground mt-4">
               Our goal is to create a platform where people can connect, grow, and contribute to causes that make a difference in society.
@@ -194,47 +194,6 @@ export function AboutPageClient({ initialMilestones }: AboutPageClientProps) {
         </div>
       </section>
 
-      <section className="section-padding">
-        <div className="section-container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center max-w-2xl mx-auto mb-16"
-          >
-            <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
-              Our Journey
-            </span>
-            <h2 className="font-heading text-fluid-section text-foreground tracking-tight">
-              Milestones of Impact
-            </h2>
-          </motion.div>
-
-          <div className="space-y-6 max-w-3xl mx-auto">
-            {displayMilestones.map((milestone, index) => (
-              <motion.div
-                key={milestone.year}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="bg-card border border-border rounded shadow-sm p-8 flex items-start gap-6"
-              >
-                <div className="flex-shrink-0 w-20 text-center">
-                  <div className="font-heading text-2xl font-medium text-terracotta">
-                    {milestone.year}
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-heading text-xl font-medium text-foreground mb-1 tracking-tight">{milestone.title}</h3>
-                  <p className="text-muted-foreground text-sm">{milestone.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="section-padding bg-primary text-primary-foreground">
         <div className="section-container text-center">

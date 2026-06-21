@@ -42,7 +42,7 @@ const client = createClient({
 });
 
 const milestones = [
-  { year: "2018", title: "Foundation", description: "CAMPASION CREW was founded with a mission to serve every life with dignity." },
+  { year: "2018", title: "Foundation", description: "COMPASSION CREW was founded with a mission to serve every life with dignity." },
   { year: "2019", title: "First State Expansion", description: "Extended operations to 5 states across India." },
   { year: "2020", title: "Pandemic Response", description: "Served 10,000+ families during COVID-19 crisis." },
   { year: "2021", title: "Women Centers", description: "Opened 10 skill development centers for women." },
@@ -180,7 +180,7 @@ const workAreas = [
     id: "awareness-campaigns",
     title: "Social Awareness Campaigns",
     description: "Programs designed to educate, discuss, and raise awareness about important social issues affecting communities and underserved groups.",
-    imagePath: "public/images/hero.png",
+    imagePath: "public/images/yoga.jpeg",
     number: "04",
   },
   {
@@ -194,7 +194,7 @@ const workAreas = [
 
 const stories = [
   {
-    quote: "CAMPASION CREW didn't just give me skills, they gave me confidence. Today, I run my own tailoring business and support my family with dignity.",
+    quote: "COMPASSION CREW didn't just give me skills, they gave me confidence. Today, I run my own tailoring business and support my family with dignity.",
     name: "Lakshmi Devi",
     role: "Women Empowerment Program",
     location: "Rajasthan",
@@ -230,7 +230,7 @@ const heroData = {
   primaryBtnLink: "/volunteer",
   secondaryBtnText: "Learn More",
   secondaryBtnLink: "/about",
-  imagePath: "public/images/hero.png"
+  imagePath: "public/images/yoga.jpeg"
 };
 
 const ctaData = {
@@ -246,8 +246,8 @@ const founderData = {
   name: "Khushi Kalpesh Joshi",
   role: "Founder & Director",
   biography: [
-    "Khushi Kalpesh Joshi founded CAMPASION CREW in 2018 with a simple yet profound vision: to build a compassionate society where individuals are empowered to learn, serve, and create meaningful change in their communities.",
-    "With a heart that beats for service, Khushi has dedicated her life to creating platforms for connection and learning. Under her leadership, CAMPASION CREW has grown from a small initiative to a social impact movement connecting students, professionals, and leaders across India."
+    "Khushi Kalpesh Joshi founded COMPASSION CREW in 2018 with a simple yet profound vision: to build a compassionate society where individuals are empowered to learn, serve, and create meaningful change in their communities.",
+    "With a heart that beats for service, Khushi has dedicated her life to creating platforms for connection and learning. Under her leadership, COMPASSION CREW has grown from a small initiative to a social impact movement connecting students, professionals, and leaders across India."
   ],
   imagePath: "public/images/founders.jpeg"
 };
@@ -274,11 +274,11 @@ const donateData = {
 };
 
 const siteSettingsData = {
-  email: "contact@campasioncrew.org",
+  email: "contact@compassioncrew.in",
   phone: "+91 8884156247",
   address: "Bangalore, Karnataka, India",
   footerDescription: "Dignity, care, and equal value for every life. Supporting women, children, and animals across India.",
-  copyrightText: "CAMPASION CREW. All rights reserved."
+  copyrightText: "COMPASSION CREW. All rights reserved."
 };
 
 async function uploadImageAsset(localPath) {

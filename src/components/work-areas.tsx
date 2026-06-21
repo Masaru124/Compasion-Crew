@@ -22,7 +22,7 @@ const workAreas: WorkAreaItem[] = [
     title: "Expert Talks & Knowledge Sessions",
     description:
       "Bringing industry experts, leaders, and changemakers together to share insights, experiences, and practical knowledge that inspire personal growth and social impact.",
-    image: "/images/women.png",
+    image: "/images/yoga.jpeg",
     number: "01",
   },
   {
@@ -46,7 +46,7 @@ const workAreas: WorkAreaItem[] = [
     title: "Social Awareness Campaigns",
     description:
       "Programs designed to educate, discuss, and raise awareness about important social issues affecting communities and underserved groups.",
-    image: "/images/hero.png",
+    image: "/images/yoga.jpeg",
     number: "04",
   },
   {
@@ -67,13 +67,13 @@ export function WorkAreas({ initialWorkAreas }: WorkAreasProps) {
   const displayWorkAreas = initialWorkAreas || workAreas;
 
   const getImageUrl = (img: any) => {
-    if (!img) return "/images/hero.png";
+    if (!img) return "/images/yoga.jpeg";
     if (typeof img === "string") return img;
     // Check if it's a Sanity image reference
     if (img.asset || img._type === "image") {
-      return urlFor(img).url() || "/images/hero.png";
+      return urlFor(img).url() || "/images/yoga.jpeg";
     }
-    return "/images/hero.png";
+    return "/images/yoga.jpeg";
   };
   return (
     <section id="work" className="bg-background">
@@ -96,9 +96,9 @@ export function WorkAreas({ initialWorkAreas }: WorkAreasProps) {
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
           <div className="hidden lg:block lg:w-1/2 relative h-[55vh] max-h-[500px] sticky top-[12vh]">
-            <div className="w-full h-full rounded overflow-hidden border border-border/50 shadow-sm">
+            <div className="w-full h-full rounded overflow-hidden border border-border/50 shadow-sm relative">
               <Image
-                src="/images/hero.png"
+                src="/images/yoga.jpeg"
                 alt="Our Work"
                 fill
                 sizes="50vw"

@@ -29,7 +29,7 @@ const defaultHero: HeroData = {
   primaryBtnLink: "/volunteer",
   secondaryBtnText: "Learn More",
   secondaryBtnLink: "/about",
-  image: "/images/hero.png",
+  image: "/images/yoga.jpeg",
 };
 
 export function HeroSection({ initialHero }: HeroSectionProps) {
@@ -51,12 +51,12 @@ export function HeroSection({ initialHero }: HeroSectionProps) {
   };
 
   const getImageUrl = (img: any) => {
-    if (!img) return "/images/hero.png";
+    if (!img) return "/images/yoga.jpeg";
     if (typeof img === "string") return img;
     if (img.asset || img._type === "image") {
-      return urlFor(img).url() || "/images/hero.png";
+      return urlFor(img).url() || "/images/yoga.jpeg";
     }
-    return "/images/hero.png";
+    return "/images/yoga.jpeg";
   };
 
   return (
@@ -96,10 +96,10 @@ export function HeroSection({ initialHero }: HeroSectionProps) {
         </div>
 
         <div className="flex-1 w-full relative h-[40vh] lg:h-[55vh] max-h-[520px] min-h-[320px]">
-          <div className="w-full h-full rounded-2xl overflow-hidden shadow-lg border border-border/50">
+          <div className="w-full h-full rounded-2xl overflow-hidden shadow-lg border border-border/50 relative">
             <Image
               src={getImageUrl(data.image)}
-              alt="CAMPASION CREW (Compassion Crew) NGO India - Helping women, children, and rescuing animals"
+              alt="COMPASSION CREW (Compassion Crew) NGO India - Helping women, children, and rescuing animals"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover rounded"

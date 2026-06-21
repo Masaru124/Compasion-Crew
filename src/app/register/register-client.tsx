@@ -13,7 +13,7 @@ import Link from "next/link";
 const events = [
   { id: 1, title: "Annual Fundraising Gala", date: "December 15, 2024", location: "Taj Mahal Palace, Mumbai" },
   { id: 2, title: "Women Empowerment Workshop", date: "November 20, 2024", location: "Community Center, Delhi" },
-  { id: 3, title: "Animal Adoption Drive", date: "December 5, 2024", location: "CAMPASION Animal Shelter, Pune" },
+  { id: 3, title: "Animal Adoption Drive", date: "December 5, 2024", location: "COMPASSION Animal Shelter, Pune" },
   { id: 4, title: "Children's Education Camp", date: "January 10-16, 2025", location: "Rural School, Rajasthan" },
   { id: 5, title: "Volunteer Training Program", date: "December 1, 2024", location: "Online (Zoom)" },
   { id: 6, title: "Clean Water Initiative Launch", date: "November 30, 2024", location: "Village Square, Maharashtra" },

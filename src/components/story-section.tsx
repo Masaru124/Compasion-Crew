@@ -13,7 +13,7 @@ interface StoryItem {
 
 const stories: StoryItem[] = [
   {
-    quote: "CAMPASION CREW didn't just give me skills, they gave me confidence. Today, I run my own tailoring business and support my family with dignity.",
+    quote: "COMPASSION CREW didn't just give me skills, they gave me confidence. Today, I run my own tailoring business and support my family with dignity.",
     name: "Lakshmi Devi",
     role: "Women Empowerment Program",
     location: "Rajasthan",

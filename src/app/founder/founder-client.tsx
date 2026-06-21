@@ -15,8 +15,8 @@ const defaultFounder: FounderData = {
   name: "Khushi Kalpesh Joshi",
   role: "Founder & Director",
   biography: [
-    "Khushi Kalpesh Joshi founded CAMPASION CREW in 2018 with a simple yet profound vision: to create a world where every life is valued equally. Her journey began after witnessing the struggles of marginalized communities during her travels across rural India.",
-    "With a background in social work and a heart that beats for service, Khushi has dedicated her life to bridging the gap between privilege and poverty. Under her leadership, CAMPASION CREW has grown from a small initiative to a nationwide movement touching over 50,000 lives."
+    "Khushi Kalpesh Joshi founded COMPASSION CREW in 2018 with a simple yet profound vision: to create a world where every life is valued equally. Her journey began after witnessing the struggles of marginalized communities during her travels across rural India.",
+    "With a background in social work and a heart that beats for service, Khushi has dedicated her life to bridging the gap between privilege and poverty. Under her leadership, COMPASSION CREW has grown from a small initiative to a nationwide movement touching over 50,000 lives."
   ],
   image: "/images/founders.jpeg"
 };
@@ -69,7 +69,7 @@ export function FounderPageClient({ initialFounder }: FounderPageClientProps) {
               <div className="rounded-2xl mb-10 overflow-hidden relative aspect-square w-full border border-border/50 shadow-md">
                 <Image
                   src={getImageUrl(data.image)}
-                  alt={`${data.name} - Founder of CAMPASION CREW`}
+                  alt={`${data.name} - Founder of COMPASSION CREW`}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"

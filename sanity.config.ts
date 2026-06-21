@@ -6,8 +6,8 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "placeholder";
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 
 export default defineConfig({
-  name: "campasion-crew-studio",
-  title: "CAMPASION CREW Studio",
+  name: "compassion-crew-studio",
+  title: "COMPASSION CREW Studio",
 
   projectId,
   dataset,

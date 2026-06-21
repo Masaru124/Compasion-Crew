@@ -27,11 +27,11 @@ interface SiteSettings {
 }
 
 const defaultSettings: SiteSettings = {
-  email: "contact@campasioncrew.org",
+  email: "contact@compassioncrew.in",
   phone: "+91 8884156247",
   address: "Bangalore, Karnataka, India",
   footerDescription: "Dignity, care, and equal value for every life. Supporting women, children, and animals across India.",
-  copyrightText: "CAMPASION CREW. All rights reserved.",
+  copyrightText: "COMPASSION CREW. All rights reserved.",
 };
 
 export async function Footer() {
@@ -63,14 +63,15 @@ export async function Footer() {
               <div className="relative w-10 h-10 bg-primary-foreground/10 rounded flex items-center justify-center overflow-hidden">
                 <Image
                   src="/images/logo.png"
-                  alt="Campasion Crew Logo"
+                  alt="Compassion Crew Logo"
                   fill
+                  sizes="40px"
                   className="object-cover p-0.5 rounded"
                 />
               </div>
               <div className="flex flex-col">
                 <span className="font-heading text-lg font-medium text-primary-foreground leading-none tracking-tight">
-                  CAMPASION CREW
+                  COMPASSION CREW
                 </span>
               </div>
             </div>

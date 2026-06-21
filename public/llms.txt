@@ -1,16 +1,16 @@
-# CAMPASION CREW
+# COMPASSION CREW
 
-CAMPASION CREW is a community-driven social impact organization dedicated to inspiring compassion, learning, and positive action. We bring together students, professionals, and leaders to connect and serve.
+COMPASSION CREW is a community-driven social impact organization dedicated to inspiring compassion, learning, and positive action. We bring together students, professionals, and leaders to connect and serve.
 
 ## Main Navigation Paths
-- Home: https://campasioncrew.org/
-- About Us: https://campasioncrew.org/about
-- Our Founder: https://campasioncrew.org/founder
-- Our Team: https://campasioncrew.org/team
-- Upcoming Events & Expert Talks: https://campasioncrew.org/events
-- Volunteer Portal: https://campasioncrew.org/volunteer
-- Support / Donate: https://campasioncrew.org/donate
-- Event Registration: https://campasioncrew.org/register
+- Home: https://compassioncrew.in/
+- About Us: https://compassioncrew.in/about
+- Our Founder: https://compassioncrew.in/founder
+- Our Team: https://compassioncrew.in/team
+- Upcoming Events & Expert Talks: https://compassioncrew.in/events
+- Volunteer Portal: https://compassioncrew.in/volunteer
+- Support / Donate: https://compassioncrew.in/donate
+- Event Registration: https://compassioncrew.in/register
 
 ## Core Initiatives & Programs
 - **Expert Talks & Knowledge Sessions**: Educational sessions led by social leaders and changemakers.
@@ -20,7 +20,7 @@ CAMPASION CREW is a community-driven social impact organization dedicated to ins
 - **Compassion Projects**: Local support networks focusing on youth mentoring, animal welfare, and senior citizen aid.
 
 ## Contact Information
-- **Email**: contact@campasioncrew.org
+- **Email**: contact@compassioncrew.in
 - **Phone**: +91 8884156247
 - **Address**: Bangalore, Karnataka, India
 - **Tax exemption**: Contributions eligible for 80G tax-deduction receipts.

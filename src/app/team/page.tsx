@@ -5,8 +5,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Meet Our Team",
-  description: "Meet the community coordinators and program leaders behind CAMPASION CREW, dedicating their expertise to empower learning and connection.",
-  keywords: ["CAMPASION CREW team", "community coordinators India", "social program leaders Bangalore"],
+  description: "Meet the community coordinators and program leaders behind COMPASSION CREW, dedicating their expertise to empower learning and connection.",
+  keywords: ["COMPASSION CREW team", "community coordinators India", "social program leaders Bangalore"],
   alternates: {
     canonical: "/team",
   }
