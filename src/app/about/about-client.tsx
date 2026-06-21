@@ -6,29 +6,9 @@ import { Heart, Target, Eye, Lightbulb, Users, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-interface MilestoneItem {
-  year: string;
-  title: string;
-  description: string;
-}
-
-const defaultMilestones: MilestoneItem[] = [
-  { year: "2018", title: "Foundation", description: "COMPASSION CREW was founded with a mission to serve every life with dignity." },
-  { year: "2019", title: "First State Expansion", description: "Extended operations to 5 states across India." },
-  { year: "2020", title: "Pandemic Response", description: "Served 10,000+ families during COVID-19 crisis." },
-  { year: "2021", title: "Women Centers", description: "Opened 10 skill development centers for women." },
-  { year: "2022", title: "Animal Shelter", description: "Established our first dedicated animal rescue center." },
-  { year: "2023", title: "Education Program", description: "Launched scholarship program for underprivileged children." },
-];
-
-interface AboutPageClientProps {
-  initialMilestones?: MilestoneItem[];
-}
-
-export function AboutPageClient({ initialMilestones }: AboutPageClientProps) {
+export function AboutPageClient() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const displayMilestones = initialMilestones || defaultMilestones;
 
   const aboutSchema = {
     "@context": "https://schema.org",

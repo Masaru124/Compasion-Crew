@@ -29,5 +29,11 @@ export const story = defineType({
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "approved",
+      title: "Approved / Show on Site",
+      type: "boolean",
+      initialValue: false,
+    }),
   ],
 });

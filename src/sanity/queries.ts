@@ -32,11 +32,20 @@ export const workAreasQuery = `*[_type == "workArea"] | order(number asc) {
   number
 }`;
 
-export const storiesQuery = `*[_type == "story"] {
+export const storiesQuery = `*[_type == "story" && approved == true] {
   quote,
   name,
   role,
   location
+}`;
+
+export const allStoriesQuery = `*[_type == "story"] | order(_createdAt desc) {
+  _id,
+  quote,
+  name,
+  role,
+  location,
+  approved
 }`;
 
 export const impactStatsQuery = `*[_type == "impactStat"] {

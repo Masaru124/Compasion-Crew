@@ -360,6 +360,7 @@ async function seedData() {
         name: st.name,
         role: st.role,
         location: st.location,
+        approved: true,
       };
       await client.createOrReplace(doc);
       console.log(`  ✔ Seeded story: ${st.name}`);
