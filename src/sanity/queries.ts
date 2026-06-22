@@ -105,3 +105,60 @@ export const siteSettingsQuery = `*[_type == "siteSettings"][0] {
   footerDescription,
   copyrightText
 }`;
+
+export const blogsQuery = `*[_type == "post"] | order(publishedAt desc) {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  excerpt,
+  category,
+  mainImage,
+  "author": author->{
+    name,
+    role,
+    bio,
+    email
+  },
+  authorNameFallback,
+  seoTitle,
+  seoDescription,
+  keywords
+}`;
+
+export const blogBySlugQuery = `*[_type == "post" && slug.current == $slug][0] {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  excerpt,
+  category,
+  mainImage,
+  body,
+  "author": author->{
+    name,
+    role,
+    bio,
+    email
+  },
+  authorNameFallback,
+  seoTitle,
+  seoDescription,
+  keywords
+}`;
+
+export const recentBlogsQuery = `*[_type == "post" && slug.current != $slug] | order(publishedAt desc)[0...3] {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  excerpt,
+  category,
+  mainImage,
+  "author": author->{
+    name,
+    role
+  },
+  authorNameFallback
+}`;
+

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { ThemeProvider } from "next-themes";
+import Script from "next/script";
 
 const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-body",
@@ -133,6 +134,18 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col font-sans antialiased">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-FV5SE9TWGP"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-FV5SE9TWGP');
+          `}
+        </Script>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

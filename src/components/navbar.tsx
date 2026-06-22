@@ -13,6 +13,7 @@ const navLinks = [
   { href: "/founder", label: "Founder" },
   { href: "/team", label: "Team" },
   { href: "/events", label: "Events" },
+  { href: "/blog", label: "Blog" },
 ];
 
 export function Navbar() {

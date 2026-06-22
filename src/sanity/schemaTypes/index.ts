@@ -10,6 +10,7 @@ import { founderPage } from "./founderPage";
 import { volunteerPage } from "./volunteerPage";
 import { donatePage } from "./donatePage";
 import { siteSettings } from "./siteSettings";
+import { post } from "./post";
 
 export const schemaTypes = [
   milestone,
@@ -24,4 +25,6 @@ export const schemaTypes = [
   volunteerPage,
   donatePage,
   siteSettings,
+  post,
 ];
+
