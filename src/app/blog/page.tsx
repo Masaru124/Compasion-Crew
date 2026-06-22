@@ -18,7 +18,25 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 60; // Revalidate page every 60 seconds (ISR)
+export const revalidate = 60;
+
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "COMPASSION CREW — Social Impact Blog",
+  "description": "Guides, insights, and real stories on social impact, volunteering, community building, and animal welfare in India.",
+  "url": "https://compassioncrew.in/blog",
+  "publisher": {
+    "@type": "NGO",
+    "name": "COMPASSION CREW",
+    "url": "https://compassioncrew.in",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://compassioncrew.in/images/logo.png"
+    }
+  },
+  "inLanguage": "en-IN"
+};
 
 export default async function BlogPage() {
   let blogsData = null;
@@ -34,5 +52,14 @@ export default async function BlogPage() {
     console.error("Failed to fetch blog posts from Sanity:", error);
   }
 
-  return <BlogClient initialBlogs={blogsData || undefined} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+      />
+      <BlogClient initialBlogs={blogsData || undefined} />
+    </>
+  );
 }
+

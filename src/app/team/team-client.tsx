@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Gmail, LinkedIn, XDark } from "developer-icons";
+import { Gmail, LinkedIn } from "developer-icons";
 
 interface TeamMemberItem {
   name: string;
@@ -27,18 +27,24 @@ const defaultTeamMembers: TeamMemberItem[] = [
   },
   {
     name: "Bichitra Behera",
-    role: "Animal Welfare Director",
-    bio: "Veterinarian and animal rights activist. Heads our rescue and rehabilitation centers.",
+    role: "Full-Stack Developer",
+    bio: "Full-stack developer building scalable web products with a focus on clean architecture, performance, and developer experience.",
+    linkedin: "https://linkedin.com/in/bichitrabehera",
+    email: "bichitrabehera.345@gmail.com",
   },
   {
-    name: "RaviKiran",
-    role: "Finance Director",
-    bio: "CA with expertise in nonprofit financial management. Ensures transparency in all operations.",
+    name: "Shivnandan Tiwari",
+    role: "Community & Events Lead",
+    bio: "Building technology, communities, and opportunities - one project, one event, and one connection at a time.",
+    linkedin: "https://linkedin.com/in/shivnandan-1303st",
+    email: "shivnandantiwati1303@gmail.com",
   },
   {
-    name: "Shivam",
-    role: "Communications Lead",
-    bio: "Journalist turned communications expert. Tells our stories to inspire action.",
+    name: "Ravikiran T S",
+    role: "Operations Lead",
+    bio: "Someone who shows up, gives fully, and leaves things better than they found them.",
+    linkedin: "https://www.linkedin.com/in/ravikiran-t-s-32078125a/",
+    email: "ravikirantsrk@gmail.com",
   },
   {
     name: "Matharrishwa",
@@ -107,17 +113,6 @@ export function TeamPageClient({ initialTeamMembers }: TeamPageClientProps) {
                   </p>
 
                   <div className="flex justify-center gap-2">
-                    {member.x && (
-                      <a
-                        href={member.x}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-9 h-9 rounded flex items-center justify-center hover:bg-neutral-100 hover:text-primary-foreground transition-colors"
-                        aria-label="X"
-                      >
-                        <XDark className="h-4 w-4" />
-                      </a>
-                    )}
                     {member.linkedin && (
                       <a
                         href={member.linkedin}

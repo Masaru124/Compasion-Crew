@@ -40,13 +40,13 @@ export function AboutPageClient() {
               About Us
             </span>
             <h1 className="font-heading text-fluid-hero text-foreground mb-6 tracking-tight">
-              Our Story of Compassion
+              About COMPASSION CREW — Social Impact Community Founded in Bangalore
             </h1>
             <p className="text-muted-foreground">
-              COMPASSION CREW is a community-driven social impact organization dedicated to inspiring compassion, learning, and positive action. We bring together students, professionals, and changemakers through meaningful events, expert talks, volunteering opportunities, and community initiatives.
+              Founded in 2018, COMPASSION CREW is a registered social impact organization connecting students, working professionals, and changemakers through expert talks, volunteering opportunities, and structured community campaigns that drive real, measurable change across India.
             </p>
             <p className="text-muted-foreground mt-4">
-              Our goal is to create a platform where people can connect, grow, and contribute to causes that make a difference in society.
+              Our goal is to bridge the gap between people who want to make a difference and the communities that need it most — giving every person a meaningful platform to learn, connect, and contribute.
             </p>
           </motion.div>
         </div>

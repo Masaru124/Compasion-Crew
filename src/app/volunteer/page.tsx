@@ -1,17 +1,25 @@
 import { client } from "@/sanity/client";
 import { volunteerPageQuery } from "@/sanity/queries";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Volunteer Opportunities - Join Our Community",
-  description: "Apply to volunteer with COMPASSION CREW. Support our community drives, contribute your professional skills, and help run social impact programs.",
-  keywords: ["volunteer social community", "volunteer opportunities Bangalore", "changemaker volunteering", "charity work India"],
+  title: "Volunteer in Bangalore — Join COMPASSION CREW's Social Drives",
+  description: "Volunteer with COMPASSION CREW in Bangalore. Support youth mentorship, expert talk events, animal welfare drives, and community awareness campaigns. Open to students and professionals.",
+  keywords: [
+    "volunteer Bangalore",
+    "volunteer opportunities Bangalore 2026",
+    "NGO volunteer India",
+    "social cause volunteer",
+    "community volunteering Bangalore",
+    "youth mentorship volunteer",
+  ],
   alternates: {
     canonical: "/volunteer",
-  }
+  },
 };
 
-export const revalidate = 60; // Revalidate page every 60 seconds (ISR)
+export const revalidate = 60;
 
 interface VolunteerData {
   title: string;
@@ -21,12 +29,30 @@ interface VolunteerData {
 }
 
 const defaultVolunteer: VolunteerData = {
-  title: "Join Our Volunteer Team",
+  title: "Volunteer with COMPASSION CREW — Make a Real Difference in Bangalore",
   description:
     "Thank you for your interest in volunteering with us. Please complete the application form below. We will review your submission and contact shortlisted applicants.",
   formUrl:
     "https://docs.google.com/forms/d/e/1FAIpQLSeYJ4-OKlvkBQm0vSaGKHMrNWHflIMaKZQKAQxeN73b7PFoUg/viewform?embedded=true",
   formHeight: 3600,
+};
+
+const volunteerSchema = {
+  "@context": "https://schema.org",
+  "@type": "VolunteerAction",
+  "name": "Volunteer with COMPASSION CREW in Bangalore",
+  "description": "Support community events, expert talks, youth mentorship, and social awareness campaigns across Bangalore and India.",
+  "provider": {
+    "@type": "NGO",
+    "name": "COMPASSION CREW",
+    "url": "https://compassioncrew.in",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bangalore",
+      "addressRegion": "Karnataka",
+      "addressCountry": "IN"
+    }
+  }
 };
 
 export default async function VolunteerPage() {
@@ -47,21 +73,63 @@ export default async function VolunteerPage() {
 
   return (
     <div className="planner-bg">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(volunteerSchema) }}
+      />
+
       <section className="pt-32 pb-16">
-        <div className=" max-w-4xl mx-auto text-center">
+        <div className="section-container max-w-4xl mx-auto text-center">
+          <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
+            Get Involved
+          </span>
           <h1 className="font-heading text-fluid-hero text-foreground mb-4 tracking-tight">
             {data.title}
           </h1>
-
           <p className="text-muted-foreground max-w-2xl mx-auto">
             {data.description}
           </p>
         </div>
       </section>
 
-      <section className="">
-        <div className=" mx-auto">
-          <div className="paper-card ">
+      <section className="section-container max-w-5xl mx-auto pb-12">
+        <div className="grid md:grid-cols-3 gap-6 mb-16">
+          {[
+            { title: "What You'll Do", items: ["Mentor underprivileged children at local schools", "Help organize expert talks and community meetups", "Support animal rescue and welfare drives", "Assist with social awareness campaigns"] },
+            { title: "Who Can Join", items: ["Students, professionals & retirees", "Minimum 2–4 hours/month commitment", "No prior experience required", "Any age — just bring your compassion"] },
+            { title: "What You Get", items: ["Official certificate of participation", "Network with social leaders & experts", "Featured as Community Champion", "Real, measurable impact on lives"] },
+          ].map((col) => (
+            <div key={col.title} className="bg-card border border-border rounded shadow-sm p-6">
+              <h2 className="font-heading text-lg font-medium text-foreground mb-4 tracking-tight">
+                {col.title}
+              </h2>
+              <ul className="space-y-2">
+                {col.items.map((item) => (
+                  <li key={item} className="text-muted-foreground text-sm flex gap-2 items-start">
+                    <span className="text-primary mt-0.5">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-center text-sm text-muted-foreground mb-4">
+          Want to learn more before applying?{" "}
+          <Link href="/about" className="text-primary font-medium hover:underline">
+            Read about our mission
+          </Link>{" "}
+          or check{" "}
+          <Link href="/events" className="text-primary font-medium hover:underline">
+            upcoming events
+          </Link>.
+        </p>
+      </section>
+
+      <section className="pb-24">
+        <div className="mx-auto">
+          <div className="paper-card">
             <iframe
               src={data.formUrl}
               width="100%"
@@ -70,7 +138,7 @@ export default async function VolunteerPage() {
               marginHeight={0}
               marginWidth={0}
               loading="lazy"
-              title="Volunteer registration form"
+              title="Volunteer registration form for COMPASSION CREW Bangalore"
             ></iframe>
           </div>
         </div>
@@ -78,3 +146,4 @@ export default async function VolunteerPage() {
     </div>
   );
 }
+

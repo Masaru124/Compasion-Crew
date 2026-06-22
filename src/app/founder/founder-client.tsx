@@ -39,6 +39,22 @@ export function FounderPageClient({ initialFounder }: FounderPageClientProps) {
 
   return (
     <div className="planner-bg">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": data.name,
+          "jobTitle": data.role,
+          "worksFor": {
+            "@type": "NGO",
+            "name": "COMPASSION CREW",
+            "url": "https://compassioncrew.in"
+          },
+          "description": "Social entrepreneur and Founder of COMPASSION CREW, Bangalore's social impact community. Dedicated to empowering changemakers across India.",
+          "url": "https://compassioncrew.in/founder"
+        }) }}
+      />
       <section className="pt-32 pb-20">
         <div className="section-container">
           <motion.div
@@ -51,7 +67,7 @@ export function FounderPageClient({ initialFounder }: FounderPageClientProps) {
               Meet Our Founder
             </span>
             <h1 className="font-heading text-fluid-hero text-foreground tracking-tight">
-              The Heart Behind Our Mission
+              {data.name} — Founder of COMPASSION CREW
             </h1>
           </motion.div>
         </div>

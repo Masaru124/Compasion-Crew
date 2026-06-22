@@ -240,7 +240,39 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://compassioncrew.in"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://compassioncrew.in/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": currentPost.title,
+        "item": `https://compassioncrew.in/blog/${slug}`
+      }
+    ]
+  };
+
   return (
-    <BlogPostClient post={currentPost} recentPosts={displayRecent} />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <BlogPostClient post={currentPost} recentPosts={displayRecent} />
+    </>
   );
 }
+

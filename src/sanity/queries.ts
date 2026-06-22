@@ -162,3 +162,13 @@ export const recentBlogsQuery = `*[_type == "post" && slug.current != $slug] | o
   authorNameFallback
 }`;
 
+export const latestBlogsQuery = `*[_type == "post"] | order(publishedAt desc)[0...3] {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  excerpt,
+  category
+}`;
+
+

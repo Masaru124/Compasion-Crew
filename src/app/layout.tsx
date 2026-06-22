@@ -29,42 +29,44 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://compassioncrew.in"),
   title: {
-    default: "COMPASSION CREW | Learn, Connect, Contribute",
+    default: "COMPASSION CREW | Bangalore's Social Impact Community",
     template: "%s | COMPASSION CREW"
   },
-  description: "COMPASSION CREW is a community-driven social impact organization. We empower students, professionals, and changemakers to learn, connect, and contribute through expert talks, networking, and volunteer initiatives.",
+  description: "COMPASSION CREW is Bangalore's leading social impact community. Join expert talks, volunteer drives, and networking events to learn, connect, and make a lasting difference. 80G tax-deductible donations.",
   keywords: [
-    "social impact community",
-    "community organization India",
+    "social impact community Bangalore",
+    "NGO Bangalore",
     "volunteer opportunities Bangalore",
     "expert talks Bangalore",
-    "networking for changemakers",
+    "networking for changemakers India",
     "COMPASSION CREW",
     "Compassion Crew NGO",
     "learn connect contribute",
-    "tax deductible donations 80G"
+    "80G tax deductible donations India",
+    "community events Bangalore",
+    "social awareness campaigns India"
   ],
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "en_IN",
     url: "https://compassioncrew.in",
     siteName: "COMPASSION CREW",
-    title: "COMPASSION CREW | Learn, Connect, Contribute",
-    description: "A community that empowers people to learn, connect, and contribute through expert talks, networking events, volunteering, and social campaigns.",
+    title: "COMPASSION CREW | Bangalore's Social Impact Community",
+    description: "Bangalore's social impact community. Join expert talks, volunteer drives, and networking events. Make a real difference — 80G tax-deductible donations.",
     images: [
       {
-        url: "/images/logo.png",
-        width: 800,
-        height: 800,
-        alt: "COMPASSION CREW Logo",
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "COMPASSION CREW — Bangalore's Social Impact Community",
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "COMPASSION CREW | Learn, Connect, Contribute",
-    description: "A community that empowers people to learn, connect, and contribute.",
-    images: ["/images/logo.png"],
+    title: "COMPASSION CREW | Bangalore's Social Impact Community",
+    description: "Join expert talks, volunteer drives, and networking events. Make a real difference.",
+    images: ["/images/og-image.jpg"],
   },
   robots: {
     index: true,
@@ -75,6 +77,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+    languages: {
+      "en-IN": "https://compassioncrew.in",
+    },
   }
 };
 

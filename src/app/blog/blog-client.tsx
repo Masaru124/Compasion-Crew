@@ -77,12 +77,12 @@ export function BlogClient({ initialBlogs }: BlogClientProps) {
   const categories = ["All", "Social Impact", "Volunteering", "Community", "Education", "Animal Welfare"];
 
   const getImageUrl = (img: any) => {
-    if (!img) return "/images/yoga.jpeg";
+    if (!img) return "/images/social_impact_blog.png";
     if (typeof img === "string") return img;
     if (img.asset || img._type === "image") {
-      return urlFor(img).url() || "/images/yoga.jpeg";
+      return urlFor(img).url() || "/images/social_impact_blog.png";
     }
-    return "/images/yoga.jpeg";
+    return "/images/social_impact_blog.png";
   };
 
   const formatDate = (dateStr: string) => {

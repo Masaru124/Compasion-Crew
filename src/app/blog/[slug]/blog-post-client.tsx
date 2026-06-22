@@ -33,12 +33,12 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
   }, []);
 
   const getImageUrl = (img: any) => {
-    if (!img) return "/images/yoga.jpeg";
+    if (!img) return "/images/social_impact_blog.png";
     if (typeof img === "string") return img;
     if (img.asset || img._type === "image") {
-      return urlFor(img).url() || "/images/yoga.jpeg";
+      return urlFor(img).url() || "/images/social_impact_blog.png";
     }
-    return "/images/yoga.jpeg";
+    return "/images/social_impact_blog.png";
   };
 
   const formatDate = (dateStr: string) => {
@@ -170,7 +170,7 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
         return (
           <div className="relative h-64 md:h-[400px] w-full my-8 rounded-lg overflow-hidden border border-border shadow-sm">
             <Image
-              src={urlFor(value).url() || "/images/yoga.jpeg"}
+              src={urlFor(value).url() || "/images/social_impact_blog.png"}
               alt={value.alt || "Article Image"}
               fill
               sizes="(max-width: 1024px) 100vw, 800px"

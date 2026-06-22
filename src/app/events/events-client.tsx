@@ -99,14 +99,13 @@ export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
             className="text-center max-w-3xl mx-auto"
           >
             <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
-              Events
+              Events & Programmes
             </span>
             <h1 className="font-heading text-fluid-hero text-foreground mb-6 tracking-tight">
-              Join Us in Making a Difference
+              Community Events, Expert Talks & Volunteer Drives in Bangalore
             </h1>
             <p className="text-muted-foreground">
-              From fundraising galas to community workshops, our events bring together
-              passionate individuals committed to creating positive change.
+              From high-impact expert talk sessions at Bangalore&apos;s top institutions to hands-on youth mentorship camps and social awareness campaigns — our events connect changemakers, educators, and volunteers across India.
             </p>
           </motion.div>
         </div>

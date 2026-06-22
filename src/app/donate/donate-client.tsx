@@ -40,13 +40,19 @@ export function DonatePageClient({ initialDonate }: DonatePageClientProps) {
 
   const donateSchema = {
     "@context": "https://schema.org",
-    "@type": "DonatePage",
+    "@type": "DonateAction",
     "name": "Donate to COMPASSION CREW NGO",
-    "description": "Support COMPASSION CREW by donating online. All donations are tax-deductible under Section 80G in India.",
-    "publisher": {
+    "description": "Support COMPASSION CREW's social impact programs. Donations are tax-deductible under Section 80G of the Income Tax Act.",
+    "recipient": {
       "@type": "NGO",
       "name": "COMPASSION CREW",
-      "url": "https://compassioncrew.in"
+      "url": "https://compassioncrew.in",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bangalore",
+        "addressRegion": "Karnataka",
+        "addressCountry": "IN"
+      }
     }
   };
 

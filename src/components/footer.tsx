@@ -11,6 +11,7 @@ const footerLinks = {
     { href: "/founder", label: "Our Founder" },
     { href: "/team", label: "Our Team" },
     { href: "/events", label: "Events" },
+    { href: "/blog", label: "Blog & Insights" },
   ],
   getInvolved: [
     { href: "/volunteer", label: "Volunteer" },
