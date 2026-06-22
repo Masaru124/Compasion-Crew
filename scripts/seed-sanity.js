@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require("fs");
 const path = require("path");
 const { createClient } = require("@sanity/client");
@@ -60,44 +61,44 @@ const teamMembers = [
     email: "khushi@campasioncrew.org"
   },
   {
-    name: "Dr. Arun Kumar",
+    name: "Bharath S",
     role: "Head of Programs",
     bio: "Development professional specializing in education and women's empowerment programs.",
     linkedin: "https://linkedin.com",
     x: "https://x.com",
-    email: "arun@campasioncrew.org"
+    email: "bharath@campasioncrew.org"
   },
   {
-    name: "Meera Singh",
+    name: "Bichitra Behera",
     role: "Animal Welfare Director",
     bio: "Veterinarian and animal rights activist. Heads our rescue and rehabilitation centers.",
     linkedin: "https://linkedin.com",
     x: "https://x.com",
-    email: "meera@campasioncrew.org"
+    email: "bichitra@campasioncrew.org"
   },
   {
-    name: "Vikram Desai",
+    name: "RaviKiran",
     role: "Finance Director",
     bio: "CA with expertise in nonprofit financial management. Ensures transparency in all operations.",
     linkedin: "https://linkedin.com",
     x: "https://x.com",
-    email: "vikram@campasioncrew.org"
+    email: "ravikiran@campasioncrew.org"
   },
   {
-    name: "Anjali Rao",
+    name: "Shivam",
     role: "Communications Lead",
     bio: "Journalist turned communications expert. Tells our stories to inspire action.",
     linkedin: "https://linkedin.com",
     x: "https://x.com",
-    email: "anjali@campasioncrew.org"
+    email: "shivam@campasioncrew.org"
   },
   {
-    name: "Rahul Menon",
+    name: "Matharrishwa",
     role: "Volunteer Coordinator",
     bio: "Community builder managing our network of 500+ volunteers across 15 states.",
     linkedin: "https://linkedin.com",
     x: "https://x.com",
-    email: "rahul@campasioncrew.org"
+    email: "matharrishwa@campasioncrew.org"
   },
 ];
 
@@ -159,35 +160,35 @@ const workAreas = [
     id: "expert-talks",
     title: "Expert Talks & Knowledge Sessions",
     description: "Bringing industry experts, leaders, and changemakers together to share insights, experiences, and practical knowledge that inspire personal growth and social impact.",
-    imagePath: "public/images/women.png",
+    imagePath: "public/images/yoga.jpeg",
     number: "01",
   },
   {
     id: "community-events",
     title: "Community Engagement Events",
     description: "Interactive events that foster networking, collaboration, and meaningful discussions around social responsibility and personal development.",
-    imagePath: "public/images/child.png",
+    imagePath: "public/images/yoga2.jpeg",
     number: "02",
   },
   {
     id: "volunteer-initiatives",
     title: "Volunteer & Service Initiatives",
     description: "Structured opportunities for students, professionals, and changemakers to contribute their time and skills to support local community needs and social causes.",
-    imagePath: "public/images/animal.png",
+    imagePath: "public/images/yoga3.png",
     number: "03",
   },
   {
     id: "awareness-campaigns",
     title: "Social Awareness Campaigns",
     description: "Programs designed to educate, discuss, and raise awareness about important social issues affecting communities and underserved groups.",
-    imagePath: "public/images/yoga.jpeg",
+    imagePath: "public/images/yoga4.png",
     number: "04",
   },
   {
     id: "compassion-projects",
     title: "Compassion Projects",
     description: "Targeted impact initiatives focusing on future community support systems for children, senior citizens, education, and animal welfare.",
-    imagePath: "public/images/founders.jpeg",
+    imagePath: "public/images/yoga.jpeg",
     number: "05",
   },
 ];

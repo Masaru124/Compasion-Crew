@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,7 +31,7 @@ const workAreas: WorkAreaItem[] = [
     title: "Community Engagement Events",
     description:
       "Interactive events that foster networking, collaboration, and meaningful discussions around social responsibility and personal development.",
-    image: "/images/child.png",
+    image: "/images/yoga2.jpeg",
     number: "02",
   },
   {
@@ -38,7 +39,7 @@ const workAreas: WorkAreaItem[] = [
     title: "Volunteer & Service Initiatives",
     description:
       "Structured opportunities for students, professionals, and changemakers to contribute their time and skills to support local community needs and social causes.",
-    image: "/images/animal.png",
+    image: "/images/yoga3.png",
     number: "03",
   },
   {
@@ -46,7 +47,7 @@ const workAreas: WorkAreaItem[] = [
     title: "Social Awareness Campaigns",
     description:
       "Programs designed to educate, discuss, and raise awareness about important social issues affecting communities and underserved groups.",
-    image: "/images/yoga.jpeg",
+    image: "/images/yoga4.png",
     number: "04",
   },
   {
@@ -54,7 +55,7 @@ const workAreas: WorkAreaItem[] = [
     title: "Compassion Projects",
     description:
       "Targeted impact initiatives focusing on future community support systems for children, senior citizens, education, and animal welfare.",
-    image: "/images/founders.jpeg",
+    image: "/images/yoga.jpeg",
     number: "05",
   },
 ];
@@ -65,6 +66,7 @@ interface WorkAreasProps {
 
 export function WorkAreas({ initialWorkAreas }: WorkAreasProps) {
   const displayWorkAreas = initialWorkAreas || workAreas;
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   const getImageUrl = (img: any) => {
     if (!img) return "/images/yoga.jpeg";
@@ -75,6 +77,8 @@ export function WorkAreas({ initialWorkAreas }: WorkAreasProps) {
     }
     return "/images/yoga.jpeg";
   };
+
+  const currentImage = activeImage || getImageUrl(displayWorkAreas[0]?.image);
   return (
     <section id="work" className="bg-background">
       <div className="section-container section-padding">
@@ -97,13 +101,21 @@ export function WorkAreas({ initialWorkAreas }: WorkAreasProps) {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
           <div className="hidden lg:block lg:w-1/2 relative h-[55vh] max-h-[500px] sticky top-[12vh]">
             <div className="w-full h-full rounded overflow-hidden border border-border/50 shadow-sm relative">
-              <Image
-                src="/images/yoga.jpeg"
-                alt="Our Work"
-                fill
-                sizes="50vw"
-                className="object-cover"
-              />
+              <motion.div
+                key={currentImage}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="w-full h-full relative"
+              >
+                <Image
+                  src={currentImage}
+                  alt="Our Work"
+                  fill
+                  sizes="50vw"
+                  className="object-cover"
+                />
+              </motion.div>
             </div>
           </div>
 
@@ -115,6 +127,7 @@ export function WorkAreas({ initialWorkAreas }: WorkAreasProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
+                onMouseEnter={() => setActiveImage(getImageUrl(area.image))}
               >
                 <div className="block lg:hidden w-full h-[300px] relative rounded overflow-hidden mb-8 border border-border/50">
                   <Image

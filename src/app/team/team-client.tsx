@@ -21,27 +21,27 @@ const defaultTeamMembers: TeamMemberItem[] = [
     bio: "Operations expert with 10+ years in NGO management. Leads our ground initiatives across India.",
   },
   {
-    name: "Dr. Arun Kumar",
+    name: "Bharath S",
     role: "Head of Programs",
     bio: "Development professional specializing in education and women's empowerment programs.",
   },
   {
-    name: "Meera Singh",
+    name: "Bichitra Behera",
     role: "Animal Welfare Director",
     bio: "Veterinarian and animal rights activist. Heads our rescue and rehabilitation centers.",
   },
   {
-    name: "Vikram Desai",
+    name: "RaviKiran",
     role: "Finance Director",
     bio: "CA with expertise in nonprofit financial management. Ensures transparency in all operations.",
   },
   {
-    name: "Anjali Rao",
+    name: "Shivam",
     role: "Communications Lead",
     bio: "Journalist turned communications expert. Tells our stories to inspire action.",
   },
   {
-    name: "Rahul Menon",
+    name: "Matharrishwa",
     role: "Volunteer Coordinator",
     bio: "Community builder managing our network of 500+ volunteers across 15 states.",
   },
