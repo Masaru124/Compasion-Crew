@@ -2,13 +2,12 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { urlFor } from "@/sanity/client";
 
 interface FounderData {
   name: string;
   role: string;
   biography: string[];
-  image: any;
+  image: string | null | undefined;
 }
 
 const defaultFounder: FounderData = {
@@ -34,12 +33,9 @@ interface FounderPageClientProps {
 export function FounderPageClient({ initialFounder }: FounderPageClientProps) {
   const data = initialFounder || defaultFounder;
 
-  const getImageUrl = (img: any) => {
+  const getImageUrl = (img: string | null | undefined) => {
     if (!img) return "/images/founders.jpeg";
     if (typeof img === "string") return img;
-    if (img.asset || img._type === "image") {
-      return urlFor(img).url() || "/images/founders.jpeg";
-    }
     return "/images/founders.jpeg";
   };
 

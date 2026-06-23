@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { urlFor } from "@/sanity/client";
 
 interface HeroData {
   eyebrow: string;
@@ -14,7 +13,7 @@ interface HeroData {
   primaryBtnLink: string;
   secondaryBtnText: string;
   secondaryBtnLink: string;
-  image: any;
+  image: string | null | undefined;
 }
 
 interface HeroSectionProps {
@@ -50,12 +49,9 @@ export function HeroSection({ initialHero }: HeroSectionProps) {
     });
   };
 
-  const getImageUrl = (img: any) => {
+  const getImageUrl = (img: string | null | undefined) => {
     if (!img) return "/images/yoga.jpeg";
     if (typeof img === "string") return img;
-    if (img.asset || img._type === "image") {
-      return urlFor(img).url() || "/images/yoga.jpeg";
-    }
     return "/images/yoga.jpeg";
   };
 

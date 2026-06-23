@@ -1,6 +1,6 @@
 import { TeamPageClient } from "./team-client";
-import { client } from "@/sanity/client";
-import { teamMembersQuery } from "@/sanity/queries";
+import { db } from "@/db";
+import { teamMembers } from "@/db/schema";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,14 +18,12 @@ export default async function TeamPage() {
   let teamMembersData = null;
 
   try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      const data = await client.fetch(teamMembersQuery);
-      if (data && data.length > 0) {
-        teamMembersData = data;
-      }
+    const list = await db.select().from(teamMembers);
+    if (list && list.length > 0) {
+      teamMembersData = list;
     }
   } catch (error) {
-    console.error("Failed to fetch team members from Sanity:", error);
+    console.error("Failed to fetch team members from Postgres:", error);
   }
 
   return <TeamPageClient initialTeamMembers={teamMembersData || undefined} />;

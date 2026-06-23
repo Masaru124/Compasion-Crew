@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Utility script to generate a bcrypt hash for the admin password.
  *

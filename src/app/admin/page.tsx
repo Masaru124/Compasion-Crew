@@ -17,13 +17,12 @@ import {
   Users,
   Image as ImageIcon,
   Mail,
+  BookOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { client, urlFor } from "@/sanity/client";
-import { allStoriesQuery } from "@/sanity/queries";
 import {
   toggleApproveStoryAction,
   deleteStoryAction,
@@ -31,12 +30,18 @@ import {
   updateEventAction,
   deleteEventAction,
   getEventsAction,
+  getStoriesAction,
+  getBlogsAction,
+  getTeamMembersAction,
+  createBlogAction,
+  updateBlogAction,
+  deleteBlogAction,
 } from "@/app/actions/moderator-actions";
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 interface Story {
-  _id: string;
+  id: string;
   quote: string;
   name: string;
   role: string;
@@ -86,6 +91,66 @@ const initialFormState: EventFormState = {
   isPast: false,
   registrationOpen: true,
   details: "",
+};
+
+interface BlogItem {
+  id: string;
+  title: string;
+  slug: string;
+  publishedAt: string;
+  excerpt: string;
+  category: string;
+  mainImage: string | null;
+  authorName: string | null;
+  authorRole: string | null;
+  authorBio: string | null;
+  authorEmail: string | null;
+  body: string;
+  seoTitle: string | null;
+  seoDescription: string | null;
+  keywords: string[] | null;
+}
+
+interface BlogFormState {
+  title: string;
+  slug: string;
+  category: string;
+  excerpt: string;
+  body: string;
+  authorId: string;
+  authorName: string;
+  authorRole: string;
+  authorBio: string;
+  authorEmail: string;
+  seoTitle: string;
+  seoDescription: string;
+  keywords: string;
+}
+
+interface TeamMemberItem {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  linkedin: string | null;
+  x: string | null;
+  email: string | null;
+}
+
+const initialBlogFormState: BlogFormState = {
+  title: "",
+  slug: "",
+  category: "Social Impact",
+  excerpt: "",
+  body: "",
+  authorId: "custom",
+  authorName: "",
+  authorRole: "",
+  authorBio: "",
+  authorEmail: "",
+  seoTitle: "",
+  seoDescription: "",
+  keywords: "",
 };
 
 // Date & Time Helpers
@@ -142,8 +207,8 @@ export default function AdminPage() {
   const [loginError, setLoginError] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
 
-  // Tabs: "testimonials" | "events"
-  const [activeTab, setActiveTab] = useState<"testimonials" | "events">("testimonials");
+  // Tabs: "testimonials" | "events" | "blogs"
+  const [activeTab, setActiveTab] = useState<"testimonials" | "events" | "blogs">("testimonials");
 
   // Testimonials state
   const [stories, setStories] = useState<Story[]>([]);
@@ -162,9 +227,23 @@ export default function AdminPage() {
   const [removeCurrentImage, setRemoveCurrentImage] = useState(false);
   const [removeCurrentGallery, setRemoveCurrentGallery] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
+
+  // Blogs state
+  const [blogsList, setBlogsList] = useState<BlogItem[]>([]);
+  const [isLoadingBlogs, setIsLoadingBlogs] = useState(true);
+  const [showBlogForm, setShowBlogForm] = useState(false);
+  const [editingBlog, setEditingBlog] = useState<BlogItem | null>(null);
+
+  const [blogForm, setBlogForm] = useState<BlogFormState>(initialBlogFormState);
+  const [blogFormImage, setBlogFormImage] = useState<File | null>(null);
+  const [removeBlogImage, setRemoveBlogImage] = useState(false);
+  const [blogSubmitting, setBlogSubmitting] = useState(false);
+
+  const [teamMembers, setTeamMembers] = useState<TeamMemberItem[]>([]);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
+  const blogFileInputRef = useRef<HTMLInputElement>(null);
 
   const [actionError, setActionError] = useState("");
   const [processingId, setProcessingId] = useState<string | null>(null);
@@ -173,7 +252,7 @@ export default function AdminPage() {
   const fetchStories = useCallback(async () => {
     setIsLoadingStories(true);
     try {
-      const data = await client.fetch(allStoriesQuery, {}, { next: { revalidate: 0 } });
+      const data = await getStoriesAction();
       setStories(data || []);
     } catch (err: unknown) {
       console.error("Failed to load reviews:", err);
@@ -197,6 +276,39 @@ export default function AdminPage() {
     }
   }, []);
 
+  // Fetch blogs
+  const fetchBlogs = useCallback(async () => {
+    setIsLoadingBlogs(true);
+    try {
+      const data = await getBlogsAction();
+      setBlogsList(data as BlogItem[] || []);
+    } catch (err: unknown) {
+      console.error("Failed to load blogs:", err);
+      setActionError("Failed to retrieve blogs from database.");
+    } finally {
+      setIsLoadingBlogs(false);
+    }
+  }, []);
+
+  // Fetch team members list
+  const fetchTeamMembersList = useCallback(async () => {
+    try {
+      const data = await getTeamMembersAction();
+      setTeamMembers(data as TeamMemberItem[] || []);
+    } catch (err: unknown) {
+      console.error("Failed to load team members:", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const timer = setTimeout(() => {
+        fetchTeamMembersList();
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [isAuthenticated, fetchTeamMembersList]);
+
   useEffect(() => {
     if (isAuthenticated) {
       if (activeTab === "testimonials") {
@@ -204,14 +316,19 @@ export default function AdminPage() {
           fetchStories();
         }, 0);
         return () => clearTimeout(timer);
-      } else {
+      } else if (activeTab === "events") {
         const timer = setTimeout(() => {
           fetchEvents();
         }, 0);
         return () => clearTimeout(timer);
+      } else if (activeTab === "blogs") {
+        const timer = setTimeout(() => {
+          fetchBlogs();
+        }, 0);
+        return () => clearTimeout(timer);
       }
     }
-  }, [isAuthenticated, activeTab, fetchStories, fetchEvents]);
+  }, [isAuthenticated, activeTab, fetchStories, fetchEvents, fetchBlogs]);
 
   // Handle Login via NextAuth
   const handleLogin = async (e: React.FormEvent) => {
@@ -251,7 +368,7 @@ export default function AdminPage() {
 
     if (res.success) {
       setStories((prev) =>
-        prev.map((s) => (s._id === storyId ? { ...s, approved: !currentStatus } : s))
+        prev.map((s) => (s.id === storyId ? { ...s, approved: !currentStatus } : s))
       );
     } else {
       setActionError(res.error || "Failed to update review status.");
@@ -271,7 +388,7 @@ export default function AdminPage() {
     setProcessingId(null);
 
     if (res.success) {
-      setStories((prev) => prev.filter((s) => s._id !== storyId));
+      setStories((prev) => prev.filter((s) => s.id !== storyId));
     } else {
       setActionError(res.error || "Failed to delete review.");
     }
@@ -387,12 +504,176 @@ export default function AdminPage() {
     }
   };
 
+  // Blog Form Actions
+  const handleBlogFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setActionError("");
+    setBlogSubmitting(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("title", blogForm.title);
+      formData.append("slug", blogForm.slug);
+      formData.append("category", blogForm.category);
+      formData.append("excerpt", blogForm.excerpt);
+      formData.append("body", blogForm.body);
+      formData.append("authorName", blogForm.authorName);
+      formData.append("authorRole", blogForm.authorRole);
+      formData.append("authorBio", blogForm.authorBio);
+      formData.append("authorEmail", blogForm.authorEmail);
+      formData.append("seoTitle", blogForm.seoTitle);
+      formData.append("seoDescription", blogForm.seoDescription);
+      formData.append("keywords", blogForm.keywords);
+
+      if (blogFormImage) {
+        formData.append("image", blogFormImage);
+      }
+      if (removeBlogImage) {
+        formData.append("removeImage", "true");
+      }
+
+      let res;
+      if (editingBlog) {
+        res = await updateBlogAction(editingBlog.id, formData);
+      } else {
+        res = await createBlogAction(formData);
+      }
+
+      if (res.success) {
+        setBlogForm(initialBlogFormState);
+        setBlogFormImage(null);
+        setRemoveBlogImage(false);
+        setEditingBlog(null);
+        setShowBlogForm(false);
+        if (blogFileInputRef.current) blogFileInputRef.current.value = "";
+        fetchBlogs();
+      } else {
+        setActionError(res.error || "Failed to save blog post.");
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "An error occurred while saving the blog post.";
+      setActionError(msg);
+    } finally {
+      setBlogSubmitting(false);
+    }
+  };
+
+  const getBodyPlainText = (body: string | null | undefined): string => {
+    if (!body) return "";
+    try {
+      const parsed = JSON.parse(body);
+      if (Array.isArray(parsed)) {
+        return parsed
+          .map((block: unknown) => {
+            const b = block as Record<string, unknown>;
+            if (b && Array.isArray(b.children)) {
+              return b.children
+                .map((c: unknown) => {
+                  const child = c as Record<string, unknown>;
+                  return typeof child.text === "string" ? child.text : "";
+                })
+                .join("");
+            }
+            return "";
+          })
+          .filter(Boolean)
+          .join("\n\n");
+      }
+    } catch {
+      return body;
+    }
+    return body;
+  };
+
+  const handleStartEditBlog = (post: BlogItem) => {
+    // Find matching author ID in team members if any
+    let matchedAuthorId = "custom";
+    if (post.authorName) {
+      const matched = teamMembers.find(
+        (m) => m.name.toLowerCase() === post.authorName?.toLowerCase()
+      );
+      if (matched) {
+        matchedAuthorId = matched.id;
+      }
+    }
+
+    setEditingBlog(post);
+    setBlogForm({
+      title: post.title || "",
+      slug: post.slug || "",
+      category: post.category || "Social Impact",
+      excerpt: post.excerpt || "",
+      body: getBodyPlainText(post.body),
+      authorId: matchedAuthorId,
+      authorName: post.authorName || "",
+      authorRole: post.authorRole || "",
+      authorBio: post.authorBio || "",
+      authorEmail: post.authorEmail || "",
+      seoTitle: post.seoTitle || "",
+      seoDescription: post.seoDescription || "",
+      keywords: post.keywords ? post.keywords.join(", ") : "",
+    });
+    setBlogFormImage(null);
+    setRemoveBlogImage(false);
+    setShowBlogForm(true);
+  };
+
+  const handleDeleteBlog = async (blogId: string) => {
+    if (!window.confirm("Are you sure you want to permanently delete this blog post?")) {
+      return;
+    }
+
+    setProcessingId(blogId);
+    setActionError("");
+
+    const res = await deleteBlogAction(blogId);
+    setProcessingId(null);
+
+    if (res.success) {
+      setBlogsList((prev) => prev.filter((b) => b.id !== blogId));
+    } else {
+      setActionError(res.error || "Failed to delete blog post.");
+    }
+  };
+
+  const handleAuthorSelectionChange = (authorId: string) => {
+    if (authorId === "custom") {
+      setBlogForm((prev) => ({
+        ...prev,
+        authorId: "custom",
+        authorName: "",
+        authorRole: "",
+        authorBio: "",
+        authorEmail: "",
+      }));
+    } else {
+      const member = teamMembers.find((m) => m.id === authorId);
+      if (member) {
+        setBlogForm((prev) => ({
+          ...prev,
+          authorId,
+          authorName: member.name,
+          authorRole: member.role,
+          authorBio: member.bio,
+          authorEmail: member.email || "",
+        }));
+      }
+    }
+  };
+
+  const generateSlugFromTitle = () => {
+    const slug = blogForm.title
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
+    setBlogForm((prev) => ({ ...prev, slug }));
+  };
+
   const getEventImageUrl = (img: unknown) => {
     if (!img) return null;
     if (typeof img === "string") return img;
-    if (img && typeof img === "object" && ("asset" in img || "_type" in img)) {
-      return urlFor(img as Parameters<typeof urlFor>[0]).url();
-    }
     return null;
   };
 
@@ -525,6 +806,16 @@ export default function AdminPage() {
               >
                 Events
               </button>
+              <button
+                onClick={() => { setActiveTab("blogs"); setActionError(""); }}
+                className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
+                  activeTab === "blogs"
+                    ? "bg-card text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Blogs
+              </button>
             </div>
 
             <Button
@@ -588,7 +879,7 @@ export default function AdminPage() {
                   <div className="space-y-4">
                     {stories.map((story) => (
                       <div
-                        key={story._id}
+                        key={story.id}
                         className="p-6 rounded-xl border border-border bg-background/50 hover:bg-background/80 transition-colors flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
                       >
                         <div className="space-y-3 max-w-2xl">
@@ -616,11 +907,11 @@ export default function AdminPage() {
                           <Button
                             size="sm"
                             variant={story.approved ? "outline" : "default"}
-                            disabled={processingId === story._id}
-                            onClick={() => handleToggleApproval(story._id, story.approved)}
+                            disabled={processingId === story.id}
+                            onClick={() => handleToggleApproval(story.id, story.approved)}
                             className="rounded-lg h-9 text-xs flex items-center gap-1.5 min-w-[95px] justify-center"
                           >
-                            {processingId === story._id ? (
+                            {processingId === story.id ? (
                               <div className="animate-spin rounded-full h-3 w-3 border-b border-current" />
                             ) : story.approved ? (
                               <>
@@ -638,11 +929,11 @@ export default function AdminPage() {
                           <Button
                             size="sm"
                             variant="destructive"
-                            disabled={processingId === story._id}
-                            onClick={() => handleDeleteStory(story._id)}
+                            disabled={processingId === story.id}
+                            onClick={() => handleDeleteStory(story.id)}
                             className="rounded-lg h-9 w-9 p-0 flex items-center justify-center hover:bg-destructive"
                           >
-                            {processingId === story._id ? (
+                            {processingId === story.id ? (
                               <div className="animate-spin rounded-full h-3 w-3 border-b border-current" />
                             ) : (
                               <Trash2 className="w-3.5 h-3.5" />
@@ -656,7 +947,7 @@ export default function AdminPage() {
               </div>
             </div>
           </>
-        ) : (
+        ) : activeTab === "events" ? (
           <>
             {/* Events Stats */}
             <div className="grid grid-cols-3 gap-4 mb-8">
@@ -1102,6 +1393,440 @@ export default function AdminPage() {
                                 className="rounded-lg h-9 w-9 p-0 flex items-center justify-center hover:bg-destructive"
                               >
                                 {processingId === ev.id ? (
+                                  <div className="animate-spin rounded-full h-3 w-3 border-b border-current" />
+                                ) : (
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                )}
+                              </Button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            {/* Blogs Stats */}
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              <div className="bg-card/40 border border-border/50 rounded-xl p-4 text-center relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
+                <span className="micro-label text-muted-foreground block mb-1">Total Blogs</span>
+                <div className="font-heading text-2xl font-light text-foreground">{blogsList.length}</div>
+              </div>
+              <div className="bg-card/40 border border-border/50 rounded-xl p-4 text-center relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-success" />
+                <span className="micro-label text-muted-foreground block mb-1">Categories</span>
+                <div className="font-heading text-2xl font-light text-foreground">
+                  {Array.from(new Set(blogsList.map((b) => b.category))).length}
+                </div>
+              </div>
+              <div className="bg-card/40 border border-border/50 rounded-xl p-4 text-center relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
+                <span className="micro-label text-muted-foreground block mb-1">Guest Authors</span>
+                <div className="font-heading text-2xl font-light text-foreground">
+                  {blogsList.filter((b) => !teamMembers.some((m) => m.name === b.authorName)).length}
+                </div>
+              </div>
+            </div>
+
+            {/* Blogs Operations Header */}
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-heading font-medium text-foreground tracking-tight">
+                {showBlogForm ? (editingBlog ? "Edit Blog Details" : "Write New Blog") : "All Blog Articles"}
+              </h2>
+              {!showBlogForm && (
+                <Button
+                  onClick={() => {
+                    setEditingBlog(null);
+                    setBlogForm(initialBlogFormState);
+                    setBlogFormImage(null);
+                    setRemoveBlogImage(false);
+                    setShowBlogForm(true);
+                  }}
+                  className="rounded-xl flex items-center gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Write Article
+                </Button>
+              )}
+            </div>
+
+            {/* Form View / Blogs List */}
+            {showBlogForm ? (
+              <div className="glass-panel border border-border rounded-2xl p-8 relative">
+                <form onSubmit={handleBlogFormSubmit} className="space-y-6 max-w-4xl">
+                  
+                  {/* Section 1: Article Info */}
+                  <div>
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-primary mb-4 pb-1 border-b border-border/50">
+                      1. Article Details
+                    </h3>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {/* Title */}
+                      <div className="space-y-2">
+                        <Label htmlFor="blog-title">Blog Title *</Label>
+                        <Input
+                          id="blog-title"
+                          required
+                          placeholder="e.g. 5 Ways to Help Stray Animals This Summer"
+                          value={blogForm.title}
+                          onChange={(e) => setBlogForm({ ...blogForm, title: e.target.value })}
+                        />
+                      </div>
+
+                      {/* Category */}
+                      <div className="space-y-2">
+                        <Label htmlFor="blog-category">Category *</Label>
+                        <Input
+                          id="blog-category"
+                          required
+                          placeholder="e.g. Animal Welfare, Education, volunteering"
+                          value={blogForm.category}
+                          onChange={(e) => setBlogForm({ ...blogForm, category: e.target.value })}
+                        />
+                      </div>
+
+                      {/* Slug */}
+                      <div className="space-y-2 md:col-span-2">
+                        <Label htmlFor="blog-slug">URL Slug *</Label>
+                        <div className="flex gap-2">
+                          <Input
+                            id="blog-slug"
+                            required
+                            placeholder="e.g. ways-to-help-stray-animals"
+                            value={blogForm.slug}
+                            onChange={(e) => setBlogForm({ ...blogForm, slug: e.target.value })}
+                            className="font-mono text-xs"
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={generateSlugFromTitle}
+                            className="shrink-0 text-xs px-3"
+                          >
+                            Generate
+                          </Button>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground">
+                          Unique URL identifier. e.g., compassioncrew.in/blog/{"<slug>"}
+                        </p>
+                      </div>
+
+                      {/* Excerpt */}
+                      <div className="space-y-2 md:col-span-2">
+                        <Label htmlFor="blog-excerpt">Short Excerpt / Card Summary *</Label>
+                        <Textarea
+                          id="blog-excerpt"
+                          required
+                          rows={2}
+                          placeholder="A quick 1-2 sentence preview to show on the card list..."
+                          value={blogForm.excerpt}
+                          onChange={(e) => setBlogForm({ ...blogForm, excerpt: e.target.value })}
+                        />
+                      </div>
+
+                      {/* Body Content */}
+                      <div className="space-y-2 md:col-span-2">
+                        <Label htmlFor="blog-body">Article Body Content *</Label>
+                        <Textarea
+                          id="blog-body"
+                          required
+                          rows={12}
+                          placeholder="Write the full content of the blog post here. Separate paragraphs with double line breaks (press Enter twice)."
+                          value={blogForm.body}
+                          onChange={(e) => setBlogForm({ ...blogForm, body: e.target.value })}
+                          className="font-sans text-sm leading-relaxed"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Section 2: Media */}
+                  <div className="pt-4">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-primary mb-4 pb-1 border-b border-border/50">
+                      2. Cover Picture
+                    </h3>
+                    <div className="space-y-2">
+                      <Label htmlFor="blog-image">Upload Cover Image</Label>
+                      <Input
+                        id="blog-image"
+                        type="file"
+                        accept="image/*"
+                        ref={blogFileInputRef}
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            setBlogFormImage(e.target.files[0]);
+                            setRemoveBlogImage(false);
+                          }
+                        }}
+                        className="file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90"
+                      />
+
+                      {/* Existing Cover Image Preview */}
+                      {editingBlog && editingBlog.mainImage && !removeBlogImage && (
+                        <div className="mt-2 flex items-center gap-3 bg-muted/40 p-3 rounded-lg border border-border max-w-sm">
+                          <div className="relative w-12 h-12 rounded overflow-hidden">
+                            <Image
+                              src={editingBlog.mainImage}
+                              alt="Current cover"
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                          <span className="text-xs text-muted-foreground truncate flex-1">Current Cover Image</span>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setRemoveBlogImage(true)}
+                            className="h-8 text-destructive hover:bg-destructive/10 text-xs px-2"
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      )}
+
+                      {removeBlogImage && (
+                        <p className="text-xs text-warning mt-1">
+                          Current cover image will be removed. Default fallback image will be shown.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Section 3: Author details */}
+                  <div className="pt-4">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-primary mb-4 pb-1 border-b border-border/50">
+                      3. Author Settings
+                    </h3>
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="blog-author-select">Select Author profile</Label>
+                        <select
+                          id="blog-author-select"
+                          value={blogForm.authorId}
+                          onChange={(e) => handleAuthorSelectionChange(e.target.value)}
+                          className="h-12 w-full rounded-xl border border-input bg-white px-3 py-2 text-sm text-foreground transition-all outline-none dark:bg-muted/50"
+                        >
+                          <option value="custom">Custom / Guest Author (Enter details manually)</option>
+                          {teamMembers.map((m) => (
+                            <option key={m.id} value={m.id}>
+                              {m.name} — {m.role}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-6">
+                        {/* Author Name */}
+                        <div className="space-y-2">
+                          <Label htmlFor="author-name">Author Name *</Label>
+                          <Input
+                            id="author-name"
+                            required
+                            placeholder="e.g. Khushi Joshi"
+                            value={blogForm.authorName}
+                            onChange={(e) => setBlogForm({ ...blogForm, authorName: e.target.value })}
+                            disabled={blogForm.authorId !== "custom"}
+                          />
+                        </div>
+
+                        {/* Author Role */}
+                        <div className="space-y-2">
+                          <Label htmlFor="author-role">Author Role / Designation</Label>
+                          <Input
+                            id="author-role"
+                            placeholder="e.g. Founder & Coordinator"
+                            value={blogForm.authorRole}
+                            onChange={(e) => setBlogForm({ ...blogForm, authorRole: e.target.value })}
+                            disabled={blogForm.authorId !== "custom"}
+                          />
+                        </div>
+
+                        {/* Author Email */}
+                        <div className="space-y-2 md:col-span-2">
+                          <Label htmlFor="author-email">Author Email Address</Label>
+                          <Input
+                            id="author-email"
+                            type="email"
+                            placeholder="e.g. author@compassioncrew.in"
+                            value={blogForm.authorEmail}
+                            onChange={(e) => setBlogForm({ ...blogForm, authorEmail: e.target.value })}
+                            disabled={blogForm.authorId !== "custom"}
+                          />
+                        </div>
+
+                        {/* Author Bio */}
+                        <div className="space-y-2 md:col-span-2">
+                          <Label htmlFor="author-bio">Author Biography</Label>
+                          <Textarea
+                            id="author-bio"
+                            rows={3}
+                            placeholder="Brief description about the author..."
+                            value={blogForm.authorBio}
+                            onChange={(e) => setBlogForm({ ...blogForm, authorBio: e.target.value })}
+                            disabled={blogForm.authorId !== "custom"}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Section 4: SEO Optimizations */}
+                  <div className="pt-4">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-primary mb-4 pb-1 border-b border-border/50">
+                      4. SEO & Meta Customizations (Optional)
+                    </h3>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {/* SEO Title */}
+                      <div className="space-y-2">
+                        <Label htmlFor="seo-title">Custom SEO Title</Label>
+                        <Input
+                          id="seo-title"
+                          placeholder="Defaults to Blog Title if empty..."
+                          value={blogForm.seoTitle}
+                          onChange={(e) => setBlogForm({ ...blogForm, seoTitle: e.target.value })}
+                        />
+                      </div>
+
+                      {/* SEO Keywords */}
+                      <div className="space-y-2">
+                        <Label htmlFor="seo-keywords">Search Keywords (Comma-separated)</Label>
+                        <Input
+                          id="seo-keywords"
+                          placeholder="e.g. stray dogs, animal shelter, volunteer bangalore"
+                          value={blogForm.keywords}
+                          onChange={(e) => setBlogForm({ ...blogForm, keywords: e.target.value })}
+                        />
+                      </div>
+
+                      {/* SEO Description */}
+                      <div className="space-y-2 md:col-span-2">
+                        <Label htmlFor="seo-description">Meta Description</Label>
+                        <Textarea
+                          id="seo-description"
+                          rows={2}
+                          placeholder="Defaults to Excerpt if empty. Recommended 150-160 characters..."
+                          value={blogForm.seoDescription}
+                          onChange={(e) => setBlogForm({ ...blogForm, seoDescription: e.target.value })}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Form Actions */}
+                  <div className="flex gap-4 pt-4 border-t border-border">
+                    <Button
+                      type="submit"
+                      disabled={blogSubmitting}
+                      className="min-w-[120px]"
+                    >
+                      {blogSubmitting ? "Saving..." : "Save Blog Post"}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        setShowBlogForm(false);
+                        setEditingBlog(null);
+                        setBlogForm(initialBlogFormState);
+                        setBlogFormImage(null);
+                        setRemoveBlogImage(false);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              /* Blogs List Cards */
+              <div className="glass-panel border border-border rounded-2xl p-6 relative min-h-[400px]">
+                <div className="absolute inset-0 pointer-events-none blueprint-surface opacity-[0.03]" />
+                <div className="relative z-10">
+                  {isLoadingBlogs ? (
+                    <div className="flex flex-col items-center justify-center h-64 gap-3 text-muted-foreground">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+                      <span className="text-xs">Fetching blogs...</span>
+                    </div>
+                  ) : blogsList.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-64 gap-2 text-muted-foreground text-center">
+                      <BookOpen className="w-10 h-10 text-muted-foreground/30 mb-2 mx-auto" />
+                      <p className="text-sm font-medium">No blog posts found in database</p>
+                      <p className="text-xs max-w-sm mt-1">Use the &quot;Write Article&quot; button to create your first article.</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {blogsList.map((blog) => {
+                        return (
+                          <div
+                            key={blog.id}
+                            className="p-5 rounded-xl border border-border bg-background/50 hover:bg-background/80 transition-colors flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+                          >
+                            <div className="flex gap-4 items-start max-w-3xl">
+                              {/* Thumbnail cover */}
+                              <div className="w-16 h-16 rounded-lg overflow-hidden border border-border bg-muted shrink-0 relative flex items-center justify-center text-muted-foreground">
+                                {blog.mainImage ? (
+                                  <Image
+                                    src={blog.mainImage}
+                                    alt={blog.title}
+                                    fill
+                                    className="object-cover"
+                                  />
+                                ) : (
+                                  <ImageIcon className="w-6 h-6 opacity-30" />
+                                )}
+                              </div>
+
+                              <div className="space-y-2">
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <h3 className="font-heading text-lg font-medium text-foreground tracking-tight">
+                                    {blog.title}
+                                  </h3>
+                                  <span className="text-[10px] micro-label bg-muted border border-border/80 rounded-full px-2 py-0.5">
+                                    {blog.category}
+                                  </span>
+                                </div>
+
+                                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                                  <span className="font-medium text-foreground">
+                                    By {blog.authorName || "Staff Coordinator"}
+                                  </span>
+                                  <span>•</span>
+                                  <span>{new Date(blog.publishedAt).toLocaleDateString()}</span>
+                                  <span>•</span>
+                                  <span className="font-mono text-[10px] text-accent">
+                                    /{blog.slug}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex items-center gap-2 w-full md:w-auto shrink-0 justify-end">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                disabled={processingId === blog.id}
+                                onClick={() => handleStartEditBlog(blog)}
+                                className="rounded-lg h-9 text-xs flex items-center gap-1.5"
+                              >
+                                <Edit2 className="w-3.5 h-3.5" />
+                                Edit
+                              </Button>
+
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                disabled={processingId === blog.id}
+                                onClick={() => handleDeleteBlog(blog.id)}
+                                className="rounded-lg h-9 w-9 p-0 flex items-center justify-center hover:bg-destructive"
+                              >
+                                {processingId === blog.id ? (
                                   <div className="animate-spin rounded-full h-3 w-3 border-b border-current" />
                                 ) : (
                                   <Trash2 className="w-3.5 h-3.5" />

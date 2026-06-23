@@ -1,6 +1,6 @@
 import { DonatePageClient } from "./donate-client";
-import { client } from "@/sanity/client";
-import { donatePageQuery } from "@/sanity/queries";
+import { db } from "@/db";
+import { donatePage } from "@/db/schema";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,14 +18,17 @@ export default async function DonatePage() {
   let donateData = null;
 
   try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      const data = await client.fetch(donatePageQuery);
-      if (data) {
-        donateData = data;
-      }
+    const list = await db.select().from(donatePage).limit(1);
+    if (list && list.length > 0) {
+      const data = list[0];
+      // Convert donationOptions string back to JSON array
+      donateData = {
+        ...data,
+        donationOptions: JSON.parse(data.donationOptions),
+      };
     }
   } catch (error) {
-    console.error("Failed to fetch donate details from Sanity:", error);
+    console.error("Failed to fetch donate details from Postgres:", error);
   }
 
   return <DonatePageClient initialDonate={donateData || undefined} />;

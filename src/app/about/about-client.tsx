@@ -13,8 +13,8 @@ export function AboutPageClient() {
   const aboutSchema = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
-    "name": "About COMPASSION CREW NGO",
-    "description": "Learn about COMPASSION CREW, a registered NGO operating since 2018. Discover our mission, core values, and journey in empowering women, educating children, and rescuing animals across India.",
+    "name": "About COMPASSION CREW NGO Bangalore",
+    "description": "Learn about COMPASSION CREW, a registered social impact NGO in Bangalore operating since 2018. Discover our mission, core values, and programs in educating underprivileged children, empowering women, and rescuing animals across India.",
     "publisher": {
       "@type": "NGO",
       "name": "COMPASSION CREW",
@@ -65,7 +65,7 @@ export function AboutPageClient() {
                 <Eye className="w-6 h-6" />
               </div>
               <h2 className="font-heading text-xl font-medium mb-4 tracking-tight">
-                Our Vision
+                Our Vision for Social Change
               </h2>
               <p className="text-primary-foreground/80">
                 To build a compassionate society where individuals are empowered to learn, serve, and create meaningful change in their communities.
@@ -82,7 +82,7 @@ export function AboutPageClient() {
                 <Target className="w-6 h-6 text-terracotta" />
               </div>
               <h2 className="font-heading text-xl font-medium mb-4 tracking-tight">
-                Our Mission
+                Our Mission & NGO Activities
               </h2>
               <ul className="text-muted-foreground text-sm space-y-2 list-disc list-inside">
                 <li>Inspire people to become active contributors to society.</li>
@@ -103,7 +103,7 @@ export function AboutPageClient() {
               The Challenges
             </span>
             <h2 className="font-heading text-fluid-section text-foreground mb-8 tracking-tight text-center">
-              The Gaps We Bridge
+              Social Gaps We Bridge in India
             </h2>
             <p className="text-muted-foreground mb-8 text-center">
               Many passionate individuals want to create a positive impact but face structural barriers:
@@ -142,7 +142,7 @@ export function AboutPageClient() {
               What Guides Us
             </span>
             <h2 className="font-heading text-fluid-section text-foreground tracking-tight">
-              Our Core Values
+              Our Core NGO Values
             </h2>
           </motion.div>
 
@@ -184,7 +184,7 @@ export function AboutPageClient() {
             transition={{ duration: 0.5 }}
           >
             <h2 className="font-heading text-fluid-section text-primary-foreground mb-4 tracking-tight">
-              Join Our Mission
+              Support Our NGO in Bangalore — Volunteer or Donate
             </h2>
             <p className="text-primary-foreground/70 mb-8 max-w-xl mx-auto">
               Be part of a movement that believes in dignity and care for every life. Volunteer your time, sponsor child education, or support animal rescues.

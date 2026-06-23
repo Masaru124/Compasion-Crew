@@ -7,7 +7,6 @@ import Image from "next/image";
 import { Calendar, MapPin, Clock, Users, ImageIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { urlFor } from "@/sanity/client";
 
 interface EventItem {
   id: string;
@@ -18,11 +17,11 @@ interface EventItem {
   location: string;
   category: string;
   spots: number;
-  image?: any;
+  image?: string | null;
   isPast?: boolean;
   registrationOpen?: boolean;
   details?: string | null;
-  gallery?: any[] | null;
+  gallery?: string[] | null;
 }
 
 // Date & Time Formatting Helpers
@@ -36,7 +35,7 @@ const formatEventDate = (dateStr: string) => {
         day: "numeric",
       });
     }
-  } catch (e) {}
+  } catch {}
   return dateStr;
 };
 
@@ -51,7 +50,7 @@ const formatEventTime = (timeStr: string) => {
     const ampm = hours >= 12 ? "PM" : "AM";
     const formattedHours = hours % 12 || 12;
     return `${formattedHours}:${minutesStr} ${ampm}`;
-  } catch (e) {
+  } catch {
     return timeStr;
   }
 };
@@ -89,12 +88,9 @@ export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
   const pastEvents = displayEvents.filter((event) => event.isPast);
   const currentList = activeTab === "upcoming" ? upcomingEvents : pastEvents;
 
-  const getEventImageUrl = (img: any) => {
+  const getEventImageUrl = (img: string | null | undefined) => {
     if (!img) return null;
     if (typeof img === "string") return img;
-    if (img.asset || img._type === "image") {
-      return urlFor(img).url();
-    }
     return null;
   };
 

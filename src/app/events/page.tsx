@@ -22,14 +22,14 @@ const safeParseDate = (dateStr: string) => {
     if (!isNaN(parsed.getTime())) {
       return parsed.toISOString().split("T")[0];
     }
-  } catch (e) {
+  } catch {
     // ignore parsing errors
   }
   return "2026-12-15";
 };
 
 export default async function EventsPage() {
-  let eventsData: any[] = [];
+  let eventsData: (typeof events.$inferSelect)[] = [];
 
   try {
     eventsData = await db.select().from(events).orderBy(desc(events.date));
@@ -37,7 +37,7 @@ export default async function EventsPage() {
     console.error("Failed to fetch events from Neon DB:", error);
   }
 
-  const schemaData = eventsData.map((event: any) => ({
+  const schemaData = eventsData.map((event) => ({
     "@context": "https://schema.org",
     "@type": "Event",
     "name": event.title,

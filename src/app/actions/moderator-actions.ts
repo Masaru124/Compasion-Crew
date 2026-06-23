@@ -1,11 +1,10 @@
 "use strict";
 "use server";
 
-import { createClient } from "@sanity/client";
 import { revalidatePath } from "next/cache";
 import { db } from "@/db";
-import { events } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { events, stories, blogs, teamMembers } from "@/db/schema";
+import { eq, desc } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { storySubmitLimiter } from "@/lib/rate-limit";
 import { headers } from "next/headers";
@@ -13,25 +12,6 @@ import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
-
-// ─── Sanity Write Client ────────────────────────────────────────────────────
-
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
-const token = process.env.SANITY_API_WRITE_TOKEN;
-
-function getWriteClient() {
-  if (!projectId || !token) {
-    throw new Error("Sanity write credentials missing in environment variables.");
-  }
-  return createClient({
-    projectId,
-    dataset,
-    apiVersion: "2023-01-01",
-    token,
-    useCdn: false,
-  });
-}
 
 // ─── Auth Helper ────────────────────────────────────────────────────────────
 
@@ -190,9 +170,8 @@ export async function submitStoryAction(formData: {
 
     const { quote, name, role, location } = parsed.data;
 
-    const writeClient = getWriteClient();
-    await writeClient.create({
-      _type: "story",
+    await db.insert(stories).values({
+      id: "story-" + crypto.randomUUID().replace(/-/g, "").substring(0, 12),
       quote,
       name,
       role,
@@ -224,6 +203,20 @@ export async function getEventsAction(): Promise<(typeof events.$inferSelect)[]>
 }
 
 /**
+ * Server action to get all stories from database.
+ * Requires admin session.
+ */
+export async function getStoriesAction(): Promise<(typeof stories.$inferSelect)[]> {
+  try {
+    await requireAdmin();
+    return await db.select().from(stories);
+  } catch (err) {
+    console.error("Failed to fetch stories from database:", err);
+    return [];
+  }
+}
+
+/**
  * Server action for admins to toggle the approved status of a story.
  */
 export async function toggleApproveStoryAction(
@@ -233,11 +226,9 @@ export async function toggleApproveStoryAction(
   try {
     await requireAdmin();
 
-    const writeClient = getWriteClient();
-    await writeClient
-      .patch(storyId)
+    await db.update(stories)
       .set({ approved: !currentStatus })
-      .commit();
+      .where(eq(stories.id, storyId));
 
     revalidatePath("/");
     return { success: true };
@@ -256,8 +247,7 @@ export async function deleteStoryAction(
   try {
     await requireAdmin();
 
-    const writeClient = getWriteClient();
-    await writeClient.delete(storyId);
+    await db.delete(stories).where(eq(stories.id, storyId));
 
     revalidatePath("/");
     return { success: true };
@@ -432,5 +422,213 @@ export async function deleteEventAction(eventId: string): Promise<{ success: boo
   } catch (err: unknown) {
     console.error("Failed to delete event:", err);
     return { success: false, error: "Failed to delete event." };
+  }
+}
+
+/**
+ * Server action to get all blogs from database.
+ * Requires admin session.
+ */
+export async function getBlogsAction(): Promise<(typeof blogs.$inferSelect)[]> {
+  try {
+    await requireAdmin();
+    return await db.select().from(blogs).orderBy(desc(blogs.publishedAt));
+  } catch (err) {
+    console.error("Failed to fetch blogs from database:", err);
+    return [];
+  }
+}
+
+/**
+ * Server action to get all team members from database.
+ * Requires admin session.
+ */
+export async function getTeamMembersAction(): Promise<(typeof teamMembers.$inferSelect)[]> {
+  try {
+    await requireAdmin();
+    return await db.select().from(teamMembers);
+  } catch (err) {
+    console.error("Failed to fetch team members from database:", err);
+    return [];
+  }
+}
+
+/**
+ * Server action to create a new blog in database.
+ * Requires admin session.
+ */
+export async function createBlogAction(formData: FormData): Promise<{ success: boolean; error?: string }> {
+  try {
+    await requireAdmin();
+
+    const title = formData.get("title") as string;
+    const slug = formData.get("slug") as string;
+    const category = formData.get("category") as string;
+    const excerpt = formData.get("excerpt") as string;
+    const bodyContent = formData.get("body") as string;
+    const authorName = formData.get("authorName") as string;
+    const authorRole = formData.get("authorRole") as string;
+    const authorBio = formData.get("authorBio") as string;
+    const authorEmail = formData.get("authorEmail") as string;
+    const seoTitle = formData.get("seoTitle") as string;
+    const seoDescription = formData.get("seoDescription") as string;
+    const keywordsStr = formData.get("keywords") as string;
+    const imageFile = formData.get("image") as File | null;
+
+    if (!title || !slug || !bodyContent) {
+      return { success: false, error: "Title, Slug, and Body Content are required." };
+    }
+
+    const existing = await db.select().from(blogs).where(eq(blogs.slug, slug));
+    if (existing.length > 0) {
+      return { success: false, error: "A blog with this slug already exists." };
+    }
+
+    let mainImagePath: string | null = null;
+    if (imageFile && imageFile.size > 0 && typeof imageFile.arrayBuffer === "function") {
+      mainImagePath = await saveUploadedFile(imageFile, "blogs");
+    }
+
+    const paragraphs = bodyContent.split(/\r?\n\r?\n+/).map(p => p.trim()).filter(Boolean);
+    const bodyBlocks = paragraphs.map(p => ({
+      _type: "block",
+      style: "normal",
+      children: [{ _type: "span", text: p }]
+    }));
+    const bodyJson = JSON.stringify(bodyBlocks);
+
+    const keywords = keywordsStr
+      ? keywordsStr.split(",").map(k => k.trim()).filter(Boolean)
+      : [];
+
+    const blogId = "blog-" + crypto.randomUUID().replace(/-/g, "").substring(0, 12);
+
+    await db.insert(blogs).values({
+      id: blogId,
+      title,
+      slug,
+      publishedAt: new Date().toISOString(),
+      category,
+      excerpt,
+      body: bodyJson,
+      mainImage: mainImagePath,
+      authorName,
+      authorRole,
+      authorBio,
+      authorEmail,
+      seoTitle,
+      seoDescription,
+      keywords,
+    });
+
+    revalidatePath("/blog");
+    revalidatePath("/");
+    return { success: true };
+  } catch (err: unknown) {
+    console.error("Failed to create blog post:", err);
+    return { success: false, error: "Failed to create blog post." };
+  }
+}
+
+/**
+ * Server action to update an existing blog in database.
+ * Requires admin session.
+ */
+export async function updateBlogAction(blogId: string, formData: FormData): Promise<{ success: boolean; error?: string }> {
+  try {
+    await requireAdmin();
+
+    const title = formData.get("title") as string;
+    const slug = formData.get("slug") as string;
+    const category = formData.get("category") as string;
+    const excerpt = formData.get("excerpt") as string;
+    const bodyContent = formData.get("body") as string;
+    const authorName = formData.get("authorName") as string;
+    const authorRole = formData.get("authorRole") as string;
+    const authorBio = formData.get("authorBio") as string;
+    const authorEmail = formData.get("authorEmail") as string;
+    const seoTitle = formData.get("seoTitle") as string;
+    const seoDescription = formData.get("seoDescription") as string;
+    const keywordsStr = formData.get("keywords") as string;
+    const imageFile = formData.get("image") as File | null;
+    const removeExistingImage = formData.get("removeImage") === "true";
+
+    if (!title || !slug || !bodyContent) {
+      return { success: false, error: "Title, Slug, and Body Content are required." };
+    }
+
+    const existing = await db.select().from(blogs).where(eq(blogs.slug, slug));
+    const otherBlogsWithSlug = existing.filter(b => b.id !== blogId);
+    if (otherBlogsWithSlug.length > 0) {
+      return { success: false, error: "A blog with this slug already exists." };
+    }
+
+    const currentBlogs = await db.select().from(blogs).where(eq(blogs.id, blogId));
+    if (currentBlogs.length === 0) {
+      return { success: false, error: "Blog post not found." };
+    }
+    const currentBlog = currentBlogs[0];
+
+    let mainImagePath = currentBlog.mainImage;
+    if (removeExistingImage) {
+      mainImagePath = null;
+    } else if (imageFile && imageFile.size > 0 && typeof imageFile.arrayBuffer === "function") {
+      mainImagePath = await saveUploadedFile(imageFile, "blogs");
+    }
+
+    const paragraphs = bodyContent.split(/\r?\n\r?\n+/).map(p => p.trim()).filter(Boolean);
+    const bodyBlocks = paragraphs.map(p => ({
+      _type: "block",
+      style: "normal",
+      children: [{ _type: "span", text: p }]
+    }));
+    const bodyJson = JSON.stringify(bodyBlocks);
+
+    const keywords = keywordsStr
+      ? keywordsStr.split(",").map(k => k.trim()).filter(Boolean)
+      : [];
+
+    await db.update(blogs).set({
+      title,
+      slug,
+      category,
+      excerpt,
+      body: bodyJson,
+      mainImage: mainImagePath,
+      authorName,
+      authorRole,
+      authorBio,
+      authorEmail,
+      seoTitle,
+      seoDescription,
+      keywords,
+    }).where(eq(blogs.id, blogId));
+
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${slug}`);
+    revalidatePath("/");
+    return { success: true };
+  } catch (err: unknown) {
+    console.error("Failed to update blog post:", err);
+    return { success: false, error: "Failed to update blog post." };
+  }
+}
+
+/**
+ * Server action to delete an existing blog post from database.
+ * Requires admin session.
+ */
+export async function deleteBlogAction(blogId: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    await requireAdmin();
+
+    await db.delete(blogs).where(eq(blogs.id, blogId));
+
+    revalidatePath("/blog");
+    revalidatePath("/");
+    return { success: true };
+  } catch (err: unknown) {
+    console.error("Failed to delete blog post:", err);
+    return { success: false, error: "Failed to delete blog post." };
   }
 }

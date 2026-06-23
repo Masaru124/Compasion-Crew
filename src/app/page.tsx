@@ -3,14 +3,31 @@ import { WorkAreas } from "@/components/work-areas";
 import { StorySection } from "@/components/story-section";
 import { CTASection } from "@/components/cta-section";
 import { LatestBlogPosts } from "@/components/latest-blog-posts";
-import { client } from "@/sanity/client";
-import {
-  workAreasQuery,
-  storiesQuery,
-  heroSectionQuery,
-  ctaSectionQuery,
-  latestBlogsQuery,
-} from "@/sanity/queries";
+import { FAQSection } from "@/components/faq-section";
+import { db } from "@/db";
+import { heroSection, ctaSection, workAreas, stories, blogs } from "@/db/schema";
+import { eq, desc } from "drizzle-orm";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "COMPASSION CREW | Social Impact NGO in Bangalore",
+  description: "Join COMPASSION CREW, Bangalore's leading social impact community and NGO. Participate in community events, volunteer drives, youth mentorship, and animal rescue campaigns. 80G tax benefits.",
+  keywords: [
+    "NGO in Bangalore",
+    "social impact community Bangalore",
+    "volunteer opportunities Bangalore",
+    "80G tax deductible donations India",
+    "youth mentorship Bangalore NGO",
+    "animal welfare Bangalore volunteer",
+    "women empowerment Bangalore NGO",
+    "community engagement events Bangalore",
+    "COMPASSION CREW",
+    "Compassion Crew NGO Bangalore"
+  ],
+  alternates: {
+    canonical: "/",
+  }
+};
 
 export const revalidate = 60;
 
@@ -19,26 +36,29 @@ export default async function Home() {
   let storiesData = null;
   let heroData = null;
   let ctaData = null;
-  let latestBlogs = [];
+  let latestBlogs: (typeof blogs.$inferSelect & { _id: string })[] = [];
 
   try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      const [areas, stories, hero, cta, blogs] = await Promise.all([
-        client.fetch(workAreasQuery),
-        client.fetch(storiesQuery),
-        client.fetch(heroSectionQuery),
-        client.fetch(ctaSectionQuery),
-        client.fetch(latestBlogsQuery),
-      ]);
+    const [areas, listStories, heroList, ctaList, blogsList] = await Promise.all([
+      db.select().from(workAreas),
+      db.select().from(stories).where(eq(stories.approved, true)),
+      db.select().from(heroSection).limit(1),
+      db.select().from(ctaSection).limit(1),
+      db.select().from(blogs).orderBy(desc(blogs.publishedAt)).limit(3),
+    ]);
 
-      if (areas && areas.length > 0) workAreasData = areas;
-      if (stories && stories.length > 0) storiesData = stories;
-      if (hero) heroData = hero;
-      if (cta) ctaData = cta;
-      if (blogs && blogs.length > 0) latestBlogs = blogs;
+    if (areas && areas.length > 0) workAreasData = areas;
+    if (listStories && listStories.length > 0) storiesData = listStories;
+    if (heroList && heroList.length > 0) heroData = heroList[0];
+    if (ctaList && ctaList.length > 0) ctaData = ctaList[0];
+    if (blogsList && blogsList.length > 0) {
+      latestBlogs = blogsList.map(b => ({
+        ...b,
+        _id: b.id,
+      }));
     }
   } catch (error) {
-    console.error("Failed to fetch homepage data from Sanity:", error);
+    console.error("Failed to fetch homepage data from Postgres:", error);
   }
 
   return (
@@ -47,8 +67,8 @@ export default async function Home() {
       <WorkAreas initialWorkAreas={workAreasData || undefined} />
       <StorySection initialStories={storiesData || undefined} />
       <LatestBlogPosts posts={latestBlogs} />
+      <FAQSection />
       <CTASection initialCTA={ctaData || undefined} />
     </>
   );
 }
-

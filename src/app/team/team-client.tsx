@@ -9,9 +9,9 @@ interface TeamMemberItem {
   name: string;
   role: string;
   bio: string;
-  linkedin?: string;
-  x?: string;
-  email?: string;
+  linkedin?: string | null;
+  x?: string | null;
+  email?: string | null;
 }
 
 const defaultTeamMembers: TeamMemberItem[] = [
@@ -74,7 +74,7 @@ export function TeamPageClient({ initialTeamMembers }: TeamPageClientProps) {
               Our Team
             </span>
             <h1 className="font-heading text-fluid-hero text-foreground mb-6 tracking-tight">
-              The People Behind Our Mission
+              Our NGO Coordinators & Volunteer Organizers
             </h1>
             <p className="text-muted-foreground">
               Meet the dedicated individuals who work tirelessly to make our
@@ -150,7 +150,7 @@ export function TeamPageClient({ initialTeamMembers }: TeamPageClientProps) {
             transition={{ duration: 0.5 }}
           >
             <h2 className="font-heading text-fluid-section text-primary-foreground mb-4 tracking-tight">
-              Join Our Team
+              Join Our NGO Team in Bangalore
             </h2>
             <p className="text-primary-foreground/70 mb-8 max-w-xl mx-auto">
               We&apos;re always looking for passionate individuals who want to

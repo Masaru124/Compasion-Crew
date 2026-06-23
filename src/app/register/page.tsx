@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 };
 
 export default async function RegisterPage() {
-  let eventsData: any[] = [];
+  let eventsData: (typeof events.$inferSelect)[] = [];
   
   try {
     const list = await db.select().from(events);
     // Filter to upcoming events where registration is open
-    eventsData = list.filter((e: any) => !e.isPast && e.registrationOpen !== false);
+    eventsData = list.filter((e) => !e.isPast && e.registrationOpen !== false);
   } catch (error) {
     console.error("Failed to fetch upcoming events for registration:", error);
   }

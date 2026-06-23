@@ -1,6 +1,7 @@
 import { BlogClient } from "./blog-client";
-import { client } from "@/sanity/client";
-import { blogsQuery } from "@/sanity/queries";
+import { db } from "@/db";
+import { blogs } from "@/db/schema";
+import { desc } from "drizzle-orm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -42,14 +43,21 @@ export default async function BlogPage() {
   let blogsData = null;
 
   try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      const data = await client.fetch(blogsQuery);
-      if (data && data.length > 0) {
-        blogsData = data;
-      }
+    const list = await db.select().from(blogs).orderBy(desc(blogs.publishedAt));
+    if (list && list.length > 0) {
+      blogsData = list.map((b) => ({
+        ...b,
+        _id: b.id,
+        author: {
+          name: b.authorName || "",
+          role: b.authorRole || "",
+          bio: b.authorBio || "",
+          email: b.authorEmail || "",
+        },
+      }));
     }
   } catch (error) {
-    console.error("Failed to fetch blog posts from Sanity:", error);
+    console.error("Failed to fetch blog posts from Postgres:", error);
   }
 
   return (
@@ -62,4 +70,3 @@ export default async function BlogPage() {
     </>
   );
 }
-

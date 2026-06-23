@@ -9,7 +9,6 @@ import { Search, Calendar, User, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { urlFor } from "@/sanity/client";
 
 export interface BlogPost {
   _id: string;
@@ -26,6 +25,9 @@ export interface BlogPost {
     email?: string;
   };
   authorNameFallback?: string;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  keywords?: string[] | null;
 }
 
 // Fallback mock blogs if Sanity returns empty or is not configured yet
@@ -49,7 +51,7 @@ const defaultBlogs: BlogPost[] = [
     publishedAt: "2026-06-15T09:00:00Z",
     excerpt: "Explore the psychological, social, and physical benefits of volunteering, and learn how dedicating just two hours a week can create ripples of positive change in your community.",
     category: "Volunteering",
-    authorNameFallback: "Matharrishwa",
+    authorNameFallback: "Matharishwa",
   },
   {
     _id: "default-3",
@@ -79,9 +81,6 @@ export function BlogClient({ initialBlogs }: BlogClientProps) {
   const getImageUrl = (img: any) => {
     if (!img) return "/images/social_impact_blog.png";
     if (typeof img === "string") return img;
-    if (img.asset || img._type === "image") {
-      return urlFor(img).url() || "/images/social_impact_blog.png";
-    }
     return "/images/social_impact_blog.png";
   };
 

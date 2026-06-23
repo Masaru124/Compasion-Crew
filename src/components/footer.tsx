@@ -2,8 +2,8 @@ import Link from "next/link";
 import { Heart, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { client } from "@/sanity/client";
-import { siteSettingsQuery } from "@/sanity/queries";
+import { db } from "@/db";
+import { siteSettings } from "@/db/schema";
 
 const footerLinks = {
   organization: [
@@ -39,20 +39,19 @@ export async function Footer() {
   let settings: SiteSettings = defaultSettings;
 
   try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      const data = await client.fetch(siteSettingsQuery);
-      if (data) {
-        settings = {
-          email: data.email || defaultSettings.email,
-          phone: data.phone || defaultSettings.phone,
-          address: data.address || defaultSettings.address,
-          footerDescription: data.footerDescription || defaultSettings.footerDescription,
-          copyrightText: data.copyrightText || defaultSettings.copyrightText,
-        };
-      }
+    const list = await db.select().from(siteSettings).limit(1);
+    if (list && list.length > 0) {
+      const data = list[0];
+      settings = {
+        email: data.email || defaultSettings.email,
+        phone: data.phone || defaultSettings.phone,
+        address: data.address || defaultSettings.address,
+        footerDescription: data.footerDescription || defaultSettings.footerDescription,
+        copyrightText: data.copyrightText || defaultSettings.copyrightText,
+      };
     }
   } catch (error) {
-    console.error("Failed to fetch footer settings from Sanity:", error);
+    console.error("Failed to fetch footer settings from Postgres:", error);
   }
 
   return (

@@ -3,16 +3,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { urlFor } from "@/sanity/client";
 
 interface WorkAreaItem {
   id: string;
   title: string;
   description: string;
-  image: any;
+  image: string | null | undefined;
   href?: string;
   number: string;
 }
@@ -69,13 +65,9 @@ export function WorkAreas({ initialWorkAreas }: WorkAreasProps) {
   const [hoveredImage, setHoveredImage] = useState<string | null>(null);
   const [cycledImageIndex, setCycledImageIndex] = useState(0);
 
-  const getImageUrl = (img: any) => {
+  const getImageUrl = (img: string | null | undefined) => {
     if (!img) return "/images/children1.jpg";
     if (typeof img === "string") return img;
-    // Check if it's a Sanity image reference
-    if (img.asset || img._type === "image") {
-      return urlFor(img).url() || "/images/children1.jpg";
-    }
     return "/images/children1.jpg";
   };
 

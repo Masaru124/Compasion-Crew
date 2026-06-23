@@ -34,7 +34,9 @@ export function Navbar() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center backdrop-blur-2xl"
+        className={`fixed top-0 left-0 right-0 z-50 flex justify-center backdrop-blur-2xl transition-all duration-300 ${
+          isScrolled ? "bg-background/85 border-b border-border/60 shadow-sm" : ""
+        }`}
       >
         <nav
           className={`flex items-center section-container justify-between transition-all duration-300 py-4 w-full max-w-[--container-max]`}

@@ -1,5 +1,5 @@
-import { client } from "@/sanity/client";
-import { volunteerPageQuery } from "@/sanity/queries";
+import { db } from "@/db";
+import { volunteerPage } from "@/db/schema";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -37,47 +37,22 @@ const defaultVolunteer: VolunteerData = {
   formHeight: 3600,
 };
 
-const volunteerSchema = {
-  "@context": "https://schema.org",
-  "@type": "VolunteerAction",
-  "name": "Volunteer with COMPASSION CREW in Bangalore",
-  "description": "Support community events, expert talks, youth mentorship, and social awareness campaigns across Bangalore and India.",
-  "provider": {
-    "@type": "NGO",
-    "name": "COMPASSION CREW",
-    "url": "https://www.compassioncrew.in",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Bangalore",
-      "addressRegion": "Karnataka",
-      "addressCountry": "IN"
-    }
-  }
-};
-
 export default async function VolunteerPage() {
   let volunteerData = null;
 
   try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      const data = await client.fetch(volunteerPageQuery);
-      if (data) {
-        volunteerData = data;
-      }
+    const list = await db.select().from(volunteerPage).limit(1);
+    if (list && list.length > 0) {
+      volunteerData = list[0];
     }
   } catch (error) {
-    console.error("Failed to fetch volunteer settings from Sanity:", error);
+    console.error("Failed to fetch volunteer settings from Postgres:", error);
   }
 
   const data = volunteerData || defaultVolunteer;
 
   return (
     <div className="planner-bg">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(volunteerSchema) }}
-      />
-
       <section className="pt-32 pb-16">
         <div className="section-container max-w-4xl mx-auto text-center">
           <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
@@ -146,4 +121,3 @@ export default async function VolunteerPage() {
     </div>
   );
 }
-

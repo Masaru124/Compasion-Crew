@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { headers } from "next/headers";
-import { client } from "@/sanity/client";
+import { db } from "@/db";
+import { blogs } from "@/db/schema";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const headersList = await headers();
@@ -18,19 +19,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamically fetch blog posts for the sitemap
   let blogRoutes: MetadataRoute.Sitemap = [];
   try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      const posts = await client.fetch(`*[_type == "post"] { "slug": slug.current, _updatedAt }`);
-      if (posts && posts.length > 0) {
-        blogRoutes = posts.map((post: { slug: string; _updatedAt?: string }) => ({
-          url: `${baseUrl}/blog/${post.slug}`,
-          lastModified: post._updatedAt ? new Date(post._updatedAt) : new Date(),
-          changeFrequency: "weekly" as "daily" | "weekly" | "always" | "hourly" | "daily" | "monthly" | "yearly" | "never",
-          priority: 0.7,
-        }));
-      }
+    const list = await db.select({ slug: blogs.slug, publishedAt: blogs.publishedAt }).from(blogs);
+    if (list && list.length > 0) {
+      blogRoutes = list.map((post: { slug: string; publishedAt?: string }) => ({
+        url: `${baseUrl}/blog/${post.slug}`,
+        lastModified: post.publishedAt ? new Date(post.publishedAt) : new Date(),
+        changeFrequency: "weekly" as "daily" | "weekly" | "always" | "hourly" | "daily" | "monthly" | "yearly" | "never",
+        priority: 0.7,
+      }));
     }
   } catch (error) {
-    console.error("Failed to fetch blog post slugs for sitemap:", error);
+    console.error("Failed to fetch blog post slugs for sitemap from Postgres:", error);
   }
 
   return [...routes, ...blogRoutes];

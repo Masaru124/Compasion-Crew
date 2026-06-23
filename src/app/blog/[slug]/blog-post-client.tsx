@@ -9,7 +9,6 @@ import { ArrowLeft, Calendar, User, Clock, Link2, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { urlFor } from "@/sanity/client";
 import type { BlogPost } from "../blog-client";
 
 interface BlogPostClientProps {
@@ -35,9 +34,6 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
   const getImageUrl = (img: any) => {
     if (!img) return "/images/social_impact_blog.png";
     if (typeof img === "string") return img;
-    if (img.asset || img._type === "image") {
-      return urlFor(img).url() || "/images/social_impact_blog.png";
-    }
     return "/images/social_impact_blog.png";
   };
 
@@ -167,11 +163,12 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
     },
     types: {
       image: ({ value }: any) => {
+        const srcUrl = typeof value === "string" ? value : (value?.url || value?.asset?.url || "/images/social_impact_blog.png");
         return (
           <div className="relative h-64 md:h-[400px] w-full my-8 rounded-lg overflow-hidden border border-border shadow-sm">
             <Image
-              src={urlFor(value).url() || "/images/social_impact_blog.png"}
-              alt={value.alt || "Article Image"}
+              src={srcUrl}
+              alt={value?.alt || "Article Image"}
               fill
               sizes="(max-width: 1024px) 100vw, 800px"
               className="object-cover"
@@ -189,13 +186,17 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
     "description": post.excerpt,
     "image": getImageUrl(post.mainImage),
     "datePublished": post.publishedAt,
+    "dateModified": post.publishedAt,
+    "keywords": post.keywords ? post.keywords.join(", ") : undefined,
     "author": {
       "@type": "Person",
       "name": post.author?.name || post.authorNameFallback || "COMPASSION CREW",
-      "jobTitle": post.author?.role || "Team Member"
+      "jobTitle": post.author?.role || "Team Member",
+      "description": post.author?.bio || undefined,
+      "email": post.author?.email || undefined
     },
     "publisher": {
-      "@type": "NGO",
+      "@type": "Organization",
       "name": "COMPASSION CREW",
       "url": "https://www.compassioncrew.in",
       "logo": {

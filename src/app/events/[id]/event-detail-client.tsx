@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { urlFor } from "@/sanity/client";
 
 interface EventItem {
   id: string;
@@ -110,9 +109,6 @@ export function EventDetailClient({ event }: EventDetailClientProps) {
   const getImageUrl = (img: any) => {
     if (!img) return null;
     if (typeof img === "string") return img;
-    if (img.asset || img._type === "image") {
-      return urlFor(img).url();
-    }
     return null;
   };
 

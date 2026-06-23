@@ -1,6 +1,6 @@
 import { FounderPageClient } from "./founder-client";
-import { client } from "@/sanity/client";
-import { founderPageQuery } from "@/sanity/queries";
+import { db } from "@/db";
+import { founderPage } from "@/db/schema";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,14 +18,12 @@ export default async function FounderPage() {
   let founderData = null;
 
   try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      const data = await client.fetch(founderPageQuery);
-      if (data) {
-        founderData = data;
-      }
+    const list = await db.select().from(founderPage).limit(1);
+    if (list && list.length > 0) {
+      founderData = list[0];
     }
   } catch (error) {
-    console.error("Failed to fetch founder details from Sanity:", error);
+    console.error("Failed to fetch founder details from Postgres:", error);
   }
 
   return <FounderPageClient initialFounder={founderData || undefined} />;
