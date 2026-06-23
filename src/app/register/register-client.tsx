@@ -10,16 +10,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
-const events = [
-  { id: 1, title: "Annual Fundraising Gala", date: "December 15, 2024", location: "Taj Mahal Palace, Mumbai" },
-  { id: 2, title: "Women Empowerment Workshop", date: "November 20, 2024", location: "Community Center, Delhi" },
-  { id: 3, title: "Animal Adoption Drive", date: "December 5, 2024", location: "COMPASSION Animal Shelter, Pune" },
-  { id: 4, title: "Children's Education Camp", date: "January 10-16, 2025", location: "Rural School, Rajasthan" },
-  { id: 5, title: "Volunteer Training Program", date: "December 1, 2024", location: "Online (Zoom)" },
-  { id: 6, title: "Clean Water Initiative Launch", date: "November 30, 2024", location: "Village Square, Maharashtra" },
-];
+interface EventItem {
+  _id: string;
+  title: string;
+  date: string;
+  location: string;
+}
 
-function RegisterContent() {
+function RegisterContent({ initialEvents = [] }: { initialEvents?: EventItem[] }) {
   const searchParams = useSearchParams();
   const eventId = searchParams.get("event");
 
@@ -35,7 +33,7 @@ function RegisterContent() {
     setIsSubmitted(true);
   };
 
-  const selectedEventData = events.find((e) => e.id.toString() === selectedEvent);
+  const selectedEventData = initialEvents.find((e) => e._id === selectedEvent);
 
   if (isSubmitted) {
     return (
@@ -126,8 +124,8 @@ function RegisterContent() {
                   className="h-12 w-full min-w-0 rounded-xl border border-input bg-white px-3 py-2 text-sm text-foreground transition-all outline-none appearance-none cursor-pointer focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 dark:bg-muted/50"
                 >
                   <option value="">Choose an event</option>
-                  {events.map((event) => (
-                    <option key={event.id} value={event.id}>
+                  {initialEvents.map((event) => (
+                    <option key={event._id} value={event._id}>
                       {event.title}
                     </option>
                   ))}
@@ -221,10 +219,14 @@ function RegisterContent() {
   );
 }
 
-export function RegisterClient() {
+interface RegisterClientProps {
+  initialEvents?: EventItem[];
+}
+
+export function RegisterClient({ initialEvents }: RegisterClientProps) {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>}>
-      <RegisterContent />
+      <RegisterContent initialEvents={initialEvents} />
     </Suspense>
   );
 }

@@ -17,8 +17,8 @@ const fallbackBlogs: Record<string, BlogPost & { body: any }> = {
     category: "Social Impact",
     author: {
       name: "Khushi Kalpesh Joshi",
-      role: "Co-Founder & COO",
-      bio: "Operations expert with 10+ years in NGO management. Leads our ground initiatives across India.",
+      role: "Founder & Director",
+      bio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
     },
     body: [
       {

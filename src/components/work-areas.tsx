@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +23,7 @@ const workAreas: WorkAreaItem[] = [
     title: "Expert Talks & Knowledge Sessions",
     description:
       "Bringing industry experts, leaders, and changemakers together to share insights, experiences, and practical knowledge that inspire personal growth and social impact.",
-    image: "/images/yoga.jpeg",
+    image: "/images/children1.jpg",
     number: "01",
   },
   {
@@ -31,7 +31,7 @@ const workAreas: WorkAreaItem[] = [
     title: "Community Engagement Events",
     description:
       "Interactive events that foster networking, collaboration, and meaningful discussions around social responsibility and personal development.",
-    image: "/images/yoga2.jpeg",
+    image: "/images/children2.jpg",
     number: "02",
   },
   {
@@ -39,7 +39,7 @@ const workAreas: WorkAreaItem[] = [
     title: "Volunteer & Service Initiatives",
     description:
       "Structured opportunities for students, professionals, and changemakers to contribute their time and skills to support local community needs and social causes.",
-    image: "/images/yoga3.png",
+    image: "/images/children3.jpg",
     number: "03",
   },
   {
@@ -47,7 +47,7 @@ const workAreas: WorkAreaItem[] = [
     title: "Social Awareness Campaigns",
     description:
       "Programs designed to educate, discuss, and raise awareness about important social issues affecting communities and underserved groups.",
-    image: "/images/yoga4.png",
+    image: "/images/children4.jpg",
     number: "04",
   },
   {
@@ -55,7 +55,7 @@ const workAreas: WorkAreaItem[] = [
     title: "Compassion Projects",
     description:
       "Targeted impact initiatives focusing on future community support systems for children, senior citizens, education, and animal welfare.",
-    image: "/images/yoga.jpeg",
+    image: "/images/children5.jpg",
     number: "05",
   },
 ];
@@ -66,19 +66,39 @@ interface WorkAreasProps {
 
 export function WorkAreas({ initialWorkAreas }: WorkAreasProps) {
   const displayWorkAreas = initialWorkAreas || workAreas;
-  const [activeImage, setActiveImage] = useState<string | null>(null);
+  const [hoveredImage, setHoveredImage] = useState<string | null>(null);
+  const [cycledImageIndex, setCycledImageIndex] = useState(0);
 
   const getImageUrl = (img: any) => {
-    if (!img) return "/images/yoga.jpeg";
+    if (!img) return "/images/children1.jpg";
     if (typeof img === "string") return img;
     // Check if it's a Sanity image reference
     if (img.asset || img._type === "image") {
-      return urlFor(img).url() || "/images/yoga.jpeg";
+      return urlFor(img).url() || "/images/children1.jpg";
     }
-    return "/images/yoga.jpeg";
+    return "/images/children1.jpg";
   };
 
-  const currentImage = activeImage || getImageUrl(displayWorkAreas[0]?.image);
+  const allImages = [
+    "/images/children1.jpg",
+    "/images/children2.jpg",
+    "/images/children3.jpg",
+    "/images/children4.jpg",
+    "/images/children5.jpg"
+  ];
+
+  useEffect(() => {
+    if (hoveredImage !== null || allImages.length === 0) return;
+
+    const interval = setInterval(() => {
+      setCycledImageIndex((prevIndex) => (prevIndex + 1) % allImages.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [hoveredImage, allImages.length]);
+
+  const currentImage = hoveredImage || allImages[cycledImageIndex] || "/images/children.jpg";
+
   return (
     <section id="work" className="bg-background">
       <div className="section-container section-padding">
@@ -127,7 +147,8 @@ export function WorkAreas({ initialWorkAreas }: WorkAreasProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                onMouseEnter={() => setActiveImage(getImageUrl(area.image))}
+                onMouseEnter={() => setHoveredImage(getImageUrl(area.image))}
+                onMouseLeave={() => setHoveredImage(null)}
               >
                 <div className="block lg:hidden w-full h-[300px] relative rounded overflow-hidden mb-8 border border-border/50">
                   <Image

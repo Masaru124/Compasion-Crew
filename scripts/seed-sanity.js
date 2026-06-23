@@ -54,8 +54,8 @@ const milestones = [
 const teamMembers = [
   {
     name: "Khushi Kalpesh Joshi",
-    role: "Co-Founder & COO",
-    bio: "Operations expert with 10+ years in NGO management. Leads our ground initiatives across India.",
+    role: "Founder & Director",
+    bio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
     linkedin: "https://linkedin.com",
     x: "https://x.com",
     email: "khushi@campasioncrew.org"
@@ -160,35 +160,35 @@ const workAreas = [
     id: "expert-talks",
     title: "Expert Talks & Knowledge Sessions",
     description: "Bringing industry experts, leaders, and changemakers together to share insights, experiences, and practical knowledge that inspire personal growth and social impact.",
-    imagePath: "public/images/yoga.jpeg",
+    imagePath: "public/images/children1.jpg",
     number: "01",
   },
   {
     id: "community-events",
     title: "Community Engagement Events",
     description: "Interactive events that foster networking, collaboration, and meaningful discussions around social responsibility and personal development.",
-    imagePath: "public/images/yoga2.jpeg",
+    imagePath: "public/images/children2.jpg",
     number: "02",
   },
   {
     id: "volunteer-initiatives",
     title: "Volunteer & Service Initiatives",
     description: "Structured opportunities for students, professionals, and changemakers to contribute their time and skills to support local community needs and social causes.",
-    imagePath: "public/images/yoga3.png",
+    imagePath: "public/images/children3.jpg",
     number: "03",
   },
   {
     id: "awareness-campaigns",
     title: "Social Awareness Campaigns",
     description: "Programs designed to educate, discuss, and raise awareness about important social issues affecting communities and underserved groups.",
-    imagePath: "public/images/yoga4.png",
+    imagePath: "public/images/children4.jpg",
     number: "04",
   },
   {
     id: "compassion-projects",
     title: "Compassion Projects",
     description: "Targeted impact initiatives focusing on future community support systems for children, senior citizens, education, and animal welfare.",
-    imagePath: "public/images/yoga.jpeg",
+    imagePath: "public/images/children5.jpg",
     number: "05",
   },
 ];
@@ -247,8 +247,14 @@ const founderData = {
   name: "Khushi Kalpesh Joshi",
   role: "Founder & Director",
   biography: [
-    "Khushi Kalpesh Joshi founded COMPASSION CREW in 2018 with a simple yet profound vision: to build a compassionate society where individuals are empowered to learn, serve, and create meaningful change in their communities.",
-    "With a heart that beats for service, Khushi has dedicated her life to creating platforms for connection and learning. Under her leadership, COMPASSION CREW has grown from a small initiative to a social impact movement connecting students, professionals, and leaders across India."
+    "Khushi Kalpesh Joshi founded COMPASSION CREW in 2026 with a simple yet profound vision: to build a compassionate society where individuals are empowered to learn, serve, and create meaningful change in their communities.",
+    "With a heart that beats for service, she has dedicated her life to creating platforms for connection and learning. Under her leadership, COMPASSION CREW has grown from a small initiative to a social impact movement connecting students, professionals, and leaders across India.",
+    "Like many young people, we saw social issues around us—children needing support, elderly people facing loneliness, animals in need of care, and communities that could benefit from more compassion and connection. We wanted to help, but we also realized that many people who wanted to contribute didn't know where to start.",
+    "What began as an idea soon became a mission: to create a platform where people could learn, connect, and take meaningful action together.",
+    "We started with limited resources but a clear purpose. Instead of waiting for funding or perfect conditions, we focused on building a community. Through expert talks, community events, volunteering opportunities, and awareness initiatives, Compassion Crew aims to inspire individuals to use their time, skills, and energy to create positive change.",
+    "Our journey is still in its early stages, but our vision is long-term. We believe that small acts of compassion, when multiplied by a community of committed people, can create a lasting impact.",
+    "Compassion Crew is more than an organization—it's a movement built on the idea that everyone has the power to contribute, regardless of their background, experience, or resources.",
+    "This is only the beginning."
   ],
   imagePath: "public/images/founders.jpeg"
 };

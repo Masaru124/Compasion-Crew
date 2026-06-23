@@ -41,36 +41,7 @@ export default async function EventsPage() {
     console.error("Failed to fetch events from Sanity:", error);
   }
 
-  // Generate Event schemas for structured data
-  const activeEvents = eventsData || [
-    {
-      id: 1,
-      title: "Expert Talk: Inspiring Social Changemakers",
-      description: "Join us for an inspiring session with social leaders sharing practical knowledge on sustainable development and social entrepreneurship.",
-      date: "October 10, 2026",
-      time: "5:00 PM - 7:00 PM",
-      location: "National Institute of Design, Bangalore",
-      category: "Expert Talk",
-    },
-    {
-      id: 2,
-      title: "Community Connection: Local Action Meetup",
-      description: "An interactive networking event to exchange ideas, connect with fellow changemakers, and discuss grassroots collaboration.",
-      date: "November 14, 2026",
-      time: "4:00 PM - 6:30 PM",
-      location: "Community Center, Indiranagar, Bangalore",
-      category: "Community Meetup",
-    },
-    {
-      id: 3,
-      title: "Volunteer Service Drive: Youth Mentorship Camp",
-      description: "Contribute your time and skills by mentoring children from underserved communities in basic digital and creative skills.",
-      date: "December 5, 2026",
-      time: "10:00 AM - 3:00 PM",
-      location: "Government High School, Bangalore",
-      category: "Service Drive",
-    }
-  ];
+  const activeEvents = eventsData || [];
 
   const schemaData = activeEvents.map((event: any) => ({
     "@context": "https://schema.org",
@@ -109,7 +80,7 @@ export default async function EventsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
-      <EventsPageClient initialEvents={eventsData || undefined} />
+      <EventsPageClient initialEvents={eventsData || []} />
     </>
   );
 }

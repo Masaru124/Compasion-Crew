@@ -15,8 +15,14 @@ const defaultFounder: FounderData = {
   name: "Khushi Kalpesh Joshi",
   role: "Founder & Director",
   biography: [
-    "Khushi Kalpesh Joshi founded COMPASSION CREW in 2018 with a simple yet profound vision: to create a world where every life is valued equally. Her journey began after witnessing the struggles of marginalized communities during her travels across rural India.",
-    "With a background in social work and a heart that beats for service, Khushi has dedicated her life to bridging the gap between privilege and poverty. Under her leadership, COMPASSION CREW has grown from a small initiative to a nationwide movement touching over 50,000 lives."
+    "Khushi Kalpesh Joshi founded COMPASSION CREW in 2026 with a simple yet profound vision: to build a compassionate society where individuals are empowered to learn, serve, and create meaningful change in their communities.",
+    "With a heart that beats for service, she has dedicated her life to creating platforms for connection and learning. Under her leadership, COMPASSION CREW has grown from a small initiative to a social impact movement connecting students, professionals, and leaders across India.",
+    "Like many young people, we saw social issues around us—children needing support, elderly people facing loneliness, animals in need of care, and communities that could benefit from more compassion and connection. We wanted to help, but we also realized that many people who wanted to contribute didn't know where to start.",
+    "What began as an idea soon became a mission: to create a platform where people could learn, connect, and take meaningful action together.",
+    "We started with limited resources but a clear purpose. Instead of waiting for funding or perfect conditions, we focused on building a community. Through expert talks, community events, volunteering opportunities, and awareness initiatives, Compassion Crew aims to inspire individuals to use their time, skills, and energy to create positive change.",
+    "Our journey is still in its early stages, but our vision is long-term. We believe that small acts of compassion, when multiplied by a community of committed people, can create a lasting impact.",
+    "Compassion Crew is more than an organization—it's a movement built on the idea that everyone has the power to contribute, regardless of their background, experience, or resources.",
+    "This is only the beginning."
   ],
   image: "/images/founders.jpeg"
 };

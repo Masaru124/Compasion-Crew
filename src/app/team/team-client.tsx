@@ -17,8 +17,8 @@ interface TeamMemberItem {
 const defaultTeamMembers: TeamMemberItem[] = [
   {
     name: "Khushi Kalpesh Joshi",
-    role: "Co-Founder & COO",
-    bio: "Operations expert with 10+ years in NGO management. Leads our ground initiatives across India.",
+    role: "Founder & Director",
+    bio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
   },
   {
     name: "Bharath S",
@@ -47,7 +47,7 @@ const defaultTeamMembers: TeamMemberItem[] = [
     email: "ravikirantsrk@gmail.com",
   },
   {
-    name: "Matharrishwa",
+    name: "Matharishwa",
     role: "Volunteer Coordinator",
     bio: "Community builder managing our network of 500+ volunteers across 15 states.",
   },

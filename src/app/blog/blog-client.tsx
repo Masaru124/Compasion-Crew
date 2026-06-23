@@ -39,7 +39,7 @@ const defaultBlogs: BlogPost[] = [
     category: "Social Impact",
     author: {
       name: "Khushi Kalpesh Joshi",
-      role: "Co-Founder & COO",
+      role: "Founder & Director",
     },
   },
   {

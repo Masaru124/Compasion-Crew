@@ -1,13 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Calendar, MapPin, Clock, Users, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Calendar, MapPin, Clock, Users, ImageIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { urlFor } from "@/sanity/client";
 
 interface EventItem {
-  id: number | string;
+  _id: string;
   title: string;
   description: string;
   date: string;
@@ -15,60 +18,52 @@ interface EventItem {
   location: string;
   category: string;
   spots: number;
+  image?: any;
+  isPast?: boolean;
+  registrationOpen?: boolean;
+  details?: string;
+  gallery?: any[];
 }
 
-const defaultEvents: EventItem[] = [
-  {
-    id: 1,
-    title: "Expert Talk: Inspiring Social Changemakers",
-    description: "Join us for an inspiring session with social leaders sharing practical knowledge on sustainable development and social entrepreneurship.",
-    date: "October 10, 2026",
-    time: "5:00 PM - 7:00 PM",
-    location: "National Institute of Design, Bangalore",
-    category: "Expert Talk",
-    spots: 150,
-  },
-  {
-    id: 2,
-    title: "Community Connection: Local Action Meetup",
-    description: "An interactive networking event to exchange ideas, connect with fellow changemakers, and discuss grassroots collaboration.",
-    date: "November 14, 2026",
-    time: "4:00 PM - 6:30 PM",
-    location: "Community Center, Indiranagar, Bangalore",
-    category: "Community Meetup",
-    spots: 80,
-  },
-  {
-    id: 3,
-    title: "Volunteer Service Drive: Youth Mentorship Camp",
-    description: "Contribute your time and skills by mentoring children from underserved communities in basic digital and creative skills.",
-    date: "December 5, 2026",
-    time: "10:00 AM - 3:00 PM",
-    location: "Government High School, Bangalore",
-    category: "Service Drive",
-    spots: 50,
-  },
-  {
-    id: 4,
-    title: "Social Awareness Campaign: Sustainable Living",
-    description: "A public campaign promoting sustainable lifestyle practices, zero-waste initiatives, and ecological responsibility.",
-    date: "December 20, 2026",
-    time: "9:00 AM - 1:00 PM",
-    location: "Cubbon Park, Bangalore",
-    category: "Campaign",
-    spots: 120,
-  },
-  {
-    id: 5,
-    title: "Compassion Project Planning Workshop",
-    description: "Co-create our future compassion initiatives focusing on child support, education assistance, and senior citizen welfare.",
-    date: "January 15, 2027",
-    time: "11:00 AM - 1:30 PM",
-    location: "Online (Zoom)",
-    category: "Workshop",
-    spots: 250,
-  },
-];
+// Date & Time Formatting Helpers
+const formatEventDate = (dateStr: string) => {
+  try {
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) {
+      return d.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }
+  } catch (e) {}
+  return dateStr;
+};
+
+const formatEventTime = (timeStr: string) => {
+  try {
+    const clean = timeStr.trim().toLowerCase();
+    if (clean.includes("am") || clean.includes("pm")) {
+      return timeStr;
+    }
+    const [hoursStr, minutesStr] = clean.split(":");
+    const hours = parseInt(hoursStr, 10);
+    const ampm = hours >= 12 ? "PM" : "AM";
+    const formattedHours = hours % 12 || 12;
+    return `${formattedHours}:${minutesStr} ${ampm}`;
+  } catch (e) {
+    return timeStr;
+  }
+};
+
+const formatEventTimeRange = (timeRangeStr: string) => {
+  if (!timeRangeStr) return "";
+  const parts = timeRangeStr.split(" - ");
+  if (parts.length === 2) {
+    return `${formatEventTime(parts[0])} - ${formatEventTime(parts[1])}`;
+  }
+  return formatEventTime(timeRangeStr);
+};
 
 const getCategoryVariant = (category: string) => {
   const variants: Record<string, "default" | "accent" | "success" | "warning" | "secondary" | "outline"> = {
@@ -82,15 +77,32 @@ const getCategoryVariant = (category: string) => {
 };
 
 interface EventsPageClientProps {
-  initialEvents?: EventItem[];
+  initialEvents: EventItem[];
 }
 
 export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
-  const displayEvents = initialEvents || defaultEvents;
+  const displayEvents = initialEvents || [];
+  const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
+
+  // Group events
+  const upcomingEvents = displayEvents.filter((event) => !event.isPast);
+  const pastEvents = displayEvents.filter((event) => event.isPast);
+  const currentList = activeTab === "upcoming" ? upcomingEvents : pastEvents;
+
+  const getEventImageUrl = (img: any) => {
+    if (!img) return null;
+    if (typeof img === "string") return img;
+    if (img.asset || img._type === "image") {
+      return urlFor(img).url();
+    }
+    return null;
+  };
+
 
   return (
-    <div className="planner-bg">
-      <section className="pt-32 pb-20">
+    <div className="planner-bg min-h-screen pb-24">
+      {/* Hero Header */}
+      <section className="pt-32 pb-16">
         <div className="section-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -102,69 +114,164 @@ export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
               Events & Programmes
             </span>
             <h1 className="font-heading text-fluid-hero text-foreground mb-6 tracking-tight">
-              Community Events, Expert Talks & Volunteer Drives in Bangalore
+              Community Events, Expert Talks & Volunteer Drives
             </h1>
             <p className="text-muted-foreground">
-              From high-impact expert talk sessions at Bangalore&apos;s top institutions to hands-on youth mentorship camps and social awareness campaigns — our events connect changemakers, educators, and volunteers across India.
+              From high-impact expert talk sessions to hands-on volunteer campaigns and local action meetups — find out what is coming up next or explore details from past events.
             </p>
           </motion.div>
         </div>
       </section>
 
-      <section className="section-padding border-t border-border">
-        <div className="section-container">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayEvents.map((event, index) => (
-              <motion.div
-                key={event.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="bg-card border border-border rounded-xl shadow-sm overflow-hidden flex flex-col"
-              >
-                <div className="p-8 flex-1 flex flex-col">
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <h3 className="font-heading text-xl font-medium text-foreground tracking-tight">
-                      {event.title}
-                    </h3>
-                    <Badge variant={getCategoryVariant(event.category)} className="flex-shrink-0">
-                      {event.category}
-                    </Badge>
-                  </div>
-                  <p className="text-muted-foreground text-sm mb-6 flex-1">
-                    {event.description}
-                  </p>
-
-                  <div className="space-y-2 mb-6">
-                    <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                      <Calendar className="w-4 h-4 text-terracotta shrink-0" />
-                      <span>{event.date}</span>
-                    </div>
-                    <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                      <Clock className="w-4 h-4 text-terracotta shrink-0" />
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                      <MapPin className="w-4 h-4 text-terracotta shrink-0" />
-                      <span>{event.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                      <Users className="w-4 h-4 text-terracotta shrink-0" />
-                      <span>{event.spots} spots available</span>
-                    </div>
-                  </div>
-
-                  <Link href={`/register?event=${event.id}`}>
-                    <Button className="w-full">
-                      Register Now
-                      <ArrowRight className="w-4 h-4 ml-1.5" />
-                    </Button>
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
+      {/* Tab Switcher */}
+      <section className="pb-12">
+        <div className="section-container flex justify-center">
+          <div className="flex rounded-xl bg-card border border-border p-1.5 shadow-sm">
+            <button
+              onClick={() => setActiveTab("upcoming")}
+              className={`px-6 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${
+                activeTab === "upcoming"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Upcoming ({upcomingEvents.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("past")}
+              className={`px-6 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${
+                activeTab === "past"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Past / Recap ({pastEvents.length})
+            </button>
           </div>
+        </div>
+      </section>
+
+      {/* Events List */}
+      <section>
+        <div className="section-container">
+          {currentList.length === 0 ? (
+            <div className="text-center py-16 bg-card border border-border rounded-2xl shadow-sm max-w-xl mx-auto">
+              <Calendar className="w-12 h-12 text-muted-foreground/30 mb-4 mx-auto" />
+              <p className="text-muted-foreground font-medium">No events found in this category.</p>
+              <p className="text-xs text-muted-foreground/60 mt-1">Check back later or explore other sections.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {currentList.map((event, index) => {
+                const coverUrl = getEventImageUrl(event.image);
+                const hasGallery = event.gallery && event.gallery.length > 0;
+                return (
+                  <motion.div
+                    key={event._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                    className="bg-card border border-border rounded-xl shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow group"
+                  >
+                    {/* Event Cover Image */}
+                    <Link
+                      href={`/events/${event._id}`}
+                      className="h-48 relative bg-muted flex items-center justify-center text-muted-foreground overflow-hidden cursor-pointer block"
+                    >
+                      {coverUrl ? (
+                        <Image
+                          src={coverUrl}
+                          alt={event.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-102"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-terracotta/10 flex items-center justify-center">
+                          <ImageIcon className="w-8 h-8 opacity-25" />
+                        </div>
+                      )}
+                      <div className="absolute top-4 left-4">
+                        <Badge variant={getCategoryVariant(event.category)}>
+                          {event.category}
+                        </Badge>
+                      </div>
+                      {hasGallery && (
+                        <div className="absolute bottom-3 right-3 bg-black/60 text-white text-[9px] font-semibold px-2 py-0.5 rounded backdrop-blur-sm">
+                          + {event.gallery!.length} Photos
+                        </div>
+                      )}
+                    </Link>
+
+                    {/* Content */}
+                    <div className="p-6 flex-1 flex flex-col">
+                      <h3 className="font-heading text-xl font-medium text-foreground tracking-tight mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                        <Link href={`/events/${event._id}`}>
+                          {event.title}
+                        </Link>
+                      </h3>
+                      <p className="text-muted-foreground text-sm mb-6 line-clamp-3 flex-1">
+                        {event.description}
+                      </p>
+
+                      {/* Icon stats */}
+                      <div className="space-y-2 mb-6 border-t border-b border-border/50 py-4">
+                        <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
+                          <Calendar className="w-4 h-4 text-terracotta shrink-0" />
+                          <span>{formatEventDate(event.date)}</span>
+                        </div>
+                        <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
+                          <Clock className="w-4 h-4 text-terracotta shrink-0" />
+                          <span>{formatEventTimeRange(event.time)}</span>
+                        </div>
+                        <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
+                          <MapPin className="w-4 h-4 text-terracotta shrink-0" />
+                          <span className="truncate">{event.location}</span>
+                        </div>
+                        {!event.isPast && (
+                          <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
+                            <Users className="w-4 h-4 text-terracotta shrink-0" />
+                            <span>{event.spots} spots available</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* CTAs */}
+                      <div className="space-y-2">
+                        {event.isPast ? (
+                          <Link href={`/events/${event._id}`} className="w-full block">
+                            <Button variant="secondary" className="w-full text-xs h-10">
+                              View Recap & Details
+                            </Button>
+                          </Link>
+                        ) : (
+                          <div className="flex gap-2">
+                            <Link href={`/events/${event._id}`} className="flex-1 block">
+                              <Button variant="outline" className="w-full text-xs h-10">
+                                View Details
+                              </Button>
+                            </Link>
+                            {event.registrationOpen ? (
+                              <Link href={`/register?event=${event._id}`} className="flex-1 block">
+                                <Button className="w-full text-xs h-10">
+                                  Register
+                                </Button>
+                              </Link>
+                            ) : (
+                              <Button disabled className="flex-1 text-xs h-10">
+                                Closed
+                              </Button>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
     </div>
