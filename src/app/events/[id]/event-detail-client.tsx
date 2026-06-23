@@ -20,7 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { urlFor } from "@/sanity/client";
 
 interface EventItem {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   date: string;
@@ -31,8 +31,8 @@ interface EventItem {
   image?: any;
   isPast?: boolean;
   registrationOpen?: boolean;
-  details?: string;
-  gallery?: any[];
+  details?: string | null;
+  gallery?: any[] | null;
 }
 
 interface EventDetailClientProps {
@@ -302,7 +302,7 @@ export function EventDetailClient({ event }: EventDetailClientProps) {
                       Past Event Recap
                     </Button>
                   ) : event.registrationOpen ? (
-                    <Link href={`/register?event=${event._id}`} className="block w-full">
+                    <Link href={`/register?event=${event.id}`} className="block w-full">
                       <Button className="w-full h-11 text-xs uppercase tracking-wider font-semibold">
                         Register to Event
                       </Button>

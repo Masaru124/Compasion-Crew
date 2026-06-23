@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
 interface EventItem {
-  _id: string;
+  id: string;
   title: string;
   date: string;
   location: string;
@@ -33,7 +33,7 @@ function RegisterContent({ initialEvents = [] }: { initialEvents?: EventItem[] }
     setIsSubmitted(true);
   };
 
-  const selectedEventData = initialEvents.find((e) => e._id === selectedEvent);
+  const selectedEventData = initialEvents.find((e) => e.id === selectedEvent);
 
   if (isSubmitted) {
     return (
@@ -125,7 +125,7 @@ function RegisterContent({ initialEvents = [] }: { initialEvents?: EventItem[] }
                 >
                   <option value="">Choose an event</option>
                   {initialEvents.map((event) => (
-                    <option key={event._id} value={event._id}>
+                    <option key={event.id} value={event.id}>
                       {event.title}
                     </option>
                   ))}

@@ -25,7 +25,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { client, urlFor } from "@/sanity/client";
-import { allStoriesQuery, eventsQuery } from "@/sanity/queries";
+import { allStoriesQuery } from "@/sanity/queries";
 import {
   verifyAdminPasswordAction,
   toggleApproveStoryAction,
@@ -33,6 +33,7 @@ import {
   createEventAction,
   updateEventAction,
   deleteEventAction,
+  getEventsAction,
 } from "@/app/actions/moderator-actions";
 import Image from "next/image";
 
@@ -177,7 +178,7 @@ export default function AdminPage() {
   const fetchEvents = useCallback(async () => {
     setIsLoadingEvents(true);
     try {
-      const data = await client.fetch(eventsQuery, {}, { next: { revalidate: 0 } });
+      const data = await getEventsAction();
       setEvents(data || []);
     } catch (err: unknown) {
       console.error("Failed to load events:", err);
@@ -185,7 +186,7 @@ export default function AdminPage() {
     } finally {
       setIsLoadingEvents(false);
     }
-  }, []);
+  }, [getEventsAction]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -301,7 +302,7 @@ export default function AdminPage() {
 
       let res;
       if (editingEvent) {
-        res = await updateEventAction(editingEvent._id, formData);
+        res = await updateEventAction(editingEvent.id, formData);
       } else {
         res = await createEventAction(formData);
       }
@@ -363,7 +364,7 @@ export default function AdminPage() {
     setProcessingId(null);
 
     if (res.success) {
-      setEvents((prev) => prev.filter((ev) => ev._id !== eventId));
+      setEvents((prev) => prev.filter((ev) => ev.id !== eventId));
     } else {
       setActionError(res.error || "Failed to delete event.");
     }
@@ -969,7 +970,7 @@ export default function AdminPage() {
                         const coverUrl = getEventImageUrl(ev.image);
                         return (
                           <div
-                            key={ev._id}
+                            key={ev.id}
                             className="p-5 rounded-xl border border-border bg-background/50 hover:bg-background/80 transition-colors flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
                           >
                             <div className="flex gap-4 items-start max-w-3xl">
@@ -1042,7 +1043,7 @@ export default function AdminPage() {
                               <Button
                                 size="sm"
                                 variant="outline"
-                                disabled={processingId === ev._id}
+                                disabled={processingId === ev.id}
                                 onClick={() => handleStartEditEvent(ev)}
                                 className="rounded-lg h-9 text-xs flex items-center gap-1.5"
                               >
@@ -1053,11 +1054,11 @@ export default function AdminPage() {
                               <Button
                                 size="sm"
                                 variant="destructive"
-                                disabled={processingId === ev._id}
-                                onClick={() => handleDeleteEvent(ev._id)}
+                                disabled={processingId === ev.id}
+                                onClick={() => handleDeleteEvent(ev.id)}
                                 className="rounded-lg h-9 w-9 p-0 flex items-center justify-center hover:bg-destructive"
                               >
-                                {processingId === ev._id ? (
+                                {processingId === ev.id ? (
                                   <div className="animate-spin rounded-full h-3 w-3 border-b border-current" />
                                 ) : (
                                   <Trash2 className="w-3.5 h-3.5" />

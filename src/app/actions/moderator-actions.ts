@@ -3,6 +3,11 @@
 
 import { createClient } from "@sanity/client";
 import { revalidatePath } from "next/cache";
+import { db } from "@/db";
+import { events } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import * as fs from "fs";
+import * as path from "path";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
@@ -132,7 +137,41 @@ export async function deleteStoryAction(
 }
 
 /**
- * Server action to create a new event
+ * Helper to save uploaded files locally to public/images/uploads/
+ */
+async function saveUploadedFile(file: File, subfolder = "uploads"): Promise<string> {
+  const uploadDir = path.join(process.cwd(), "public", "images", subfolder);
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+
+  // Clean filename: remove special characters, append timestamp
+  const timestamp = Date.now();
+  const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+  const filename = `${timestamp}-${cleanName}`;
+  const filePath = path.join(uploadDir, filename);
+
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  fs.writeFileSync(filePath, buffer);
+
+  return `/images/${subfolder}/${filename}`;
+}
+
+/**
+ * Server action to get all events from database
+ */
+export async function getEventsAction(): Promise<any[]> {
+  try {
+    return await db.select().from(events);
+  } catch (err) {
+    console.error("Failed to fetch events from database:", err);
+    return [];
+  }
+}
+
+/**
+ * Server action to create a new event in database
  */
 export async function createEventAction(formData: FormData): Promise<{ success: boolean; error?: string }> {
   try {
@@ -158,40 +197,23 @@ export async function createEventAction(formData: FormData): Promise<{ success: 
       return { success: false, error: "Missing required fields." };
     }
 
-    const writeClient = getWriteClient();
-    let imageAssetRef = null;
-
+    let imagePath: string | null = null;
     if (imageFile && imageFile.size > 0 && typeof imageFile.arrayBuffer === "function") {
-      const arrayBuffer = await imageFile.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      const uploadedAsset = await writeClient.assets.upload("image", buffer, {
-        filename: imageFile.name,
-      });
-      imageAssetRef = uploadedAsset._id;
+      imagePath = await saveUploadedFile(imageFile);
     }
 
-    // Upload gallery images
-    const galleryAssets = [];
+    const galleryPaths: string[] = [];
     for (const file of galleryFiles) {
       if (file && file.size > 0 && typeof file.arrayBuffer === "function") {
-        const arrBuf = await file.arrayBuffer();
-        const buffer = Buffer.from(arrBuf);
-        const uploadedAsset = await writeClient.assets.upload("image", buffer, {
-          filename: file.name,
-        });
-        galleryAssets.push({
-          _type: "image",
-          _key: Math.random().toString(36).substring(2, 9),
-          asset: {
-            _type: "reference",
-            _ref: uploadedAsset._id,
-          },
-        });
+        const path = await saveUploadedFile(file);
+        galleryPaths.push(path);
       }
     }
 
-    const doc: any = {
-      _type: "event",
+    const eventId = "event-" + Math.random().toString(36).substring(2, 9);
+    
+    await db.insert(events).values({
+      id: eventId,
       title,
       description,
       date,
@@ -202,23 +224,10 @@ export async function createEventAction(formData: FormData): Promise<{ success: 
       isPast,
       registrationOpen,
       details,
-    };
+      image: imagePath,
+      gallery: galleryPaths,
+    });
 
-    if (imageAssetRef) {
-      doc.image = {
-        _type: "image",
-        asset: {
-          _type: "reference",
-          _ref: imageAssetRef,
-        },
-      };
-    }
-
-    if (galleryAssets.length > 0) {
-      doc.gallery = galleryAssets;
-    }
-
-    await writeClient.create(doc);
     revalidatePath("/events");
     revalidatePath("/register");
     return { success: true };
@@ -230,7 +239,7 @@ export async function createEventAction(formData: FormData): Promise<{ success: 
 }
 
 /**
- * Server action to update an existing event
+ * Server action to update an existing event in database
  */
 export async function updateEventAction(eventId: string, formData: FormData): Promise<{ success: boolean; error?: string }> {
   try {
@@ -258,8 +267,36 @@ export async function updateEventAction(eventId: string, formData: FormData): Pr
       return { success: false, error: "Missing required fields." };
     }
 
-    const writeClient = getWriteClient();
-    const patchData: any = {
+    const existingEvents = await db.select().from(events).where(eq(events.id, eventId));
+    if (existingEvents.length === 0) {
+      return { success: false, error: "Event not found." };
+    }
+    const currentEvent = existingEvents[0];
+
+    let imagePath = currentEvent.image;
+    if (removeExistingImage) {
+      imagePath = null;
+    } else if (imageFile && imageFile.size > 0 && typeof imageFile.arrayBuffer === "function") {
+      imagePath = await saveUploadedFile(imageFile);
+    }
+
+    let galleryPaths = currentEvent.gallery || [];
+    if (removeExistingGallery) {
+      galleryPaths = [];
+    } else if (galleryFiles.length > 0) {
+      const newPaths: string[] = [];
+      for (const file of galleryFiles) {
+        if (file && file.size > 0 && typeof file.arrayBuffer === "function") {
+          const path = await saveUploadedFile(file);
+          newPaths.push(path);
+        }
+      }
+      if (newPaths.length > 0) {
+        galleryPaths = [...galleryPaths, ...newPaths];
+      }
+    }
+
+    await db.update(events).set({
       title,
       description,
       date,
@@ -270,65 +307,12 @@ export async function updateEventAction(eventId: string, formData: FormData): Pr
       isPast,
       registrationOpen,
       details,
-    };
-
-    if (removeExistingImage) {
-      patchData.image = null;
-    } else if (imageFile && imageFile.size > 0 && typeof imageFile.arrayBuffer === "function") {
-      const arrayBuffer = await imageFile.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      const uploadedAsset = await writeClient.assets.upload("image", buffer, {
-        filename: imageFile.name,
-      });
-      patchData.image = {
-        _type: "image",
-        asset: {
-          _type: "reference",
-          _ref: uploadedAsset._id,
-        },
-      };
-    }
-
-    // Upload new gallery files if any
-    let galleryAssets: any[] = [];
-    if (!removeExistingGallery && galleryFiles.length > 0) {
-      for (const file of galleryFiles) {
-        if (file && file.size > 0 && typeof file.arrayBuffer === "function") {
-          const arrBuf = await file.arrayBuffer();
-          const buffer = Buffer.from(arrBuf);
-          const uploadedAsset = await writeClient.assets.upload("image", buffer, {
-            filename: file.name,
-          });
-          galleryAssets.push({
-            _type: "image",
-            _key: Math.random().toString(36).substring(2, 9),
-            asset: {
-              _type: "reference",
-              _ref: uploadedAsset._id,
-            },
-          });
-        }
-      }
-    }
-
-    if (removeExistingGallery) {
-      patchData.gallery = null;
-    } else if (galleryAssets.length > 0) {
-      patchData.gallery = galleryAssets;
-    }
-
-    const patchOperation = writeClient.patch(eventId).set(patchData);
-    
-    if (removeExistingImage) {
-      patchOperation.unset(["image"]);
-    }
-    if (removeExistingGallery) {
-      patchOperation.unset(["gallery"]);
-    }
-    
-    await patchOperation.commit();
+      image: imagePath,
+      gallery: galleryPaths,
+    }).where(eq(events.id, eventId));
 
     revalidatePath("/events");
+    revalidatePath(`/events/${eventId}`);
     revalidatePath("/register");
     return { success: true };
   } catch (err: unknown) {
@@ -339,7 +323,7 @@ export async function updateEventAction(eventId: string, formData: FormData): Pr
 }
 
 /**
- * Server action to delete an event
+ * Server action to delete an event from database
  */
 export async function deleteEventAction(eventId: string, password: string): Promise<{ success: boolean; error?: string }> {
   try {
@@ -347,8 +331,7 @@ export async function deleteEventAction(eventId: string, password: string): Prom
       return { success: false, error: "Unauthorized: Invalid password" };
     }
 
-    const writeClient = getWriteClient();
-    await writeClient.delete(eventId);
+    await db.delete(events).where(eq(events.id, eventId));
 
     revalidatePath("/events");
     revalidatePath("/register");

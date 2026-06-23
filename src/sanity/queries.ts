@@ -13,21 +13,7 @@ export const teamMembersQuery = `*[_type == "teamMember"] {
   email
 }`;
 
-export const eventsQuery = `*[_type == "event"] | order(date desc) {
-  _id,
-  title,
-  description,
-  date,
-  time,
-  location,
-  category,
-  spots,
-  image,
-  isPast,
-  registrationOpen,
-  details,
-  gallery
-}`;
+
 
 export const workAreasQuery = `*[_type == "workArea"] | order(number asc) {
   id,
@@ -176,21 +162,7 @@ export const latestBlogsQuery = `*[_type == "post"] | order(publishedAt desc)[0.
   category
 }`;
 
-export const eventByIdQuery = `*[_type == "event" && _id == $id][0] {
-  _id,
-  title,
-  description,
-  date,
-  time,
-  location,
-  category,
-  spots,
-  image,
-  isPast,
-  registrationOpen,
-  details,
-  gallery
-}`;
+
 
 
 

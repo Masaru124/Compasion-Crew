@@ -1,5 +1,6 @@
-import { client } from "@/sanity/client";
-import { eventByIdQuery } from "@/sanity/queries";
+import { db } from "@/db";
+import { events } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { EventDetailClient } from "./event-detail-client";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -10,12 +11,9 @@ interface EventPageProps {
 
 export async function generateStaticParams() {
   try {
-    if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      return [];
-    }
-    const events = await client.fetch(`*[_type == "event"] { _id }`);
-    return events.map((ev: { _id: string }) => ({
-      id: ev._id,
+    const list = await db.select({ id: events.id }).from(events);
+    return list.map((ev) => ({
+      id: ev.id,
     }));
   } catch (error) {
     console.error("Error in generateStaticParams for events:", error);
@@ -28,8 +26,9 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
   let event = null;
 
   try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      event = await client.fetch(eventByIdQuery, { id });
+    const list = await db.select().from(events).where(eq(events.id, id));
+    if (list.length > 0) {
+      event = list[0];
     }
   } catch {
     console.error("Error fetching metadata for event page");
@@ -69,11 +68,12 @@ export default async function EventDetailPage({ params }: EventPageProps) {
   let event = null;
 
   try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      event = await client.fetch(eventByIdQuery, { id });
+    const list = await db.select().from(events).where(eq(events.id, id));
+    if (list.length > 0) {
+      event = list[0];
     }
   } catch (error) {
-    console.error("Error fetching event details from Sanity:", error);
+    console.error("Error fetching event details from Neon DB:", error);
   }
 
   if (!event) {

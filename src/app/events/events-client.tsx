@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { urlFor } from "@/sanity/client";
 
 interface EventItem {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   date: string;
@@ -21,8 +21,8 @@ interface EventItem {
   image?: any;
   isPast?: boolean;
   registrationOpen?: boolean;
-  details?: string;
-  gallery?: any[];
+  details?: string | null;
+  gallery?: any[] | null;
 }
 
 // Date & Time Formatting Helpers
@@ -167,7 +167,7 @@ export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
                 const hasGallery = event.gallery && event.gallery.length > 0;
                 return (
                   <motion.div
-                    key={event._id}
+                    key={event.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -176,7 +176,7 @@ export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
                   >
                     {/* Event Cover Image */}
                     <Link
-                      href={`/events/${event._id}`}
+                      href={`/events/${event.id}`}
                       className="h-48 relative bg-muted flex items-center justify-center text-muted-foreground overflow-hidden cursor-pointer block"
                     >
                       {coverUrl ? (
@@ -207,7 +207,7 @@ export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
                     {/* Content */}
                     <div className="p-6 flex-1 flex flex-col">
                       <h3 className="font-heading text-xl font-medium text-foreground tracking-tight mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                        <Link href={`/events/${event._id}`}>
+                        <Link href={`/events/${event.id}`}>
                           {event.title}
                         </Link>
                       </h3>
@@ -240,20 +240,20 @@ export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
                       {/* CTAs */}
                       <div className="space-y-2">
                         {event.isPast ? (
-                          <Link href={`/events/${event._id}`} className="w-full block">
+                          <Link href={`/events/${event.id}`} className="w-full block">
                             <Button variant="secondary" className="w-full text-xs h-10">
                               View Recap & Details
                             </Button>
                           </Link>
                         ) : (
                           <div className="flex gap-2">
-                            <Link href={`/events/${event._id}`} className="flex-1 block">
+                            <Link href={`/events/${event.id}`} className="flex-1 block">
                               <Button variant="outline" className="w-full text-xs h-10">
                                 View Details
                               </Button>
                             </Link>
                             {event.registrationOpen ? (
-                              <Link href={`/register?event=${event._id}`} className="flex-1 block">
+                              <Link href={`/register?event=${event.id}`} className="flex-1 block">
                                 <Button className="w-full text-xs h-10">
                                   Register
                                 </Button>

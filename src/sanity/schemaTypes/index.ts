@@ -1,6 +1,5 @@
 import { milestone } from "./milestone";
 import { teamMember } from "./teamMember";
-import { event } from "./event";
 import { workArea } from "./workArea";
 import { story } from "./story";
 import { impactStat } from "./impactStat";
@@ -15,7 +14,6 @@ import { post } from "./post";
 export const schemaTypes = [
   milestone,
   teamMember,
-  event,
   workArea,
   story,
   impactStat,

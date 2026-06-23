@@ -1,7 +1,8 @@
 import { EventsPageClient } from "./events-client";
-import { client } from "@/sanity/client";
-import { eventsQuery } from "@/sanity/queries";
+import { db } from "@/db";
+import { events } from "@/db/schema";
 import type { Metadata } from "next";
+import { desc } from "drizzle-orm";
 
 export const metadata: Metadata = {
   title: "Upcoming Community Events & Expert Talks",
@@ -28,22 +29,15 @@ const safeParseDate = (dateStr: string) => {
 };
 
 export default async function EventsPage() {
-  let eventsData = null;
+  let eventsData: any[] = [];
 
   try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      const data = await client.fetch(eventsQuery);
-      if (data && data.length > 0) {
-        eventsData = data;
-      }
-    }
+    eventsData = await db.select().from(events).orderBy(desc(events.date));
   } catch (error) {
-    console.error("Failed to fetch events from Sanity:", error);
+    console.error("Failed to fetch events from Neon DB:", error);
   }
 
-  const activeEvents = eventsData || [];
-
-  const schemaData = activeEvents.map((event: any) => ({
+  const schemaData = eventsData.map((event: any) => ({
     "@context": "https://schema.org",
     "@type": "Event",
     "name": event.title,
@@ -80,7 +74,7 @@ export default async function EventsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
-      <EventsPageClient initialEvents={eventsData || []} />
+      <EventsPageClient initialEvents={eventsData} />
     </>
   );
 }
