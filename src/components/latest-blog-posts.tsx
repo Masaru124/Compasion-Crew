@@ -82,7 +82,11 @@ export function LatestBlogPosts({ posts }: LatestBlogPostsProps) {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.08 }}
             >
-              <Link href={`/blog/${post.slug}`} className="group block h-full">
+              <Link
+                href={`/blog/${post.slug}`}
+                className="group block h-full"
+                aria-label={`Read more about: ${post.title}`}
+              >
                 <div className="h-full bg-card border border-border rounded-xl p-6 flex flex-col hover:border-primary/30 hover:shadow-md transition-all duration-200">
                   {/* Category + Date */}
                   <div className="flex items-center justify-between mb-4">

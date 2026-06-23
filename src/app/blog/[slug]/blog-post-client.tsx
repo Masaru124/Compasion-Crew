@@ -448,7 +448,11 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
                     </div>
                   </div>
                   <div className="px-5 pb-5 pt-0">
-                    <Link href={`/blog/${post.slug}`} className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-primary"
+                      aria-label={`Read article: ${post.title}`}
+                    >
                       Read Article &rarr;
                     </Link>
                   </div>

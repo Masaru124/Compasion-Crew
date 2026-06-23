@@ -213,7 +213,10 @@ export function BlogClient({ initialBlogs }: BlogClientProps) {
                   </p>
                 </div>
 
-                <Link href={`/blog/${featuredBlog.slug}`}>
+                <Link
+                  href={`/blog/${featuredBlog.slug}`}
+                  aria-label={`Read featured article: ${featuredBlog.title}`}
+                >
                   <Button className="w-full sm:w-auto flex items-center justify-center gap-2 group-hover:translate-x-0.5 transition-transform">
                     Read Article
                     <ArrowRight className="h-4 w-4" />
@@ -291,7 +294,11 @@ export function BlogClient({ initialBlogs }: BlogClientProps) {
                         </p>
                       </div>
 
-                      <Link href={`/blog/${post.slug}`} className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary-hover group-hover:gap-2.5 transition-all">
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary-hover group-hover:gap-2.5 transition-all"
+                        aria-label={`Read full story: ${post.title}`}
+                      >
                         Read Full Story
                         <ArrowRight className="h-3.5 w-3.5" />
                       </Link>

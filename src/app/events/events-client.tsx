@@ -236,20 +236,32 @@ export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
                       {/* CTAs */}
                       <div className="space-y-2">
                         {event.isPast ? (
-                          <Link href={`/events/${event.id}`} className="w-full block">
+                          <Link
+                            href={`/events/${event.id}`}
+                            className="w-full block"
+                            aria-label={`View recap and details for event: ${event.title}`}
+                          >
                             <Button variant="secondary" className="w-full text-xs h-10">
                               View Recap & Details
                             </Button>
                           </Link>
                         ) : (
                           <div className="flex gap-2">
-                            <Link href={`/events/${event.id}`} className="flex-1 block">
+                            <Link
+                              href={`/events/${event.id}`}
+                              className="flex-1 block"
+                              aria-label={`View details for event: ${event.title}`}
+                            >
                               <Button variant="outline" className="w-full text-xs h-10">
                                 View Details
                               </Button>
                             </Link>
                             {event.registrationOpen ? (
-                              <Link href={`/register?event=${event.id}`} className="flex-1 block">
+                              <Link
+                                href={`/register?event=${event.id}`}
+                                className="flex-1 block"
+                                aria-label={`Register for event: ${event.title}`}
+                              >
                                 <Button className="w-full text-xs h-10">
                                   Register
                                 </Button>
