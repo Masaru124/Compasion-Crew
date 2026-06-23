@@ -34,6 +34,7 @@ export function ShareStoryClient() {
   const [role, setRole] = useState("");
   const [location, setLocation] = useState("");
   const [quote, setQuote] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -77,6 +78,7 @@ export function ShareStoryClient() {
         role: role.trim(),
         location: location.trim(),
         quote: quote.trim(),
+        honeypot,
       });
 
       if (result.success) {
@@ -247,6 +249,7 @@ export function ShareStoryClient() {
                 <Input
                   id="name"
                   required
+                  maxLength={100}
                   placeholder="e.g. Priya Sharma"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -263,6 +266,7 @@ export function ShareStoryClient() {
                   <Input
                     id="role"
                     required
+                    maxLength={100}
                     placeholder="e.g. Volunteer / Donor / Beneficiary"
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
@@ -278,6 +282,7 @@ export function ShareStoryClient() {
                   <Input
                     id="location"
                     required
+                    maxLength={100}
                     placeholder="e.g. Bangalore, Karnataka"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
@@ -295,10 +300,23 @@ export function ShareStoryClient() {
                   id="quote"
                   required
                   rows={6}
+                  maxLength={2000}
                   placeholder="Tell us about your experience, how COMPASSION CREW has influenced you or how you participated..."
                   value={quote}
                   onChange={(e) => setQuote(e.target.value)}
                   disabled={isSubmitting}
+                />
+              </div>
+
+              {/* Honeypot field — hidden from humans, traps bots */}
+              <div className="absolute -left-[9999px]" aria-hidden="true">
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
                 />
               </div>
 

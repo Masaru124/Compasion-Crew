@@ -16,9 +16,7 @@ import {
   Clock,
   Users,
   Image as ImageIcon,
-  Check,
-  X,
-  FileText,
+  Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,7 +25,6 @@ import { Label } from "@/components/ui/label";
 import { client, urlFor } from "@/sanity/client";
 import { allStoriesQuery } from "@/sanity/queries";
 import {
-  verifyAdminPasswordAction,
   toggleApproveStoryAction,
   deleteStoryAction,
   createEventAction,
@@ -36,6 +33,7 @@ import {
   getEventsAction,
 } from "@/app/actions/moderator-actions";
 import Image from "next/image";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 interface Story {
   _id: string;
@@ -44,6 +42,22 @@ interface Story {
   role: string;
   location: string;
   approved: boolean;
+}
+
+interface EventItem {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  category: string;
+  spots: number;
+  image: string | null;
+  isPast: boolean;
+  registrationOpen: boolean;
+  details: string | null;
+  gallery: string[] | null;
 }
 
 interface EventFormState {
@@ -81,7 +95,7 @@ const toISODateString = (dateStr: string) => {
     if (!isNaN(d.getTime())) {
       return d.toISOString().split("T")[0];
     }
-  } catch (e) {}
+  } catch {}
   return "";
 };
 
@@ -99,7 +113,7 @@ const to24hTime = (timeStr: string) => {
       if (ampm === "am" && hours === 12) hours = 0;
       return `${hours.toString().padStart(2, "0")}:${minutes}`;
     }
-  } catch (e) {}
+  } catch {}
   return "";
 };
 
@@ -119,7 +133,11 @@ const parseTimeRange = (timeRangeStr: string) => {
 };
 
 export default function AdminPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
+  const isLoadingSession = status === "loading";
+
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
@@ -132,10 +150,10 @@ export default function AdminPage() {
   const [isLoadingStories, setIsLoadingStories] = useState(true);
 
   // Events state
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<EventItem[]>([]);
   const [isLoadingEvents, setIsLoadingEvents] = useState(true);
   const [showEventForm, setShowEventForm] = useState(false);
-  const [editingEvent, setEditingEvent] = useState<any | null>(null);
+  const [editingEvent, setEditingEvent] = useState<EventItem | null>(null);
   
   const [eventForm, setEventForm] = useState<EventFormState>(initialFormState);
   const [eventFormImage, setEventFormImage] = useState<File | null>(null);
@@ -150,15 +168,6 @@ export default function AdminPage() {
 
   const [actionError, setActionError] = useState("");
   const [processingId, setProcessingId] = useState<string | null>(null);
-
-  // Check session storage for existing auth
-  useEffect(() => {
-    const savedPassword = sessionStorage.getItem("admin_secret");
-    if (savedPassword) {
-      setPassword(savedPassword);
-      setIsAuthenticated(true);
-    }
-  }, []);
 
   // Fetch stories
   const fetchStories = useCallback(async () => {
@@ -186,42 +195,50 @@ export default function AdminPage() {
     } finally {
       setIsLoadingEvents(false);
     }
-  }, [getEventsAction]);
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated) {
       if (activeTab === "testimonials") {
-        fetchStories();
+        const timer = setTimeout(() => {
+          fetchStories();
+        }, 0);
+        return () => clearTimeout(timer);
       } else {
-        fetchEvents();
+        const timer = setTimeout(() => {
+          fetchEvents();
+        }, 0);
+        return () => clearTimeout(timer);
       }
     }
   }, [isAuthenticated, activeTab, fetchStories, fetchEvents]);
 
-  // Handle Login
+  // Handle Login via NextAuth
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError("");
     setIsVerifying(true);
 
-    const res = await verifyAdminPasswordAction(password);
-    setIsVerifying(false);
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
 
-    if (res.success) {
-      sessionStorage.setItem("admin_secret", password);
-      setIsAuthenticated(true);
-    } else {
-      setLoginError(res.error || "Incorrect secret password.");
+      if (res?.error) {
+        setLoginError("Invalid email or password.");
+      }
+    } catch {
+      setLoginError("An error occurred. Please try again.");
+    } finally {
+      setIsVerifying(false);
     }
   };
 
-  // Handle Logout
+  // Handle Logout via NextAuth
   const handleLogout = () => {
-    sessionStorage.removeItem("admin_secret");
-    setIsAuthenticated(false);
-    setPassword("");
-    setStories([]);
-    setEvents([]);
+    signOut({ redirect: false });
   };
 
   // Toggle testimonial approval status
@@ -229,7 +246,7 @@ export default function AdminPage() {
     setProcessingId(storyId);
     setActionError("");
     
-    const res = await toggleApproveStoryAction(storyId, currentStatus, password);
+    const res = await toggleApproveStoryAction(storyId, currentStatus);
     setProcessingId(null);
 
     if (res.success) {
@@ -250,7 +267,7 @@ export default function AdminPage() {
     setProcessingId(storyId);
     setActionError("");
 
-    const res = await deleteStoryAction(storyId, password);
+    const res = await deleteStoryAction(storyId);
     setProcessingId(null);
 
     if (res.success) {
@@ -268,7 +285,6 @@ export default function AdminPage() {
 
     try {
       const formData = new FormData();
-      formData.append("password", password);
       formData.append("title", eventForm.title);
       formData.append("description", eventForm.description);
       formData.append("date", eventForm.date);
@@ -321,14 +337,15 @@ export default function AdminPage() {
       } else {
         setActionError(res.error || "Failed to save event.");
       }
-    } catch (err: any) {
-      setActionError(err.message || "An error occurred while saving the event.");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "An error occurred while saving the event.";
+      setActionError(msg);
     } finally {
       setFormSubmitting(false);
     }
   };
 
-  const handleStartEditEvent = (ev: any) => {
+  const handleStartEditEvent = (ev: EventItem) => {
     const times = parseTimeRange(ev.time);
     
     setEditingEvent(ev);
@@ -360,7 +377,7 @@ export default function AdminPage() {
     setProcessingId(eventId);
     setActionError("");
 
-    const res = await deleteEventAction(eventId, password);
+    const res = await deleteEventAction(eventId);
     setProcessingId(null);
 
     if (res.success) {
@@ -370,11 +387,11 @@ export default function AdminPage() {
     }
   };
 
-  const getEventImageUrl = (img: any) => {
+  const getEventImageUrl = (img: unknown) => {
     if (!img) return null;
     if (typeof img === "string") return img;
-    if (img.asset || img._type === "image") {
-      return urlFor(img).url();
+    if (img && typeof img === "object" && ("asset" in img || "_type" in img)) {
+      return urlFor(img as Parameters<typeof urlFor>[0]).url();
     }
     return null;
   };
@@ -387,6 +404,18 @@ export default function AdminPage() {
   const totalEvents = events.length;
   const upcomingEventsCount = events.filter((ev) => !ev.isPast).length;
   const pastEventsCount = totalEvents - upcomingEventsCount;
+
+  // Render loading state
+  if (isLoadingSession) {
+    return (
+      <main className="planner-bg min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-muted-foreground">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+          <span className="text-sm">Loading...</span>
+        </div>
+      </main>
+    );
+  }
 
   // Render Login Panel
   if (!isAuthenticated) {
@@ -403,11 +432,25 @@ export default function AdminPage() {
               Sign In to Desk
             </h1>
             <p className="text-xs text-muted-foreground mt-2">
-              Enter the admin secret key to access the moderation console.
+              Enter your admin credentials to access the moderation console.
             </p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div className="space-y-2 relative">
+              <div className="absolute left-3.5 top-[38px] text-muted-foreground">
+                <Mail className="w-4 h-4" />
+              </div>
+              <Input
+                type="email"
+                required
+                placeholder="Admin email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="pl-10 h-12 rounded-xl bg-background/50 border border-border/80 focus-visible:ring-accent"
+              />
+            </div>
+
             <div className="space-y-2 relative">
               <div className="absolute left-3.5 top-[38px] text-muted-foreground">
                 <Lock className="w-4 h-4" />
@@ -415,7 +458,7 @@ export default function AdminPage() {
               <Input
                 type="password"
                 required
-                placeholder="Enter secret password"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-10 h-12 rounded-xl bg-background/50 border border-border/80 focus-visible:ring-accent"
@@ -435,7 +478,7 @@ export default function AdminPage() {
               disabled={isVerifying}
               className="w-full rounded-xl hover:-translate-y-0.5 transition-transform"
             >
-              {isVerifying ? "Verifying secret..." : "Access Desk"}
+              {isVerifying ? "Signing in..." : "Sign In"}
             </Button>
           </form>
         </div>
@@ -863,7 +906,7 @@ export default function AdminPage() {
                           </Button>
                         </div>
                         <div className="flex flex-wrap gap-2 p-2 rounded-lg border border-border bg-muted/30">
-                          {editingEvent.gallery.map((img: any, i: number) => {
+                          {editingEvent.gallery.map((img: string, i: number) => {
                             const url = getEventImageUrl(img);
                             return url ? (
                               <div key={i} className="relative w-12 h-12 rounded overflow-hidden border border-border/80">

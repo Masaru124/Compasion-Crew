@@ -6,14 +6,20 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/db";
 import { events } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { auth } from "@/lib/auth";
+import { storySubmitLimiter } from "@/lib/rate-limit";
+import { headers } from "next/headers";
+import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
+import * as crypto from "crypto";
+
+// ─── Sanity Write Client ────────────────────────────────────────────────────
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 const token = process.env.SANITY_API_WRITE_TOKEN;
 
-// Initialize write client dynamically
 function getWriteClient() {
   if (!projectId || !token) {
     throw new Error("Sanity write credentials missing in environment variables.");
@@ -27,44 +33,162 @@ function getWriteClient() {
   });
 }
 
-/**
- * Checks if the password provided matches the configured ADMIN_PASSWORD
- */
-function verifyPassword(password: string): boolean {
-  const adminPassword = process.env.ADMIN_PASSWORD || "admin";
-  return password === adminPassword;
-}
+// ─── Auth Helper ────────────────────────────────────────────────────────────
 
 /**
- * Server action to verify admin password
+ * Verifies the current user has a valid admin session.
+ * Throws an error if unauthenticated — call at the top of every admin action.
  */
-export async function verifyAdminPasswordAction(password: string): Promise<{ success: boolean; error?: string }> {
-  try {
-    const isValid = verifyPassword(password);
-    if (!isValid) {
-      return { success: false, error: "Invalid password" };
-    }
-    return { success: true };
-  } catch (err: unknown) {
-    const errorMsg = err instanceof Error ? err.message : "An unexpected error occurred.";
-    return { success: false, error: errorMsg };
+async function requireAdmin(): Promise<void> {
+  const session = await auth();
+  if (!session?.user) {
+    throw new Error("Unauthorized");
   }
 }
 
 /**
- * Server action for users to submit a new story
+ * Get client IP address from request headers for rate limiting.
+ */
+async function getClientIP(): Promise<string> {
+  const hdrs = await headers();
+  return (
+    hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    hdrs.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
+// ─── Validation Schemas ─────────────────────────────────────────────────────
+
+const storySchema = z.object({
+  quote: z.string().min(1, "Quote is required").max(2000, "Quote is too long (max 2000 characters)"),
+  name: z.string().min(1, "Name is required").max(100, "Name is too long (max 100 characters)"),
+  role: z.string().min(1, "Role is required").max(100, "Role is too long (max 100 characters)"),
+  location: z.string().min(1, "Location is required").max(100, "Location is too long (max 100 characters)"),
+});
+
+const eventFieldsSchema = z.object({
+  title: z.string().min(1, "Title is required").max(200, "Title is too long"),
+  description: z.string().min(1, "Description is required").max(2000, "Description is too long"),
+  date: z.string().min(1, "Date is required"),
+  time: z.string().min(1, "Time is required"),
+  location: z.string().min(1, "Location is required").max(300, "Location is too long"),
+  category: z.string().min(1, "Category is required").max(100, "Category is too long"),
+  details: z.string().max(10000, "Details are too long").optional().default(""),
+});
+
+// ─── File Upload Security ───────────────────────────────────────────────────
+
+const ALLOWED_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
+const ALLOWED_MIME_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+]);
+
+// Magic byte signatures for image formats
+const MAGIC_BYTES: { type: string; bytes: number[] }[] = [
+  { type: "image/jpeg", bytes: [0xff, 0xd8, 0xff] },
+  { type: "image/png", bytes: [0x89, 0x50, 0x4e, 0x47] },
+  { type: "image/gif", bytes: [0x47, 0x49, 0x46] },
+  { type: "image/webp", bytes: [0x52, 0x49, 0x46, 0x46] }, // RIFF header
+];
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB per file
+
+/**
+ * Validates and saves an uploaded file securely.
+ * - Validates file extension, MIME type, and magic bytes
+ * - Enforces per-file size limit
+ * - Generates a cryptographically random filename
+ */
+async function saveUploadedFile(file: File, subfolder = "uploads"): Promise<string> {
+  // 1. Validate file size
+  if (file.size > MAX_FILE_SIZE) {
+    throw new Error(`File too large. Maximum size is ${MAX_FILE_SIZE / 1024 / 1024}MB.`);
+  }
+
+  // 2. Validate file extension
+  const originalName = file.name || "unknown";
+  const ext = path.extname(originalName).toLowerCase();
+  if (!ALLOWED_EXTENSIONS.has(ext)) {
+    throw new Error(`File type not allowed. Accepted: ${[...ALLOWED_EXTENSIONS].join(", ")}`);
+  }
+
+  // 3. Validate MIME type
+  if (!ALLOWED_MIME_TYPES.has(file.type)) {
+    throw new Error(`Invalid file type: ${file.type}. Only images are accepted.`);
+  }
+
+  // 4. Read file content and validate magic bytes
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  const fileBytes = Array.from(buffer.subarray(0, 8));
+
+  const matchesMagic = MAGIC_BYTES.some((magic) =>
+    magic.bytes.every((byte, i) => fileBytes[i] === byte)
+  );
+
+  if (!matchesMagic) {
+    throw new Error("File content does not match a valid image format.");
+  }
+
+  // 5. Generate secure random filename (no user-controlled data in the path)
+  const uploadDir = path.join(process.cwd(), "public", "images", subfolder);
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+
+  const randomId = crypto.randomUUID();
+  const safeFilename = `${randomId}${ext}`;
+  const filePath = path.join(uploadDir, safeFilename);
+
+  // 6. Write file
+  fs.writeFileSync(filePath, buffer);
+
+  return `/images/${subfolder}/${safeFilename}`;
+}
+
+// ─── Public Actions ─────────────────────────────────────────────────────────
+
+/**
+ * Server action for users to submit a new story.
+ * Rate-limited and input-validated. No authentication required.
  */
 export async function submitStoryAction(formData: {
   quote: string;
   name: string;
   role: string;
   location: string;
+  honeypot?: string;
 }): Promise<{ success: boolean; error?: string }> {
   try {
-    const { quote, name, role, location } = formData;
-    if (!quote || !name || !role || !location) {
-      return { success: false, error: "All fields are required." };
+    // Honeypot check — if the hidden field has a value, it's a bot
+    if (formData.honeypot) {
+      // Silently succeed to not reveal detection
+      return { success: true };
     }
+
+    // Rate limiting
+    const ip = await getClientIP();
+    const rateLimitResult = storySubmitLimiter.check(ip);
+    if (rateLimitResult.limited) {
+      const minutes = Math.ceil((rateLimitResult.retryAfterMs || 0) / 60000);
+      return {
+        success: false,
+        error: `Too many submissions. Please try again in ${minutes} minute(s).`,
+      };
+    }
+
+    // Validate input
+    const parsed = storySchema.safeParse(formData);
+    if (!parsed.success) {
+      const firstError = parsed.error.issues[0]?.message || "Invalid input.";
+      return { success: false, error: firstError };
+    }
+
+    const { quote, name, role, location } = parsed.data;
 
     const writeClient = getWriteClient();
     await writeClient.create({
@@ -73,29 +197,41 @@ export async function submitStoryAction(formData: {
       name,
       role,
       location,
-      approved: false, // Hidden by default until approved
+      approved: false,
     });
 
     return { success: true };
   } catch (err: unknown) {
     console.error("Failed to submit story:", err);
-    const errorMsg = err instanceof Error ? err.message : "Failed to submit. Please try again.";
-    return { success: false, error: errorMsg };
+    return { success: false, error: "Failed to submit. Please try again." };
+  }
+}
+
+// ─── Admin Actions (Session-Protected) ──────────────────────────────────────
+
+/**
+ * Server action to get all events from database.
+ * Requires admin session.
+ */
+export async function getEventsAction(): Promise<(typeof events.$inferSelect)[]> {
+  try {
+    await requireAdmin();
+    return await db.select().from(events);
+  } catch (err) {
+    console.error("Failed to fetch events from database:", err);
+    return [];
   }
 }
 
 /**
- * Server action for admins to toggle the approved status of a story
+ * Server action for admins to toggle the approved status of a story.
  */
 export async function toggleApproveStoryAction(
   storyId: string,
-  currentStatus: boolean,
-  password: string
+  currentStatus: boolean
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    if (!verifyPassword(password)) {
-      return { success: false, error: "Unauthorized: Invalid password" };
-    }
+    await requireAdmin();
 
     const writeClient = getWriteClient();
     await writeClient
@@ -107,22 +243,18 @@ export async function toggleApproveStoryAction(
     return { success: true };
   } catch (err: unknown) {
     console.error("Failed to toggle story approval:", err);
-    const errorMsg = err instanceof Error ? err.message : "Failed to update status.";
-    return { success: false, error: errorMsg };
+    return { success: false, error: "Failed to update status." };
   }
 }
 
 /**
- * Server action for admins to delete a story
+ * Server action for admins to delete a story.
  */
 export async function deleteStoryAction(
-  storyId: string,
-  password: string
+  storyId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    if (!verifyPassword(password)) {
-      return { success: false, error: "Unauthorized: Invalid password" };
-    }
+    await requireAdmin();
 
     const writeClient = getWriteClient();
     await writeClient.delete(storyId);
@@ -131,54 +263,16 @@ export async function deleteStoryAction(
     return { success: true };
   } catch (err: unknown) {
     console.error("Failed to delete story:", err);
-    const errorMsg = err instanceof Error ? err.message : "Failed to delete story.";
-    return { success: false, error: errorMsg };
+    return { success: false, error: "Failed to delete story." };
   }
 }
 
 /**
- * Helper to save uploaded files locally to public/images/uploads/
- */
-async function saveUploadedFile(file: File, subfolder = "uploads"): Promise<string> {
-  const uploadDir = path.join(process.cwd(), "public", "images", subfolder);
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
-
-  // Clean filename: remove special characters, append timestamp
-  const timestamp = Date.now();
-  const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-  const filename = `${timestamp}-${cleanName}`;
-  const filePath = path.join(uploadDir, filename);
-
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-  fs.writeFileSync(filePath, buffer);
-
-  return `/images/${subfolder}/${filename}`;
-}
-
-/**
- * Server action to get all events from database
- */
-export async function getEventsAction(): Promise<any[]> {
-  try {
-    return await db.select().from(events);
-  } catch (err) {
-    console.error("Failed to fetch events from database:", err);
-    return [];
-  }
-}
-
-/**
- * Server action to create a new event in database
+ * Server action to create a new event in database.
  */
 export async function createEventAction(formData: FormData): Promise<{ success: boolean; error?: string }> {
   try {
-    const password = formData.get("password") as string;
-    if (!verifyPassword(password)) {
-      return { success: false, error: "Unauthorized: Invalid password" };
-    }
+    await requireAdmin();
 
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
@@ -189,12 +283,15 @@ export async function createEventAction(formData: FormData): Promise<{ success: 
     const spots = parseInt(formData.get("spots") as string) || 0;
     const isPast = formData.get("isPast") === "true";
     const registrationOpen = formData.get("registrationOpen") === "true";
-    const details = formData.get("details") as string;
+    const details = (formData.get("details") as string) || "";
     const imageFile = formData.get("image") as File | null;
     const galleryFiles = formData.getAll("gallery") as File[];
 
-    if (!title || !description || !date || !time || !location || !category) {
-      return { success: false, error: "Missing required fields." };
+    // Validate required fields
+    const parsed = eventFieldsSchema.safeParse({ title, description, date, time, location, category, details });
+    if (!parsed.success) {
+      const firstError = parsed.error.issues[0]?.message || "Invalid input.";
+      return { success: false, error: firstError };
     }
 
     let imagePath: string | null = null;
@@ -205,25 +302,25 @@ export async function createEventAction(formData: FormData): Promise<{ success: 
     const galleryPaths: string[] = [];
     for (const file of galleryFiles) {
       if (file && file.size > 0 && typeof file.arrayBuffer === "function") {
-        const path = await saveUploadedFile(file);
-        galleryPaths.push(path);
+        const savedPath = await saveUploadedFile(file);
+        galleryPaths.push(savedPath);
       }
     }
 
-    const eventId = "event-" + Math.random().toString(36).substring(2, 9);
-    
+    const eventId = "event-" + crypto.randomUUID().replace(/-/g, "").substring(0, 12);
+
     await db.insert(events).values({
       id: eventId,
-      title,
-      description,
-      date,
-      time,
-      location,
-      category,
+      title: parsed.data.title,
+      description: parsed.data.description,
+      date: parsed.data.date,
+      time: parsed.data.time,
+      location: parsed.data.location,
+      category: parsed.data.category,
       spots,
       isPast,
       registrationOpen,
-      details,
+      details: parsed.data.details,
       image: imagePath,
       gallery: galleryPaths,
     });
@@ -233,20 +330,16 @@ export async function createEventAction(formData: FormData): Promise<{ success: 
     return { success: true };
   } catch (err: unknown) {
     console.error("Failed to create event:", err);
-    const errorMsg = err instanceof Error ? err.message : "Failed to create event.";
-    return { success: false, error: errorMsg };
+    return { success: false, error: "Failed to create event." };
   }
 }
 
 /**
- * Server action to update an existing event in database
+ * Server action to update an existing event in database.
  */
 export async function updateEventAction(eventId: string, formData: FormData): Promise<{ success: boolean; error?: string }> {
   try {
-    const password = formData.get("password") as string;
-    if (!verifyPassword(password)) {
-      return { success: false, error: "Unauthorized: Invalid password" };
-    }
+    await requireAdmin();
 
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
@@ -257,14 +350,17 @@ export async function updateEventAction(eventId: string, formData: FormData): Pr
     const spots = parseInt(formData.get("spots") as string) || 0;
     const isPast = formData.get("isPast") === "true";
     const registrationOpen = formData.get("registrationOpen") === "true";
-    const details = formData.get("details") as string;
+    const details = (formData.get("details") as string) || "";
     const imageFile = formData.get("image") as File | null;
     const removeExistingImage = formData.get("removeImage") === "true";
     const removeExistingGallery = formData.get("removeGallery") === "true";
     const galleryFiles = formData.getAll("gallery") as File[];
 
-    if (!title || !description || !date || !time || !location || !category) {
-      return { success: false, error: "Missing required fields." };
+    // Validate required fields
+    const parsed = eventFieldsSchema.safeParse({ title, description, date, time, location, category, details });
+    if (!parsed.success) {
+      const firstError = parsed.error.issues[0]?.message || "Invalid input.";
+      return { success: false, error: firstError };
     }
 
     const existingEvents = await db.select().from(events).where(eq(events.id, eventId));
@@ -287,8 +383,8 @@ export async function updateEventAction(eventId: string, formData: FormData): Pr
       const newPaths: string[] = [];
       for (const file of galleryFiles) {
         if (file && file.size > 0 && typeof file.arrayBuffer === "function") {
-          const path = await saveUploadedFile(file);
-          newPaths.push(path);
+          const savedPath = await saveUploadedFile(file);
+          newPaths.push(savedPath);
         }
       }
       if (newPaths.length > 0) {
@@ -297,16 +393,16 @@ export async function updateEventAction(eventId: string, formData: FormData): Pr
     }
 
     await db.update(events).set({
-      title,
-      description,
-      date,
-      time,
-      location,
-      category,
+      title: parsed.data.title,
+      description: parsed.data.description,
+      date: parsed.data.date,
+      time: parsed.data.time,
+      location: parsed.data.location,
+      category: parsed.data.category,
       spots,
       isPast,
       registrationOpen,
-      details,
+      details: parsed.data.details,
       image: imagePath,
       gallery: galleryPaths,
     }).where(eq(events.id, eventId));
@@ -317,19 +413,16 @@ export async function updateEventAction(eventId: string, formData: FormData): Pr
     return { success: true };
   } catch (err: unknown) {
     console.error("Failed to update event:", err);
-    const errorMsg = err instanceof Error ? err.message : "Failed to update event.";
-    return { success: false, error: errorMsg };
+    return { success: false, error: "Failed to update event." };
   }
 }
 
 /**
- * Server action to delete an event from database
+ * Server action to delete an event from database.
  */
-export async function deleteEventAction(eventId: string, password: string): Promise<{ success: boolean; error?: string }> {
+export async function deleteEventAction(eventId: string): Promise<{ success: boolean; error?: string }> {
   try {
-    if (!verifyPassword(password)) {
-      return { success: false, error: "Unauthorized: Invalid password" };
-    }
+    await requireAdmin();
 
     await db.delete(events).where(eq(events.id, eventId));
 
@@ -338,7 +431,6 @@ export async function deleteEventAction(eventId: string, password: string): Prom
     return { success: true };
   } catch (err: unknown) {
     console.error("Failed to delete event:", err);
-    const errorMsg = err instanceof Error ? err.message : "Failed to delete event.";
-    return { success: false, error: errorMsg };
+    return { success: false, error: "Failed to delete event." };
   }
 }
