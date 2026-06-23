@@ -14,7 +14,7 @@ export function AboutPageClient() {
     "@context": "https://schema.org",
     "@type": "AboutPage",
     "name": "About COMPASSION CREW NGO Bangalore",
-    "description": "Learn about COMPASSION CREW, a registered social impact NGO in Bangalore operating since 2018. Discover our mission, core values, and programs in educating underprivileged children, empowering women, and rescuing animals across India.",
+    "description": "Learn about COMPASSION CREW, a registered social impact NGO in Bangalore operating since 2026. Discover our mission, core values, and programs in educating underprivileged children, empowering women, and rescuing animals across India.",
     "publisher": {
       "@type": "NGO",
       "name": "COMPASSION CREW",
@@ -43,7 +43,7 @@ export function AboutPageClient() {
               About COMPASSION CREW — Social Impact Community Founded in Bangalore
             </h1>
             <p className="text-muted-foreground">
-              Founded in 2018, COMPASSION CREW is a registered social impact organization connecting students, working professionals, and changemakers through expert talks, volunteering opportunities, and structured community campaigns that drive real, measurable change across India.
+              Founded in 2026, COMPASSION CREW is a registered social impact organization connecting students, working professionals, and changemakers through expert talks, volunteering opportunities, and structured community campaigns that drive real, measurable change across India.
             </p>
             <p className="text-muted-foreground mt-4">
               Our goal is to bridge the gap between people who want to make a difference and the communities that need it most — giving every person a meaningful platform to learn, connect, and contribute.
