@@ -4,7 +4,7 @@ import { client } from "@/sanity/client";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const headersList = await headers();
-  const host = headersList.get("host") || "compassioncrew.in";
+  const host = headersList.get("host") || "www.compassioncrew.in";
   const protocol = headersList.get("x-forwarded-proto") || "https";
   const baseUrl = `${protocol}://${host}`;
 

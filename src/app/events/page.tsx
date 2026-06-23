@@ -56,7 +56,7 @@ export default async function EventsPage() {
     "location": event.location.toLowerCase().includes("zoom") || event.location.toLowerCase().includes("online")
       ? {
           "@type": "VirtualLocation",
-          "url": "https://compassioncrew.in/events"
+          "url": "https://www.compassioncrew.in/events"
         }
       : {
           "@type": "Place",
@@ -70,7 +70,7 @@ export default async function EventsPage() {
     "organizer": {
       "@type": "NGO",
       "name": "COMPASSION CREW",
-      "url": "https://compassioncrew.in"
+      "url": "https://www.compassioncrew.in"
     }
   }));
 

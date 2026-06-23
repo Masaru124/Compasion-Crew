@@ -3,14 +3,14 @@
 COMPASSION CREW is a community-driven social impact organization dedicated to inspiring compassion, learning, and positive action. We bring together students, professionals, and leaders to connect and serve.
 
 ## Main Navigation Paths
-- Home: https://compassioncrew.in/
-- About Us: https://compassioncrew.in/about
-- Our Founder: https://compassioncrew.in/founder
-- Our Team: https://compassioncrew.in/team
-- Upcoming Events & Expert Talks: https://compassioncrew.in/events
-- Volunteer Portal: https://compassioncrew.in/volunteer
-- Support / Donate: https://compassioncrew.in/donate
-- Event Registration: https://compassioncrew.in/register
+- Home: https://www.compassioncrew.in/
+- About Us: https://www.compassioncrew.in/about
+- Our Founder: https://www.compassioncrew.in/founder
+- Our Team: https://www.compassioncrew.in/team
+- Upcoming Events & Expert Talks: https://www.compassioncrew.in/events
+- Volunteer Portal: https://www.compassioncrew.in/volunteer
+- Support / Donate: https://www.compassioncrew.in/donate
+- Event Registration: https://www.compassioncrew.in/register
 
 ## Core Initiatives & Programs
 - **Expert Talks & Knowledge Sessions**: Educational sessions led by social leaders and changemakers.
@@ -20,7 +20,7 @@ COMPASSION CREW is a community-driven social impact organization dedicated to in
 - **Compassion Projects**: Local support networks focusing on youth mentoring, animal welfare, and senior citizen aid.
 
 ## Contact Information
-- **Email**: contact@compassioncrew.in
+- **Email**: compasioncrew@gmail.com
 - **Phone**: +91 8884156247
 - **Address**: Bangalore, Karnataka, India
 - **Tax exemption**: Contributions eligible for 80G tax-deduction receipts.

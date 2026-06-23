@@ -25,14 +25,14 @@ const blogSchema = {
   "@type": "Blog",
   "name": "COMPASSION CREW — Social Impact Blog",
   "description": "Guides, insights, and real stories on social impact, volunteering, community building, and animal welfare in India.",
-  "url": "https://compassioncrew.in/blog",
+  "url": "https://www.compassioncrew.in/blog",
   "publisher": {
     "@type": "NGO",
     "name": "COMPASSION CREW",
-    "url": "https://compassioncrew.in",
+    "url": "https://www.compassioncrew.in",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://compassioncrew.in/images/logo.png"
+      "url": "https://www.compassioncrew.in/images/logo.png"
     }
   },
   "inLanguage": "en-IN"

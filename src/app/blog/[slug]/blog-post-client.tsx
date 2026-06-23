@@ -197,15 +197,15 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
     "publisher": {
       "@type": "NGO",
       "name": "COMPASSION CREW",
-      "url": "https://compassioncrew.in",
+      "url": "https://www.compassioncrew.in",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://compassioncrew.in/images/logo.png"
+        "url": "https://www.compassioncrew.in/images/logo.png"
       }
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://compassioncrew.in/blog/${post.slug}`
+      "@id": `https://www.compassioncrew.in/blog/${post.slug}`
     }
   };
 

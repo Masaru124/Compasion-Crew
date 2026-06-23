@@ -18,7 +18,7 @@ export function AboutPageClient() {
     "publisher": {
       "@type": "NGO",
       "name": "COMPASSION CREW",
-      "url": "https://compassioncrew.in"
+      "url": "https://www.compassioncrew.in"
     }
   };
 

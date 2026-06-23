@@ -1,0 +1,330 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { 
+  MessageSquare, 
+  MapPin, 
+  User, 
+  Briefcase, 
+  Quote, 
+  CheckCircle2, 
+  Copy, 
+  Check, 
+  QrCode, 
+  ArrowLeft 
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
+import { submitStoryAction } from "@/app/actions/moderator-actions";
+import { QRCodeSVG } from "qrcode.react";
+import { useTheme } from "next-themes";
+
+export function ShareStoryClient() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const [shareUrl, setShareUrl] = useState("https://www.compassioncrew.in/share-story");
+  const [copied, setCopied] = useState(false);
+  
+  // Form State
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
+  const [location, setLocation] = useState("");
+  const [quote, setQuote] = useState("");
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+      if (typeof window !== "undefined") {
+        setShareUrl(window.location.origin + "/share-story");
+      }
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const qrColor = mounted && resolvedTheme === "dark" ? "#2d8a76" : "#1f5d50";
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy link:", err);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !role.trim() || !location.trim() || !quote.trim()) {
+      setSubmitError("All fields are required.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const result = await submitStoryAction({
+        name: name.trim(),
+        role: role.trim(),
+        location: location.trim(),
+        quote: quote.trim(),
+      });
+
+      if (result.success) {
+        setIsSubmitted(true);
+        // Reset form
+        setName("");
+        setRole("");
+        setLocation("");
+        setQuote("");
+      } else {
+        setSubmitError(result.error || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      console.error("Story submission error:", err);
+      setSubmitError("Failed to submit story. Please check your network and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (isSubmitted) {
+    return (
+      <div className="planner-bg min-h-screen flex items-center justify-center pt-32 pb-24">
+        <div className="section-container max-w-xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className="bg-card border border-border rounded-xl shadow-sm p-8 text-center"
+          >
+            <div className="w-16 h-16 mx-auto mb-6 bg-success/10 rounded-2xl flex items-center justify-center text-success">
+              <CheckCircle2 className="w-8 h-8" />
+            </div>
+            <h2 className="font-heading text-2xl font-medium text-foreground mb-4 tracking-tight">
+              Story Submitted Successfully!
+            </h2>
+            <p className="text-muted-foreground mb-8">
+              Thank you for sharing your experience. To protect our community, submissions are reviewed by moderators before appearing on the homepage.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button onClick={() => setIsSubmitted(false)} variant="default">
+                Share Another Story
+              </Button>
+              <Link href="/">
+                <Button variant="outline" className="w-full sm:w-auto">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Home
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="planner-bg min-h-screen">
+      {/* Header Section */}
+      <section className="pt-32 pb-12">
+        <div className="section-container max-w-4xl mx-auto text-center">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-6 text-sm"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
+          </Link>
+          <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
+            Share Your Experience
+          </span>
+          <h1 className="font-heading text-fluid-hero text-foreground mb-4 tracking-tight">
+            Tell Your Story
+          </h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Every journey of change starts with a single step. Share your volunteering, community, or testimonial story with us to inspire others.
+          </p>
+        </div>
+      </section>
+
+      {/* Main content grid */}
+      <section className="section-container max-w-5xl mx-auto pb-24">
+        <div className="grid md:grid-cols-5 gap-8 items-start">
+          
+          {/* QR Code / Share Panel (Left Side on Desktop) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="md:col-span-2 order-2 md:order-1"
+          >
+            <div className="bg-card border border-border rounded-xl shadow-sm p-6 sticky top-32 flex flex-col items-center text-center">
+              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center mb-4 text-accent">
+                <QrCode className="w-5 h-5" />
+              </div>
+              <h3 className="font-heading text-lg font-medium text-foreground mb-2 tracking-tight">
+                Share on Mobile
+              </h3>
+              <p className="text-muted-foreground text-sm mb-6 max-w-xs">
+                Scan this QR code to quickly open this form on your phone and share your story on the go.
+              </p>
+
+              {/* QR Code Canvas Frame */}
+              <div className="p-4 bg-white rounded-2xl border border-border/80 shadow-inner mb-6">
+                <QRCodeSVG
+                  value={shareUrl}
+                  size={160}
+                  level="H"
+                  fgColor={qrColor}
+                  bgColor="#ffffff"
+                  includeMargin={false}
+                />
+              </div>
+
+              <div className="w-full pt-4 border-t border-border/50 flex flex-col items-center gap-3">
+                <span className="font-mono text-xs text-muted-foreground break-all px-2 py-1 bg-muted/30 rounded border border-border/20 w-full select-all">
+                  {shareUrl}
+                </span>
+                <Button 
+                  onClick={handleCopy} 
+                  variant="outline" 
+                  size="sm"
+                  className="w-full flex items-center justify-center gap-2"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-success" />
+                      <span>Link Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy Form Link</span>
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Submission Form Panel (Right Side on Desktop) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="md:col-span-3 order-1 md:order-2"
+          >
+            <form onSubmit={handleSubmit} className="bg-card border border-border rounded-xl shadow-sm p-8 space-y-6">
+              <div className="flex items-center gap-3 pb-2 border-b border-border/50">
+                <MessageSquare className="w-5 h-5 text-terracotta" />
+                <h2 className="font-heading text-lg font-medium text-foreground tracking-tight">
+                  Write Your Story
+                </h2>
+              </div>
+
+              {submitError && (
+                <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm flex gap-2 items-center">
+                  <span>⚠️</span>
+                  <span>{submitError}</span>
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="name" className="flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-muted-foreground" />
+                  Your Name *
+                </Label>
+                <Input
+                  id="name"
+                  required
+                  placeholder="e.g. Priya Sharma"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="role" className="flex items-center gap-1.5">
+                    <Briefcase className="w-3.5 h-3.5 text-muted-foreground" />
+                    Program / Role *
+                  </Label>
+                  <Input
+                    id="role"
+                    required
+                    placeholder="e.g. Volunteer / Donor / Beneficiary"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    disabled={isSubmitting}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="location" className="flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
+                    Location *
+                  </Label>
+                  <Input
+                    id="location"
+                    required
+                    placeholder="e.g. Bangalore, Karnataka"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    disabled={isSubmitting}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="quote" className="flex items-center gap-1.5">
+                  <Quote className="w-3.5 h-3.5 text-muted-foreground transform rotate-180" />
+                  Your Story / Testimonial *
+                </Label>
+                <Textarea
+                  id="quote"
+                  required
+                  rows={6}
+                  placeholder="Tell us about your experience, how COMPASSION CREW has influenced you or how you participated..."
+                  value={quote}
+                  onChange={(e) => setQuote(e.target.value)}
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                size="lg"
+                className="w-full transition-all"
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Submitting your story...
+                  </span>
+                ) : (
+                  <span>Submit for Review</span>
+                )}
+              </Button>
+            </form>
+          </motion.div>
+
+        </div>
+      </section>
+    </div>
+  );
+}

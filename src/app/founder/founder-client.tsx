@@ -55,10 +55,10 @@ export function FounderPageClient({ initialFounder }: FounderPageClientProps) {
           "worksFor": {
             "@type": "NGO",
             "name": "COMPASSION CREW",
-            "url": "https://compassioncrew.in"
+            "url": "https://www.compassioncrew.in"
           },
           "description": "Social entrepreneur and Founder of COMPASSION CREW, Bangalore's social impact community. Dedicated to empowering changemakers across India.",
-          "url": "https://compassioncrew.in/founder"
+          "url": "https://www.compassioncrew.in/founder"
         }) }}
       />
       <section className="pt-32 pb-20">

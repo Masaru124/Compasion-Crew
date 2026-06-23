@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
       title,
       description,
       type: "website",
-      url: `https://compassioncrew.in/events/${id}`,
+      url: `https://www.compassioncrew.in/events/${id}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -105,7 +105,7 @@ export default async function EventDetailPage({ params }: EventPageProps) {
     "location": event.location.toLowerCase().includes("zoom") || event.location.toLowerCase().includes("online")
       ? {
           "@type": "VirtualLocation",
-          "url": "https://compassioncrew.in/events"
+          "url": "https://www.compassioncrew.in/events"
         }
       : {
           "@type": "Place",
@@ -119,7 +119,7 @@ export default async function EventDetailPage({ params }: EventPageProps) {
     "organizer": {
       "@type": "NGO",
       "name": "COMPASSION CREW",
-      "url": "https://compassioncrew.in"
+      "url": "https://www.compassioncrew.in"
     }
   };
 
@@ -131,19 +131,19 @@ export default async function EventDetailPage({ params }: EventPageProps) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://compassioncrew.in"
+        "item": "https://www.compassioncrew.in"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Events",
-        "item": "https://compassioncrew.in/events"
+        "item": "https://www.compassioncrew.in/events"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": event.title,
-        "item": `https://compassioncrew.in/events/${id}`
+        "item": `https://www.compassioncrew.in/events/${id}`
       }
     ]
   };

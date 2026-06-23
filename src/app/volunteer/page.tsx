@@ -45,7 +45,7 @@ const volunteerSchema = {
   "provider": {
     "@type": "NGO",
     "name": "COMPASSION CREW",
-    "url": "https://compassioncrew.in",
+    "url": "https://www.compassioncrew.in",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Bangalore",

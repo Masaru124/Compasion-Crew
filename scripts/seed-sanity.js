@@ -281,7 +281,7 @@ const donateData = {
 };
 
 const siteSettingsData = {
-  email: "contact@compassioncrew.in",
+  email: "compasioncrew@gmail.com",
   phone: "+91 8884156247",
   address: "Bangalore, Karnataka, India",
   footerDescription: "Dignity, care, and equal value for every life. Supporting women, children, and animals across India.",

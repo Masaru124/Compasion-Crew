@@ -205,7 +205,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       title,
       description,
       type: "article",
-      url: `https://compassioncrew.in/blog/${slug}`,
+      url: `https://www.compassioncrew.in/blog/${slug}`,
       publishedTime: currentPost.publishedAt,
       authors: [currentPost.author?.name || currentPost.authorNameFallback || "COMPASSION CREW"],
     },
@@ -248,19 +248,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://compassioncrew.in"
+        "item": "https://www.compassioncrew.in"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Blog",
-        "item": "https://compassioncrew.in/blog"
+        "item": "https://www.compassioncrew.in/blog"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": currentPost.title,
-        "item": `https://compassioncrew.in/blog/${slug}`
+        "item": `https://www.compassioncrew.in/blog/${slug}`
       }
     ]
   };

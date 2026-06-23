@@ -27,7 +27,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://compassioncrew.in"),
+  metadataBase: new URL("https://www.compassioncrew.in"),
   title: {
     default: "COMPASSION CREW | Bangalore's Social Impact Community",
     template: "%s | COMPASSION CREW"
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://compassioncrew.in",
+    url: "https://www.compassioncrew.in",
     siteName: "COMPASSION CREW",
     title: "COMPASSION CREW | Bangalore's Social Impact Community",
     description: "Bangalore's social impact community. Join expert talks, volunteer drives, and networking events. Make a real difference — 80G tax-deductible donations.",
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
     languages: {
-      "en-IN": "https://compassioncrew.in",
+      "en-IN": "https://www.compassioncrew.in",
     },
   }
 };
@@ -88,8 +88,8 @@ const organizationSchema = {
   "@type": "NGO",
   "name": "COMPASSION CREW",
   "alternateName": ["Compassion Crew NGO", "COMPASSION CREW NGO"],
-  "url": "https://compassioncrew.in",
-  "logo": "https://compassioncrew.in/images/logo.png",
+  "url": "https://www.compassioncrew.in",
+  "logo": "https://www.compassioncrew.in/images/logo.png",
   "description": "A community-driven social impact organization empowering students, professionals, and changemakers to learn, connect, and contribute through expert talks, networking, and volunteer initiatives.",
   "address": {
     "@type": "PostalAddress",
@@ -101,7 +101,7 @@ const organizationSchema = {
     "@type": "ContactPoint",
     "telephone": "+91 8884156247",
     "contactType": "customer service",
-    "email": "contact@compassioncrew.in"
+    "email": "compasioncrew@gmail.com"
   },
   "sameAs": [
     "https://www.linkedin.com/company/compassion-crew",
