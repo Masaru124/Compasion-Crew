@@ -1,16 +1,16 @@
 # COMPASSION CREW
 
-COMPASSION CREW is a community-driven social impact organization dedicated to inspiring compassion, learning, and positive action. We bring together students, professionals, and leaders to connect and serve.
+> COMPASSION CREW is a community-driven social impact organization dedicated to inspiring compassion, learning, and positive action. We bring together students, professionals, and leaders to connect and serve.
 
 ## Main Navigation Paths
-- Home: https://www.compassioncrew.in/
-- About Us: https://www.compassioncrew.in/about
-- Our Founder: https://www.compassioncrew.in/founder
-- Our Team: https://www.compassioncrew.in/team
-- Upcoming Events & Expert Talks: https://www.compassioncrew.in/events
-- Volunteer Portal: https://www.compassioncrew.in/volunteer
-- Support / Donate: https://www.compassioncrew.in/donate
-- Event Registration: https://www.compassioncrew.in/register
+- [Home](https://www.compassioncrew.in/): Compassion Crew homepage.
+- [About Us](https://www.compassioncrew.in/about): Details about our mission, vision, and values.
+- [Our Founder](https://www.compassioncrew.in/founder): Biography and message from our founder.
+- [Our Team](https://www.compassioncrew.in/team): Meet the core members and coordinators of Compassion Crew.
+- [Upcoming Events & Expert Talks](https://www.compassioncrew.in/events): Information on scheduled webinars, workshops, and interactive sessions.
+- [Volunteer Portal](https://www.compassioncrew.in/volunteer): Join our volunteer network and contribute to social causes.
+- [Support / Donate](https://www.compassioncrew.in/donate): Support our initiatives through financial contributions.
+- [Event Registration](https://www.compassioncrew.in/register): Register for upcoming events and programs.
 
 ## Core Initiatives & Programs
 - **Expert Talks & Knowledge Sessions**: Educational sessions led by social leaders and changemakers.
