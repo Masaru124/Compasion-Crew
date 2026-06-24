@@ -33,12 +33,15 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
 
         // Validate against environment variables
         const adminEmail = process.env.ADMIN_EMAIL;
-        const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
+        let adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
 
         if (!adminEmail || !adminPasswordHash) {
           console.error("Auth config error: ADMIN_EMAIL or ADMIN_PASSWORD_HASH missing from environment.");
           return null;
         }
+
+        // Clean backslashes from the password hash (e.g. if escaped in environment variables)
+        adminPasswordHash = adminPasswordHash.replace(/\\/g, "");
 
         // Constant-time email comparison (convert both to lowercase)
         if (email.toLowerCase() !== adminEmail.toLowerCase()) {

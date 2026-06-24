@@ -204,6 +204,7 @@ export default function AdminPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
 
@@ -737,13 +738,25 @@ export default function AdminPage() {
                 <Lock className="w-4 h-4" />
               </div>
               <Input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="pl-10 h-12 rounded-xl bg-background/50 border border-border/80 focus-visible:ring-accent"
+                className="pl-10 pr-10 h-12 rounded-xl bg-background/50 border border-border/80 focus-visible:ring-accent"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3.5 top-[38px] text-muted-foreground hover:text-foreground focus:outline-none transition-colors"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? (
+                  <EyeOff className="w-4 h-4" />
+                ) : (
+                  <Eye className="w-4 h-4" />
+                )}
+              </button>
             </div>
 
             {loginError && (
