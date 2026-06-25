@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, Clock, Users, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface EventItem {
   id: string;
@@ -61,6 +62,17 @@ const formatEventTimeRange = (timeRangeStr: string) => {
     return `${formatEventTime(parts[0])} - ${formatEventTime(parts[1])}`;
   }
   return formatEventTime(timeRangeStr);
+};
+
+const getCategoryVariant = (category: string) => {
+  const variants: Record<string, "default" | "accent" | "success" | "warning" | "secondary" | "outline"> = {
+    "Expert Talk": "accent",
+    "Community Meetup": "default",
+    "Service Drive": "warning",
+    Campaign: "success",
+    Workshop: "secondary",
+  };
+  return variants[category] || "default";
 };
 
 interface EventsPageClientProps {
