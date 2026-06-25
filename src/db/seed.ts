@@ -167,7 +167,7 @@ const volunteerPageToSeed = {
 
 const donatePageToSeed = {
   id: "singleton-donate-page",
-  title: "Support Our Mission - 80G Tax Deductible NGO Donations",
+  title: "Support Our Mission - 80G Tax Deductible Donations",
   description: "Your contribution directly supports our community events, expert talk sessions, volunteer initiatives, and future compassion projects. All donations are tax-deductible under Section 80G.",
   donationOptions: JSON.stringify([
     { amount: 500, impact: "Sponsors workshop materials for 5 community participants" },
@@ -186,18 +186,22 @@ const teamMembersToSeed = [
     name: "Khushi Kalpesh Joshi",
     role: "Founder & Director",
     bio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
+    linkedin: "https://www.linkedin.com/in/khushi-kalpesh-joshi-895b822a4/",
+    email: "Khushijoshi.amcec@gmail.com",
   },
   {
     id: "team-member-1",
     name: "Bharath S",
-    role: "Head of Programs",
-    bio: "Development professional specializing in education and women's empowerment programs.",
+    role: "Marketing Lead",
+    bio: "Strategic marketer driving outreach, community campaigns, and digital engagement to expand the reach and social impact of COMPASSION CREW.",
+    linkedin: "https://www.linkedin.com/in/bharath248m/",
+    email: "bharatreddy98m@icloud.com",
   },
   {
     id: "team-member-2",
     name: "Bichitra Behera",
-    role: "Full-Stack Developer",
-    bio: "Full-stack developer building scalable web products with a focus on clean architecture, performance, and developer experience.",
+    role: "Tech Lead",
+    bio: "Tech Lead at COMPASSION CREW. Full-stack specialist architecting scalable platforms and developer experiences to empower volunteer initiatives.",
     linkedin: "https://linkedin.com/in/bichitrabehera",
     email: "bichitrabehera.345@gmail.com",
   },
@@ -212,16 +216,18 @@ const teamMembersToSeed = [
   {
     id: "team-member-4",
     name: "Ravikiran T S",
-    role: "Operations Lead",
-    bio: "Someone who shows up, gives fully, and leaves things better than they found them.",
+    role: "Finance Lead",
+    bio: "Finance Lead at COMPASSION CREW. Managing financial operations, budget allocations, and tax-exempt donor reporting.",
     linkedin: "https://www.linkedin.com/in/ravikiran-t-s-32078125a/",
     email: "ravikirantsrk@gmail.com",
   },
   {
     id: "team-member-5",
     name: "Matharishwa",
-    role: "Volunteer Coordinator",
-    bio: "Community builder managing our network of 500+ volunteers across 15 states.",
+    role: "CTO",
+    bio: "Chief Technology Officer directing digital innovation, volunteer coordination portals, and regional tech enablement across India.",
+    linkedin: "https://www.linkedin.com/in/matharishwa-s-322518325",
+    email: "anithamatharishw110@gmail.com",
   },
 ];
 
@@ -236,8 +242,8 @@ const eventsToSeed = [
     category: "Expert Talk",
     spots: 150,
     image: "/images/yoga.jpeg",
-    isPast: false,
-    registrationOpen: true,
+    isPast: true,
+    registrationOpen: false,
     details: "Learn how to structure your projects, pitch to donors, build volunteer programs, and maintain legal compliance under Section 80G tax exemptions in India.",
     gallery: ["/images/yoga2.jpeg", "/images/yoga3.png"],
   },
@@ -251,8 +257,8 @@ const eventsToSeed = [
     category: "Community Meetup",
     spots: 80,
     image: "/images/children1.jpg",
-    isPast: false,
-    registrationOpen: true,
+    isPast: true,
+    registrationOpen: false,
     details: "Let's discuss how we can leverage technology, build volunteer portals, and design local impact initiatives for education and animal welfare.",
     gallery: ["/images/children2.jpg"],
   },
@@ -266,8 +272,8 @@ const eventsToSeed = [
     category: "Service Drive",
     spots: 50,
     image: "/images/children3.jpg",
-    isPast: false,
-    registrationOpen: true,
+    isPast: true,
+    registrationOpen: false,
     details: "A day of sharing, teaching, and fun! We will teach children basic computer usage, painting, and host group games. Materials will be provided.",
     gallery: ["/images/children4.jpg"],
   },
@@ -281,8 +287,8 @@ const eventsToSeed = [
     category: "Campaign",
     spots: 120,
     image: "/images/children5.jpg",
-    isPast: false,
-    registrationOpen: true,
+    isPast: true,
+    registrationOpen: false,
     details: "Join us for clean-up walks, eco-awareness charts, and distributions of reusable bags to park visitors. Let's make Bangalore greener!",
     gallery: ["/images/children1.jpg"],
   },
@@ -296,10 +302,25 @@ const eventsToSeed = [
     category: "Workshop",
     spots: 250,
     image: "/images/yoga4.png",
-    isPast: false,
-    registrationOpen: true,
+    isPast: true,
+    registrationOpen: false,
     details: "A virtual planning workshop to outline our 2027 roadmap. Learn how to pitch, request, and execute grassroots projects in your own city.",
     gallery: ["/images/yoga3.png"],
+  },
+  {
+    id: "event-healthcare-ai",
+    title: "Intelligent Healthcare: The Rise of Agentic AI",
+    description: "An engaging session on how agentic AI is transforming modern healthcare, highlighting generative workflows, data platforms, and future trends. Co-organized with Moksha Foundation.",
+    date: "2026-06-29",
+    time: "10:00 - 16:00",
+    location: "PES University, Banashankari, Bangalore",
+    category: "Expert Talk",
+    spots: 100,
+    image: "/images/healthcare_ai.png",
+    isPast: false,
+    registrationOpen: true,
+    details: "Compassion Crew, in collaboration with Moksha Foundation, brings you an expert session on the future of healthcare technology. Join Asha Holla, an experienced AI engineer at Bloom Value Corporation specializing in Azure data/AI ecosystems and healthcare applications. She will dive deep into how Agentic AI and generative workflows are driving clinical efficiency, risk adjustment compliance, and data-driven healthcare decisions.\n\nWho should attend:\n- Tech professionals and students interested in AI/ML\n- Healthcare technology innovators\n- Anyone interested in the future of intelligence systems in medicine.\n\nSpeaker: Asha Holla (https://www.linkedin.com/in/ashaholla)\nOrganisers: Compassion Crew & Moksha Foundation\n\nAgenda:\n- 10:00 AM: Introductions & Welcome\n- 10:30 AM: Keynote: The Rise of Agentic AI in Healthcare by Asha Holla\n- 12:00 PM: Q&A and Interactive Panel\n- 01:00 PM: Networking Lunch\n- 02:00 PM: Group Brainstorming Session\n- 03:30 PM: Closing Remarks & Certificates\n\nVenue: PES University, Banashankari, Bangalore.",
+    gallery: [],
   },
 ];
 
@@ -397,7 +418,7 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "No single person can create systemic change alone. Connect with local volunteers, corporate partners, and other NGOs. COMPASSION CREW, for instance, thrives because of a strong network of coordinators and passionate volunteers who share a unified vision. Utilizing platforms like iVolunteer or Youth for Seva helps aggregate community talent for maximum collective impact.",
+            text: "No single person can create systemic change alone. Connect with local volunteers, corporate partners, and other social impact communities. COMPASSION CREW, for instance, thrives because of a strong network of coordinators and passionate volunteers who share a unified vision. Utilizing platforms like iVolunteer or Youth for Seva helps aggregate community talent for maximum collective impact.",
           }
         ]
       },
@@ -412,7 +433,7 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "Structure your fundraising, logistics, and legal compliance. Transparency builds trust. If you are operating a registered NGO in India, offering tax benefits like 80G tax deductions helps mobilize corporate and individual donations that fuel ground operations. Be completely transparent with your financial statements and regularly publish impact assessment logs.",
+            text: "Structure your fundraising, logistics, and legal compliance. Transparency builds trust. If you are operating a registered social impact initiative in India, offering tax benefits like 80G tax deductions helps mobilize corporate and individual donations that fuel ground operations. Be completely transparent with your financial statements and regularly publish impact assessment logs.",
           }
         ]
       },
@@ -470,7 +491,7 @@ const blogsToSeed = [
       {
         _type: "block",
         style: "h3",
-        children: [{ _type: "span", text: "What makes an NGO program sustainable?" }]
+        children: [{ _type: "span", text: "What makes a social impact program sustainable?" }]
       },
       {
         _type: "block",
@@ -509,8 +530,8 @@ const blogsToSeed = [
       }
     ]),
     seoTitle: "Creating Lasting Social Impact: A Step-by-Step Approach",
-    seoDescription: "A structured, actionable guide to making a sustainable social impact, from defining your cause to measuring and scaling your NGO efforts in India.",
-    keywords: ["social impact", "community development", "sustainable volunteering", "NGO Bangalore", "social change guide", "measuring NGO impact", "CSR projects Bangalore"],
+    seoDescription: "A structured, actionable guide to making a sustainable social impact, from defining your cause to measuring and scaling your social impact initiatives in India.",
+    keywords: ["social impact", "community development", "sustainable volunteering", "social impact Bangalore", "social change guide", "measuring community impact", "CSR projects Bangalore"],
   },
   {
     id: "blog-2",
@@ -520,9 +541,9 @@ const blogsToSeed = [
     excerpt: "Explore the psychological, social, and physical benefits of volunteering, and learn how dedicating just two hours a week can create ripples of positive change in your community.",
     category: "Volunteering",
     mainImage: "/images/children2.jpg",
-    authorName: "Matharishwa",
-    authorRole: "Volunteer Coordinator",
-    authorBio: "Community builder managing our network of 500+ volunteers across 15 states.",
+    authorName: "Khushi Kalpesh Joshi",
+    authorRole: "Founder & Director",
+    authorBio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
     body: JSON.stringify([
       {
         _type: "block",
@@ -626,7 +647,7 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "Consistency is far more important than quantity. Committing just 2 hours a week or 8 hours a month allows NGOs to coordinate events smoothly and builds reliable, long-term relationships with beneficiaries."
+            text: "Consistency is far more important than quantity. Committing just 2 hours a week or 8 hours a month allows communities to coordinate events smoothly and builds reliable, long-term relationships with beneficiaries."
           }
         ]
       },
@@ -673,7 +694,7 @@ const blogsToSeed = [
     ]),
     seoTitle: "The Power of Volunteering: How 2 Hours a Week Can Change Lives",
     seoDescription: "Discover the scientific, mental health, and professional benefits of volunteering. Learn how 2 hours a week can create deep community connections.",
-    keywords: ["power of volunteering", "volunteering benefits", "community connection", "NGO Bangalore", "weekend volunteering Bangalore", "mental health volunteering", "volunteer work near me"],
+    keywords: ["power of volunteering", "volunteering benefits", "community connection", "social impact Bangalore", "weekend volunteering Bangalore", "mental health volunteering", "volunteer work near me"],
   },
   {
     id: "blog-3",
@@ -683,9 +704,9 @@ const blogsToSeed = [
     excerpt: "Education is the greatest tool for empowerment. Read about our latest initiatives to connect professional mentors with children from underserved areas.",
     category: "Education",
     mainImage: "/images/children4.jpg",
-    authorName: "Bharath S",
-    authorRole: "Head of Programs",
-    authorBio: "Development professional specializing in education and women's empowerment programs.",
+    authorName: "Khushi Kalpesh Joshi",
+    authorRole: "Founder & Director",
+    authorBio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
     body: JSON.stringify([
       {
         _type: "block",
@@ -836,7 +857,7 @@ const blogsToSeed = [
     ]),
     seoTitle: "Educating the Future: Mentoring Underprivileged Youth",
     seoDescription: "Learn how volunteer-led youth mentorship programs in digital literacy and life skills are empowering children from low-income communities in India.",
-    keywords: ["youth mentorship", "underprivileged education", "volunteer teacher Bangalore", "NGO education", "mentor underprivileged children India", "skill development youth", "teach kids Bangalore"],
+    keywords: ["youth mentorship", "underprivileged education", "volunteer teacher Bangalore", "community education", "mentor underprivileged children India", "skill development youth", "teach kids Bangalore"],
   },
   {
     id: "blog-4",
@@ -846,9 +867,9 @@ const blogsToSeed = [
     excerpt: "Looking to give back to the community? Discover the ultimate guide to volunteering opportunities in Bangalore, how professionals and students can make a difference, and get involved today.",
     category: "Volunteering",
     mainImage: "/images/children3.jpg",
-    authorName: "Matharishwa",
-    authorRole: "Volunteer Coordinator",
-    authorBio: "Community builder managing our network of 500+ volunteers across 15 states.",
+    authorName: "Khushi Kalpesh Joshi",
+    authorRole: "Founder & Director",
+    authorBio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
     body: JSON.stringify([
       {
         _type: "block",
@@ -856,7 +877,7 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "Bangalore, known as the Silicon Valley of India, is not just a hub for technology and start-ups but also a thriving center for social impact. With hundreds of grassroots initiatives and registered NGOs, volunteering has become an incredibly popular way for students, tech professionals, and citizens to contribute back to society. But how do you start? How do you find the right cause and balance it with a busy schedule?"
+            text: "Bangalore, known as the Silicon Valley of India, is not just a hub for technology and start-ups but also a thriving center for social impact. With hundreds of grassroots initiatives and social impact initiatives, volunteering has become an incredibly popular way for students, tech professionals, and citizens to contribute back to society. But how do you start? How do you find the right cause and balance it with a busy schedule?"
           }
         ]
       },
@@ -878,7 +899,7 @@ const blogsToSeed = [
       {
         _type: "block",
         style: "h2",
-        children: [{ _type: "span", text: "Step 2: Research Local Bangalore NGOs" }]
+        children: [{ _type: "span", text: "Step 2: Research Local Bangalore Communities" }]
       },
       {
         _type: "block",
@@ -886,7 +907,7 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "Look for registered, transparent NGOs. Bangalore has communities like COMPASSION CREW that host structured volunteer campaigns, making it easy to sign up, participate in expert talks, and join ground operations directly. Verify that the NGO has clear goals, tax exemption statuses (like Section 80G eligibility for donors), and a track record of transparent work."
+            text: "Look for registered, transparent communities. Bangalore has communities like COMPASSION CREW that host structured volunteer campaigns, making it easy to sign up, participate in expert talks, and join ground operations directly. Verify that the community has clear goals, tax exemption statuses (like Section 80G eligibility for donors), and a track record of transparent work."
           }
         ]
       },
@@ -916,7 +937,7 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "NGOs run on predictability. Even if you can only dedicate two hours a week, maintaining that schedule consistently is far more valuable than volunteering for 10 hours once and never returning. Set clear expectations with your coordinator and treat volunteer assignments with the same professionalism as your work. Interested in taking the first step? Complete our online ",
+            text: "Communities run on predictability. Even if you can only dedicate two hours a week, maintaining that schedule consistently is far more valuable than volunteering for 10 hours once and never returning. Set clear expectations with your coordinator and treat volunteer assignments with the same professionalism as your work. Interested in taking the first step? Complete our online ",
           },
           {
             _type: "span",
@@ -952,7 +973,7 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "NGOs like Compassion Crew host structured weekly volunteering drives in local Bangalore municipal schools, community shelters, and public parks, primarily on Saturday and Sunday mornings."
+            text: "Communities like Compassion Crew host structured weekly volunteering drives in local Bangalore municipal schools, community shelters, and public parks, primarily on Saturday and Sunday mornings."
           }
         ]
       },
@@ -998,8 +1019,8 @@ const blogsToSeed = [
       }
     ]),
     seoTitle: "How to Volunteer in Bangalore: The Ultimate Guide",
-    seoDescription: "Looking to give back? Discover the ultimate guide to volunteering in Bangalore, NGO opportunities, and how tech professionals and students can participate.",
-    keywords: ["volunteer Bangalore", "volunteer opportunities Bangalore", "NGO Bangalore volunteer", "how to volunteer Bangalore", "social impact Bangalore", "corporate volunteering Bangalore", "weekend volunteering Bangalore"],
+    seoDescription: "Looking to give back? Discover the ultimate guide to volunteering in Bangalore, community opportunities, and how tech professionals and students can participate.",
+    keywords: ["volunteer Bangalore", "volunteer opportunities Bangalore", "community volunteer Bangalore", "how to volunteer Bangalore", "social impact Bangalore", "corporate volunteering Bangalore", "weekend volunteering Bangalore"],
   },
 ];
 

@@ -10,19 +10,19 @@ import { eq, desc } from "drizzle-orm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "COMPASSION CREW | Social Impact NGO in Bangalore",
-  description: "Join COMPASSION CREW, Bangalore's leading social impact community and NGO. Participate in community events, volunteer drives, youth mentorship, and animal rescue campaigns. 80G tax benefits.",
+  title: "COMPASSION CREW | Social Impact Community in Bangalore",
+  description: "Join COMPASSION CREW, Bangalore's leading social impact community. Participate in community events, volunteer drives, youth mentorship, and animal rescue campaigns. 80G tax benefits.",
   keywords: [
-    "NGO in Bangalore",
+    "social impact community in Bangalore",
     "social impact community Bangalore",
     "volunteer opportunities Bangalore",
     "80G tax deductible donations India",
-    "youth mentorship Bangalore NGO",
+    "youth mentorship Bangalore",
     "animal welfare Bangalore volunteer",
-    "women empowerment Bangalore NGO",
+    "women empowerment Bangalore",
     "community engagement events Bangalore",
     "COMPASSION CREW",
-    "Compassion Crew NGO Bangalore"
+    "Compassion Crew Bangalore"
   ],
   alternates: {
     canonical: "/",

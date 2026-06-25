@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     "volunteer guides",
     "community building articles",
     "animal welfare blog",
-    "NGO updates Bangalore",
+    "social impact updates Bangalore",
   ],
   alternates: {
     canonical: "/blog",
@@ -28,7 +28,7 @@ const blogSchema = {
   "description": "Guides, insights, and real stories on social impact, volunteering, community building, and animal welfare in India.",
   "url": "https://www.compassioncrew.in/blog",
   "publisher": {
-    "@type": "NGO",
+    "@type": "Organization",
     "name": "COMPASSION CREW",
     "url": "https://www.compassioncrew.in",
     "logo": {

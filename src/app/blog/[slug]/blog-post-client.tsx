@@ -375,7 +375,7 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
                     )}
                     <p className="text-muted-foreground text-sm leading-relaxed">
                       {post.author?.bio ||
-                        "NGO Volunteer Coordinator dedicated to bridging the gaps in communities and driving positive grassroots initiatives across India."}
+                        "Volunteer Coordinator dedicated to bridging the gaps in communities and driving positive grassroots initiatives across India."}
                     </p>
                   </div>
                 </div>

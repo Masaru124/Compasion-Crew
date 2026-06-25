@@ -12,13 +12,12 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     question: "What is COMPASSION CREW?",
-    answer: "COMPASSION CREW is Bangalore's leading social impact community and registered NGO. We empower students, professionals, and changemakers to learn, connect, and contribute through expert talks, networking events, volunteer service drives, and community campaigns.",
+    answer: "COMPASSION CREW is Bangalore's leading social impact community. We empower students, professionals, and changemakers to learn, connect, and contribute through expert talks, networking events, volunteer service drives, and community campaigns.",
   },
   {
     question: "How can I volunteer with COMPASSION CREW?",
     answer: "Anyone who wants to make a difference is welcome to join! You can fill out our volunteer application form on the Volunteer page. We require a commitment of at least 2–4 hours per month, and we offer official participation certificates, skill development, and networking opportunities with social leaders.",
   },
-
   {
     question: "What kinds of projects does COMPASSION CREW run?",
     answer: "We focus on three core areas: (1) Youth Mentorship & Education support for underprivileged children, (2) Women Empowerment programs, and (3) Animal Welfare & Rescue campaigns. We also hold expert talks and networking events to build social awareness and connect changemakers.",
@@ -54,7 +53,7 @@ export function FAQSection() {
   };
 
   return (
-    <section className="section-padding border-t border-border bg-background/50 relative">
+    <section className="relative planner-bg border-b border-border/60 section-padding">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -68,19 +67,19 @@ export function FAQSection() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-2xl mx-auto mb-16"
         >
-          <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-2">
+          <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-2 border-l-2 border-terracotta pl-3 w-fit mx-auto">
             Frequently Asked Questions
           </span>
-          <h2 className="font-heading text-fluid-section text-foreground tracking-tight">
-            Got Questions? We Have Answers
+          <h2 className="font-heading text-fluid-section text-foreground tracking-tight font-light">
+            Got Questions? We Have <span className="italic text-primary">Answers</span>
           </h2>
-          <p className="text-muted-foreground mt-4">
+          <p className="text-muted-foreground text-sm mt-4">
             Learn more about our volunteer programs, donation tax exemptions, and how we manage community operations.
           </p>
         </motion.div>
 
         {/* FAQ Accordion */}
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto space-y-4">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
             const uniqueId = `faq-item-${index}`;
@@ -93,23 +92,22 @@ export function FAQSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                className="mb-4"
               >
-                <div className="bg-card border border-border rounded-xl overflow-hidden transition-all duration-300 hover:border-primary/30 shadow-sm">
+                <div className="bg-card/20 backdrop-blur-md border border-border/80 rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 shadow-sm">
                   <h3>
                     <button
                       id={uniqueId}
                       aria-expanded={isOpen}
                       aria-controls={panelId}
                       onClick={() => toggleFAQ(index)}
-                      className="w-full flex items-center justify-between gap-4 p-6 text-left font-sans text-base md:text-lg font-medium text-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                      className="w-full flex items-center justify-between gap-4 p-6 text-left font-heading text-lg font-light text-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                     >
                       <span className="flex items-center gap-3">
-                        <HelpCircle className="w-5 h-5 text-primary shrink-0 opacity-80" />
+                        <HelpCircle className="w-5 h-5 text-terracotta shrink-0 opacity-80" />
                         {faq.question}
                       </span>
                       <ChevronDown
-                        className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-300 ${isOpen ? "transform rotate-180 text-primary" : ""
+                        className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-350 ${isOpen ? "transform rotate-180 text-primary" : ""
                           }`}
                       />
                     </button>
@@ -125,8 +123,10 @@ export function FAQSection() {
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.25, ease: "easeInOut" }}
                       >
-                        <div className="px-6 pb-6 pt-1 text-sm md:text-base leading-relaxed text-muted-foreground border-t border-border/50 bg-background/20">
-                          {faq.answer}
+                        <div className="px-6 pb-6 pt-1 text-sm leading-relaxed text-muted-foreground border-t border-border/40 bg-background/5">
+                          <div className="border-l-2 border-terracotta pl-4 py-1">
+                            {faq.answer}
+                          </div>
                         </div>
                       </motion.div>
                     )}

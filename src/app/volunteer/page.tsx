@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   keywords: [
     "volunteer Bangalore",
     "volunteer opportunities Bangalore 2026",
-    "NGO volunteer India",
+    "social impact volunteer India",
     "social cause volunteer",
     "community volunteering Bangalore",
     "youth mentorship volunteer",

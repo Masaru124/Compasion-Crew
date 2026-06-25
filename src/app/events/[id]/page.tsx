@@ -117,7 +117,7 @@ export default async function EventDetailPage({ params }: EventPageProps) {
           }
         },
     "organizer": {
-      "@type": "NGO",
+      "@type": "Organization",
       "name": "COMPASSION CREW",
       "url": "https://www.compassioncrew.in"
     }

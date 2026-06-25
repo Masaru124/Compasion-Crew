@@ -74,7 +74,7 @@ export function TeamPageClient({ initialTeamMembers }: TeamPageClientProps) {
               Our Team
             </span>
             <h1 className="font-heading text-fluid-hero text-foreground mb-6 tracking-tight">
-              Our NGO Coordinators & Volunteer Organizers
+              Our Coordinators & Volunteer Organizers
             </h1>
             <p className="text-muted-foreground">
               Meet the dedicated individuals who work tirelessly to make our
@@ -95,45 +95,55 @@ export function TeamPageClient({ initialTeamMembers }: TeamPageClientProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="bg-card border border-border rounded shadow-sm p-8"
+                className="group relative bg-card/30 backdrop-blur-md border border-border/80 rounded-2xl p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1 overflow-hidden"
               >
-                <div className="w-12 h-12 mx-auto mb-5 rounded bg-primary/10 flex items-center justify-center text-primary font-heading text-xl font-medium">
-                  {member.name.charAt(0)}
+                {/* Technical blueprint header */}
+                <div className="flex justify-between items-center mb-6 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60 border-b border-border/40 pb-3">
+                  <span>COORD // SYS-0{index + 1}</span>
+                  <span className="text-accent/80 font-semibold">[ACTIVE_MEMBER]</span>
                 </div>
 
-                <div className="text-center">
-                  <h3 className="font-heading text-xl font-medium text-foreground mb-1 tracking-tight">
-                    {member.name}
-                  </h3>
-                  <p className="text-terracotta font-medium text-sm mb-4">
-                    {member.role}
-                  </p>
-                  <p className="text-muted-foreground text-sm mb-6">
-                    {member.bio}
-                  </p>
-
-                  <div className="flex justify-center gap-2">
-                    {member.linkedin && (
-                      <a
-                        href={member.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-9 h-9 rounded flex items-center justify-center hover:bg-neutral-100 hover:text-primary-foreground transition-colors"
-                        aria-label="LinkedIn"
-                      >
-                        <LinkedIn className="h-4 w-4" />
-                      </a>
-                    )}
-                    {member.email && (
-                      <a
-                        href={member.email.startsWith("mailto:") ? member.email : `mailto:${member.email}`}
-                        className="w-9 h-9 rounded flex items-center justify-center hover:bg-neutral-100 hover:text-primary-foreground transition-colors"
-                        aria-label="Email"
-                      >
-                        <Gmail className="h-4 w-4" />
-                      </a>
-                    )}
+                <div className="flex items-start gap-4 mb-5">
+                  <div className="w-12 h-12 shrink-0 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-heading text-lg font-medium transition-transform duration-300 group-hover:scale-105">
+                    {member.name.charAt(0)}
                   </div>
+                  <div>
+                    <h3 className="font-heading text-xl font-medium text-foreground tracking-tight group-hover:text-primary transition-colors duration-300">
+                      {member.name}
+                    </h3>
+                    <p className="text-terracotta font-mono text-xs uppercase tracking-wider font-semibold">
+                      {member.role}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6 min-h-[72px]">
+                  {member.bio}
+                </p>
+
+                <div className="flex gap-4 pt-4 border-t border-border/40 justify-start items-center">
+                  {member.linkedin && (
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono uppercase tracking-wider"
+                      aria-label="LinkedIn"
+                    >
+                      <LinkedIn className="h-4 w-4" />
+                      <span>LinkedIn</span>
+                    </a>
+                  )}
+                  {member.email && (
+                    <a
+                      href={member.email.startsWith("mailto:") ? member.email : `mailto:${member.email}`}
+                      className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono uppercase tracking-wider"
+                      aria-label="Email"
+                    >
+                      <Gmail className="h-4 w-4" />
+                      <span>Email</span>
+                    </a>
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -150,7 +160,7 @@ export function TeamPageClient({ initialTeamMembers }: TeamPageClientProps) {
             transition={{ duration: 0.5 }}
           >
             <h2 className="font-heading text-fluid-section text-primary-foreground mb-4 tracking-tight">
-              Join Our NGO Team in Bangalore
+              Join Our Team in Bangalore
             </h2>
             <p className="text-primary-foreground/70 mb-8 max-w-xl mx-auto">
               We&apos;re always looking for passionate individuals who want to

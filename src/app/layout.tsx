@@ -35,12 +35,12 @@ export const metadata: Metadata = {
   description: "COMPASSION CREW is Bangalore's leading social impact community. Join expert talks, volunteer drives, and networking events to learn, connect, and make a lasting difference. 80G tax-deductible donations.",
   keywords: [
     "social impact community Bangalore",
-    "NGO Bangalore",
+    "social impact Bangalore",
     "volunteer opportunities Bangalore",
     "expert talks Bangalore",
     "networking for changemakers India",
     "COMPASSION CREW",
-    "Compassion Crew NGO",
+    "Compassion Crew Community",
     "learn connect contribute",
     "80G tax deductible donations India",
     "community events Bangalore",
@@ -85,9 +85,9 @@ export const metadata: Metadata = {
 
 const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "NGO",
+  "@type": "Organization",
   "name": "COMPASSION CREW",
-  "alternateName": ["Compassion Crew NGO", "COMPASSION CREW NGO"],
+  "alternateName": ["Compassion Crew", "COMPASSION CREW"],
   "url": "https://www.compassioncrew.in",
   "logo": "https://www.compassioncrew.in/images/logo.png",
   "description": "A community-driven social impact organization empowering students, professionals, and changemakers to learn, connect, and contribute through expert talks, networking, and volunteer initiatives.",

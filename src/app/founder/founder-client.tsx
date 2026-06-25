@@ -49,7 +49,7 @@ export function FounderPageClient({ initialFounder }: FounderPageClientProps) {
           "name": data.name,
           "jobTitle": data.role,
           "worksFor": {
-            "@type": "NGO",
+            "@type": "Organization",
             "name": "COMPASSION CREW",
             "url": "https://www.compassioncrew.in"
           },
