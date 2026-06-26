@@ -60,6 +60,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const title = post.seoTitle || post.title;
   const description = post.seoDescription || post.excerpt;
   const keywords = post.keywords || [post.category, "social impact", "volunteer"];
+  const ogImageUrl = post.mainImage ? `https://www.compassioncrew.in${post.mainImage}` : "https://www.compassioncrew.in/images/og-image.jpg";
 
   return {
     title,
@@ -75,11 +76,20 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       url: `https://www.compassioncrew.in/blog/${slug}`,
       publishedTime: post.publishedAt,
       authors: [post.author?.name || post.authorNameFallback || "COMPASSION CREW"],
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        }
+      ]
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [ogImageUrl],
     },
   };
 }
@@ -135,11 +145,42 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     ]
   };
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt || post.seoDescription,
+    "image": post.mainImage ? `https://www.compassioncrew.in${post.mainImage}` : "https://www.compassioncrew.in/images/og-image.jpg",
+    "datePublished": post.publishedAt,
+    "author": {
+      "@type": "Person",
+      "name": post.author?.name || post.authorNameFallback || "Khushi Kalpesh Joshi",
+      "jobTitle": post.author?.role || "Founder & Director"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "COMPASSION CREW",
+      "url": "https://www.compassioncrew.in",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.compassioncrew.in/images/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://www.compassioncrew.in/blog/${slug}`
+    }
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
       <BlogPostClient post={post} recentPosts={recentPosts} />
     </>

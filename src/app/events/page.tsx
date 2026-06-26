@@ -10,6 +10,26 @@ export const metadata: Metadata = {
   keywords: ["social impact events India", "expert talks Bangalore", "networking meetups Bangalore", "volunteering drives"],
   alternates: {
     canonical: "/events",
+  },
+  openGraph: {
+    title: "Upcoming Community Events & Expert Talks | COMPASSION CREW",
+    description: "Join our community expert talks, networking sessions, and volunteer service drives organized by COMPASSION CREW in Bangalore.",
+    type: "website",
+    url: "https://www.compassioncrew.in/events",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Upcoming Community Events",
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Upcoming Community Events & Expert Talks | COMPASSION CREW",
+    description: "Join our community expert talks, networking sessions, and volunteer service drives organized by COMPASSION CREW in Bangalore.",
+    images: ["/images/og-image.jpg"],
   }
 };
 
@@ -68,11 +88,34 @@ export default async function EventsPage() {
     }
   }));
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.compassioncrew.in"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Upcoming Events",
+        "item": "https://www.compassioncrew.in/events"
+      }
+    ]
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <EventsPageClient initialEvents={eventsData} />
     </>

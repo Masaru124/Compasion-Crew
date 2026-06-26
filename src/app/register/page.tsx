@@ -9,6 +9,26 @@ export const metadata: Metadata = {
   keywords: ["community event registration", "expert talk sign up India", "volunteer service signup"],
   alternates: {
     canonical: "/register",
+  },
+  openGraph: {
+    title: "Event Registration - Secure Your Spot | COMPASSION CREW",
+    description: "Register for COMPASSION CREW's upcoming community events, expert talks, and volunteer activities in Bangalore.",
+    type: "website",
+    url: "https://www.compassioncrew.in/register",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Event Registration",
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Event Registration - Secure Your Spot | COMPASSION CREW",
+    description: "Register for COMPASSION CREW's upcoming community events, expert talks, and volunteer activities in Bangalore.",
+    images: ["/images/og-image.jpg"],
   }
 };
 
@@ -23,5 +43,32 @@ export default async function RegisterPage() {
     console.error("Failed to fetch upcoming events for registration:", error);
   }
 
-  return <RegisterClient initialEvents={eventsData} />;
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.compassioncrew.in"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Event Registration",
+        "item": "https://www.compassioncrew.in/register"
+      }
+    ]
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <RegisterClient initialEvents={eventsData} />
+    </>
+  );
 }

@@ -7,6 +7,26 @@ export const metadata: Metadata = {
   keywords: ["share testimonial", "nonprofit reviews", "volunteer stories India", "COMPASSION CREW impact"],
   alternates: {
     canonical: "/share-story",
+  },
+  openGraph: {
+    title: "Share Your Story | COMPASSION CREW",
+    description: "Share your community experience, volunteering journey, or testimonial with COMPASSION CREW Bangalore.",
+    type: "website",
+    url: "https://www.compassioncrew.in/share-story",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Share Your Story",
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Share Your Story | COMPASSION CREW",
+    description: "Share your community experience, volunteering journey, or testimonial with COMPASSION CREW Bangalore.",
+    images: ["/images/og-image.jpg"],
   }
 };
 

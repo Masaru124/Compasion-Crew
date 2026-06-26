@@ -17,6 +17,26 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/volunteer",
   },
+  openGraph: {
+    title: "Volunteer in Bangalore — Join COMPASSION CREW's Social Drives",
+    description: "Volunteer with COMPASSION CREW in Bangalore. Support youth mentorship, animal welfare drives, and community awareness campaigns.",
+    type: "website",
+    url: "https://www.compassioncrew.in/volunteer",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Volunteer with COMPASSION CREW in Bangalore",
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Volunteer in Bangalore — Join COMPASSION CREW's Social Drives",
+    description: "Volunteer with COMPASSION CREW in Bangalore. Support youth mentorship, animal welfare drives, and community awareness campaigns.",
+    images: ["/images/og-image.jpg"],
+  }
 };
 
 export const revalidate = 60;
@@ -51,8 +71,31 @@ export default async function VolunteerPage() {
 
   const data = volunteerData || defaultVolunteer;
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.compassioncrew.in"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Volunteer Portal",
+        "item": "https://www.compassioncrew.in/volunteer"
+      }
+    ]
+  };
+
   return (
     <div className="planner-bg">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <section className="pt-32 pb-16">
         <div className="section-container max-w-4xl mx-auto text-center">
           <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3">
@@ -70,7 +113,7 @@ export default async function VolunteerPage() {
       <section className="section-container max-w-5xl mx-auto pb-12">
         <div className="grid md:grid-cols-3 gap-6 mb-16">
           {[
-            { title: "What You'll Do", items: ["Mentor underprivileged children at local schools", "Help organize expert talks and community meetups", "Support animal rescue and welfare drives", "Assist with social awareness campaigns"] },
+            { title: "What You'll Do", items: ["Mentor underprivileged children at local schools", "Help organize expert talks and community meetups", "Support animal welfare and rescue drives", "Assist with social awareness campaigns"] },
             { title: "Who Can Join", items: ["Students, professionals & retirees", "Minimum 2–4 hours/month commitment", "No prior experience required", "Any age — just bring your compassion"] },
             { title: "What You Get", items: ["Official certificate of participation", "Network with social leaders & experts", "Featured as Community Champion", "Real, measurable impact on lives"] },
           ].map((col) => (

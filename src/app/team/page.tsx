@@ -9,6 +9,26 @@ export const metadata: Metadata = {
   keywords: ["COMPASSION CREW team", "community coordinators India", "social program leaders Bangalore"],
   alternates: {
     canonical: "/team",
+  },
+  openGraph: {
+    title: "Meet Our Team | COMPASSION CREW",
+    description: "Meet the dedicated team coordinators and program leaders driving COMPASSION CREW's social impact projects in Bangalore.",
+    type: "website",
+    url: "https://www.compassioncrew.in/team",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Meet the COMPASSION CREW Team",
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Meet Our Team | COMPASSION CREW",
+    description: "Meet the dedicated team coordinators and program leaders driving COMPASSION CREW's social impact projects in Bangalore.",
+    images: ["/images/og-image.jpg"],
   }
 };
 
@@ -26,5 +46,32 @@ export default async function TeamPage() {
     console.error("Failed to fetch team members from Postgres:", error);
   }
 
-  return <TeamPageClient initialTeamMembers={teamMembersData || undefined} />;
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.compassioncrew.in"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Our Team",
+        "item": "https://www.compassioncrew.in/team"
+      }
+    ]
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <TeamPageClient initialTeamMembers={teamMembersData || undefined} />
+    </>
+  );
 }
