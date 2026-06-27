@@ -22,8 +22,8 @@ if (fs.existsSync(envLocalPath)) {
 }
 
 export default defineConfig({
-  out: "./src/db/migrations",
-  schema: "./src/db/schema.ts",
+  out: "./db/migrations",
+  schema: "./db/schema.ts",
   dialect: "postgresql",
   dbCredentials: {
     url: process.env.DATABASE_URL!,
