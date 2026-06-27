@@ -8,61 +8,86 @@ interface StoryItem {
   location: string;
 }
 
-
 interface StorySectionProps {
   initialStories?: StoryItem[];
 }
 
 export function StorySection({ initialStories }: StorySectionProps) {
-  const displayStories = initialStories
+  // const displayStories = initialStories || [
+  //   {
+  //     quote:
+  //       "Compassion Crew has been a beacon of hope in my life. Their support and guidance have helped me navigate through some of the toughest times.",
+  //     name: "Jane Doe",
+  //     role: "Community Member",
+  //     location: "New York, USA",
+  //   },
+  //   {
+  //     quote:
+  //       "The team at Compassion Crew truly cares about the people they serve. Their dedication and compassion are unmatched.",
+  //     name: "John Smith",
+  //     role: "Volunteer",
+  //     location: "Los Angeles, USA",
+  //   },
+  //   {
+  //     quote:
+  //       "I am forever grateful for the opportunities and support I received from Compassion Crew. They have changed my life for the better.",
+  //     name: "Emily Johnson",
+  //     role: "Beneficiary",
+  //     location: "Chicago, USA",
+  //   },
+  // ];
 
   return (
-    <section className="border-b border-border py-24 lg:py-32">
+    <section className="border-border border-b py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-sm font-medium text-primary block mb-3">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <span className="text-primary mb-3 block text-sm font-medium">
             Real Stories
           </span>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-foreground mb-4">
-            Voices of <span className="italic text-primary">Change</span>
+          <h2 className="text-foreground mb-4 text-3xl font-bold tracking-tight lg:text-4xl">
+            Voices of <span className="text-primary italic">Change</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            These are not just testimonials—they are echoes of transformed lives,
-            of hope restored, and of dignity reclaimed.
+          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
+            These are not just testimonials—they are echoes of transformed
+            lives, of hope restored, and of dignity reclaimed.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
+        {/* <div className="mb-12 grid gap-6 md:grid-cols-3">
           {displayStories.map((story) => (
             <div
               key={story.name}
-              className="rounded-lg border border-border bg-card p-8 flex flex-col justify-between hover:shadow-sm transition-shadow"
+              className="border-border bg-card flex flex-col justify-between rounded-lg border p-8 transition-shadow hover:shadow-sm"
             >
               <div>
-                <blockquote className="font-heading text-lg font-light text-foreground/90 italic leading-relaxed mb-8">
+                <blockquote className="font-heading text-foreground/90 mb-8 text-lg leading-relaxed font-light italic">
                   &ldquo;{story.quote}&rdquo;
                 </blockquote>
               </div>
 
-              <div className="flex items-center gap-4 pt-6 border-t border-border">
-                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-heading text-base font-medium shrink-0">
+              <div className="border-border flex items-center gap-4 border-t pt-6">
+                <div className="bg-primary/10 text-primary font-heading flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-medium">
                   {story.name.charAt(0)}
                 </div>
                 <div>
-                  <div className="font-heading text-base font-medium text-foreground tracking-tight">{story.name}</div>
-                  <div className="text-sm text-muted-foreground">{story.role}</div>
-                  <div className="text-xs text-muted-foreground/70">{story.location}</div>
+                  <div className="font-heading text-foreground text-base font-medium tracking-tight">
+                    {story.name}
+                  </div>
+                  <div className="text-muted-foreground text-sm">
+                    {story.role}
+                  </div>
+                  <div className="text-muted-foreground/70 text-xs">
+                    {story.location}
+                  </div>
                 </div>
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
 
         <div className="text-center">
           <Link href="/share-story">
-            <Button variant="outline">
-              Share Your Story
-            </Button>
+            <Button variant="outline">Share Your Story</Button>
           </Link>
         </div>
       </div>
