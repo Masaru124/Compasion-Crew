@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     default: "COMPASSION CREW | Bangalore's Social Impact Community",
     template: "%s | COMPASSION CREW"
   },
-  description: "COMPASSION CREW is Bangalore's leading social impact community. Join expert talks, volunteer drives, and networking events to learn, connect, and make a lasting difference. 80G tax-deductible donations.",
+  description: "COMPASSION CREW is Bangalore's leading social impact community. Join expert talks, volunteer drives, and networking events to learn, connect, and make a lasting difference.",
   keywords: [
     "social impact community Bangalore",
     "social impact Bangalore",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     "COMPASSION CREW",
     "Compassion Crew Community",
     "learn connect contribute",
-    "80G tax deductible donations India",
+    "community platform Bangalore",
     "community events Bangalore",
     "social awareness campaigns India"
   ],
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     url: "https://www.compassioncrew.in",
     siteName: "COMPASSION CREW",
     title: "COMPASSION CREW | Bangalore's Social Impact Community",
-    description: "Bangalore's social impact community. Join expert talks, volunteer drives, and networking events. Make a real difference — 80G tax-deductible donations.",
+    description: "Bangalore's social impact community. Join expert talks, volunteer drives, and networking events. Make a real difference.",
     images: [
       {
         url: "/images/og-image.jpg",

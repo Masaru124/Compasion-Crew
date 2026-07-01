@@ -167,8 +167,8 @@ const volunteerPageToSeed = {
 
 const donatePageToSeed = {
   id: "singleton-donate-page",
-  title: "Support Our Mission - 80G Tax Deductible Donations",
-  description: "Your contribution directly supports our community events, expert talk sessions, volunteer initiatives, and future compassion projects. All donations are tax-deductible under Section 80G.",
+  title: "Support Our Mission - Empower Communities",
+  description: "Your contribution directly supports our community events, expert talk sessions, volunteer initiatives, and future compassion projects.",
   donationOptions: JSON.stringify([
     { amount: 500, impact: "Sponsors workshop materials for 5 community participants" },
     { amount: 1000, impact: "Sponsors an online Expert Talk event session" },
@@ -177,7 +177,7 @@ const donatePageToSeed = {
   ]),
   customAmountTitle: "Custom Amount",
   customAmountDesc: "Enter any amount you wish to contribute. Every rupee counts towards creating a better world.",
-  taxNote: "All donations are tax-deductible under Section 80G. You will receive an official tax receipt via email.",
+  taxNote: "As a community-driven social impact platform (not a registered NGO), donations to Compassion Crew are not eligible for 80G tax deductions. We maintain full transparency in funding allocation.",
 };
 
 const teamMembersToSeed = [
@@ -307,7 +307,7 @@ const blogsToSeed = [
           },
           {
             _type: "span",
-            text: ", social impact initiatives designed with community-led capacity building are 3.5 times more likely to survive beyond five years than top-down charity models. By changing the framework from giving assistance to building agency, we empower individuals to shape their own futures."
+            text: ", social impact initiatives designed with community-led capacity building are significantly more likely to achieve sustainable outcomes beyond five years than top-down charity models. By changing the framework from giving assistance to building agency, we empower individuals to shape their own futures."
           }
         ],
         markDefs: [
@@ -329,25 +329,10 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "Before launching any social campaign, it is vital to research and map out the community. Many programs fail because they address symptoms rather than the disease. Spend time listening to community members, gathering quantitative data, and mapping out structural issues. As noted by Dr. Ramesh Sen, Senior Consultant at the ",
-          },
-          {
-            _type: "span",
-            text: "Moksha Foundation",
-            marks: ["link-moksha"]
-          },
-          {
-            _type: "span",
-            text: ": 'Charity addresses the immediate hunger of today, but systemic design builds the agricultural infrastructure for a generation.' At COMPASSION CREW, we begin every project by visiting the neighborhood, interviewing families, and aligning our goals with their self-identified needs."
+            text: "Before launching any social campaign, it is vital to research and map out the community. Many programs fail because they address symptoms rather than the disease. Spend time listening to community members, gathering quantitative data, and mapping out structural issues. As a community, we believe that charity addresses the immediate hunger of today, but systemic design builds the agricultural infrastructure for a generation. At COMPASSION CREW, we begin every project by visiting the neighborhood, interviewing families, and aligning our goals with their self-identified needs."
           }
         ],
-        markDefs: [
-          {
-            _key: "link-moksha",
-            _type: "link",
-            href: "https://www.mokshafoundation.in"
-          }
-        ]
+        markDefs: []
       },
       {
         _type: "block",
@@ -405,7 +390,7 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "Structure your fundraising, logistics, and legal compliance. Transparency builds trust. If you are operating a registered social impact initiative in India, offering tax benefits like 80G tax deductions helps mobilize corporate and individual donations that fuel ground operations. Be completely transparent with your financial statements and regularly publish impact assessment logs."
+            text: "Structure your fundraising, logistics, and compliance. Transparency builds trust. Offering clear pathways for donation allocation helps mobilize individual support that fuels ground operations. Be completely transparent with your financial statements and regularly publish impact assessment logs."
           }
         ]
       },
@@ -471,7 +456,7 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "Sustainability is achieved when the community actively participates in program execution and the focus is on skill building rather than handouts. Secure, transparent funding models (like 80G-eligible individual contributions) also ensure operational longevity."
+            text: "Sustainability is achieved when the community actively participates in program execution and the focus is on skill building rather than handouts. Secure, transparent funding models also ensure operational longevity."
           }
         ]
       },
@@ -547,7 +532,7 @@ const blogsToSeed = [
           },
           {
             _type: "span",
-            text: " discovered that individuals who volunteer at least two hours per week experience a 22% lower mortality rate and significantly higher levels of life satisfaction compared to non-volunteers. This biological reaction releases endorphins and oxytocin, which lower blood pressure and boost emotional resilience. Regular volunteering helps combat feelings of loneliness and isolation, particularly for young professionals moving to major metropolitan areas like Bangalore."
+            text: " highlighted that individuals who volunteer regularly experience significantly higher levels of life satisfaction compared to non-volunteers. This biological reaction releases endorphins and oxytocin, which lower blood pressure and boost emotional resilience. Regular volunteering helps combat feelings of loneliness and isolation, particularly for young professionals moving to major metropolitan areas like Bangalore."
           }
         ],
         markDefs: [
@@ -569,7 +554,7 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "In a world increasingly marked by digital isolation, volunteering brings together people from different backgrounds who share a common purpose. You build deep connections, professional networks, and lifelong friendships with fellow changemakers. Working side-by-side with others to paint a classroom, host an educational workshop, or coordinate shelter logistics breaks down social barriers and builds mutual trust. Dr. Helen Vance, a leading community psychologist, states: 'Volunteering triggers a neurological feedback loop. When you serve, the brain releases oxytocin, reducing cortisol levels and mitigating urban isolation.'"
+            text: "In a world increasingly marked by digital isolation, volunteering brings together people from different backgrounds who share a common purpose. You build deep connections, professional networks, and lifelong friendships with fellow changemakers. Working side-by-side with others to paint a classroom, host an educational workshop, or coordinate shelter logistics breaks down social barriers and builds mutual trust. Volunteering triggers a neurological feedback loop—when you serve, the brain releases oxytocin, reducing cortisol levels and mitigating urban isolation."
           }
         ]
       },
@@ -726,7 +711,7 @@ const blogsToSeed = [
           },
           {
             _type: "span",
-            text: ", the digital divide in developing regions limits the lifetime earning potential of underprivileged youth by up to 30% due to a lack of technical literacy and professional mentorship. Structured mentorship programs are crucial in bridging this gap."
+            text: ", the digital divide in developing regions limits the opportunities of underprivileged youth due to a lack of technical literacy and professional mentorship. Structured mentorship programs are crucial in bridging this gap."
           }
         ],
         markDefs: [
@@ -757,7 +742,7 @@ const blogsToSeed = [
           },
           {
             _type: "span",
-            text: " highlights that structured mentorship programs improve school retention rates by 28% among low-income students. As stated by educational theorist Dr. Albert Carter: 'Mentorship provides the social capital that public curricula alone cannot deliver.'"
+            text: " highlights that structured mentorship programs significantly improve school retention rates and academic outcomes among low-income students. Mentorship provides the social capital that public curricula alone cannot deliver."
           }
         ],
         markDefs: [
@@ -794,7 +779,7 @@ const blogsToSeed = [
         children: [
           {
             _type: "span",
-            text: "You don't need to be a professional teacher to make a difference. Spending just a few hours a month teaching basic computer literacy, playing creative games, or reading stories to children can completely transform their learning trajectory. Consistency is key—showing up regularly builds trust and shows these children that their growth matters. If you are unable to volunteer your time, you can also support our learning centers through a tax-deductible ",
+            text: "You don't need to be a professional teacher to make a difference. Spending just a few hours a month teaching basic computer literacy, playing creative games, or reading stories to children can completely transform their learning trajectory. Consistency is key—showing up regularly builds trust and shows these children that their growth matters. If you are unable to volunteer your time, you can also support our learning centers through a ",
           },
           {
             _type: "span",
@@ -936,7 +921,7 @@ const blogsToSeed = [
           },
           {
             _type: "span",
-            text: ", over 65% of young professionals in Bangalore actively seek weekend community service opportunities to offset occupational stress and build local social connections. Bangalore has communities like COMPASSION CREW that host structured volunteer campaigns, making it easy to sign up, participate in expert talks, and join ground operations directly. Verify that the community has clear goals, tax exemption statuses (like Section 80G eligibility for donors), and a track record of transparent work."
+            text: ", over 65% of young professionals in Bangalore actively seek weekend community service opportunities to offset occupational stress and build local social connections. Bangalore has communities like COMPASSION CREW that host structured volunteer campaigns, making it easy to sign up, participate in expert talks, and join ground operations directly. Verify that the community has clear goals, active projects, and a track record of transparent work."
           }
         ],
         markDefs: [

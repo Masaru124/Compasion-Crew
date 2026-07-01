@@ -11,12 +11,12 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "COMPASSION CREW | Social Impact Community in Bangalore",
-  description: "Join COMPASSION CREW, Bangalore's leading social impact community. Participate in community events, volunteer drives, youth mentorship, and animal rescue campaigns. 80G tax benefits.",
+  description: "Join COMPASSION CREW, Bangalore's leading social impact community. Participate in community events, volunteer drives, youth mentorship, and animal rescue campaigns.",
   keywords: [
     "social impact community in Bangalore",
     "social impact community Bangalore",
     "volunteer opportunities Bangalore",
-    "80G tax deductible donations India",
+    "volunteer Bangalore",
     "youth mentorship Bangalore",
     "animal welfare Bangalore volunteer",
     "women empowerment Bangalore",

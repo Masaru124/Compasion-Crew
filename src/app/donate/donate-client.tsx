@@ -18,8 +18,8 @@ interface DonateData {
 }
 
 const defaultDonate: DonateData = {
-  title: "Support Our Mission - 80G Tax Deductible Donations",
-  description: "Your contribution directly supports our community events, expert talk sessions, volunteer initiatives, and future compassion projects. All donations are tax-deductible under Section 80G.",
+  title: "Support Our Mission - Empower Communities",
+  description: "Your contribution directly supports our community events, expert talk sessions, volunteer initiatives, and future compassion projects.",
   donationOptions: [
     { amount: 500, impact: "Sponsors workshop materials for 5 community participants" },
     { amount: 1000, impact: "Sponsors an online Expert Talk event session" },
@@ -28,7 +28,7 @@ const defaultDonate: DonateData = {
   ],
   customAmountTitle: "Custom Amount",
   customAmountDesc: "Enter any amount you wish to contribute. Every rupee counts towards creating a better world.",
-  taxNote: "All donations are tax-deductible under Section 80G. You will receive an official tax receipt via email."
+  taxNote: "As a community-driven social impact platform (not a registered NGO), donations to Compassion Crew are not eligible for 80G tax deductions. We maintain full transparency in funding allocation."
 };
 
 interface DonatePageClientProps {
@@ -42,7 +42,7 @@ export function DonatePageClient({ initialDonate }: DonatePageClientProps) {
     "@context": "https://schema.org",
     "@type": "DonateAction",
     "name": "Donate to COMPASSION CREW",
-    "description": "Support COMPASSION CREW's social impact programs. Donations are tax-deductible under Section 80G of the Income Tax Act.",
+    "description": "Support COMPASSION CREW's social impact programs. Contributions fund ground logistics, educational materials, and animal care.",
     "recipient": {
       "@type": "Organization",
       "name": "COMPASSION CREW",
@@ -94,7 +94,7 @@ export function DonatePageClient({ initialDonate }: DonatePageClientProps) {
               transition={{ duration: 0.5 }}
             >
               <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-3 border-l-2 border-terracotta pl-3">
-                Tax-Exempt Donation Options
+                Donation Options
               </span>
               <h2 className="font-heading text-fluid-section text-foreground mb-8 tracking-tight font-light">
                 Empower Lives & Save <span className="italic text-primary">Animals</span>
@@ -107,8 +107,7 @@ export function DonatePageClient({ initialDonate }: DonatePageClientProps) {
                   >
                     {/* Technical log header */}
                     <div className="flex justify-between items-center mb-4 font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 border-b border-border/40 pb-2">
-                      <span>COORD // AMT-0{index + 1}</span>
-                      <span className="text-terracotta font-semibold">[80G_TAX_SAVING]</span>
+                      <span>Impact Option 0{index + 1}</span>
                     </div>
 
                     <div className="flex items-center justify-between mb-2">
@@ -132,8 +131,7 @@ export function DonatePageClient({ initialDonate }: DonatePageClientProps) {
             >
               <div className="group relative bg-card/25 backdrop-blur-md border border-border/80 hover:border-primary/50 rounded-2xl p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)]">
                 <div className="flex justify-between items-center mb-6 font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 border-b border-border/40 pb-3">
-                  <span>COORD // CC-DON-01</span>
-                  <span className="text-terracotta font-semibold">[CUSTOM_DIRECTIVE]</span>
+                  <span>Custom Donation</span>
                 </div>
                 <h3 className="font-heading text-2xl font-light text-foreground mb-2 tracking-tight">
                   {data.customAmountTitle}

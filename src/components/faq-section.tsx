@@ -1,9 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, HelpCircle } from "lucide-react";
-
 interface FAQItem {
   question: string;
   answer: string;
@@ -33,12 +27,6 @@ const faqs: FAQItem[] = [
 ];
 
 export function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -53,90 +41,9 @@ export function FAQSection() {
   };
 
   return (
-    <section className="relative planner-bg border-b border-border/60 section-padding">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-      <div className="section-container">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-2xl mx-auto mb-16"
-        >
-          <span className="font-mono text-xs uppercase tracking-widest text-terracotta block mb-2 border-l-2 border-terracotta pl-3 w-fit mx-auto">
-            Frequently Asked Questions
-          </span>
-          <h2 className="font-heading text-fluid-section text-foreground tracking-tight font-light">
-            Got Questions? We Have <span className="italic text-primary">Answers</span>
-          </h2>
-          <p className="text-muted-foreground text-sm mt-4">
-            Learn more about our volunteer programs, donation tax exemptions, and how we manage community operations.
-          </p>
-        </motion.div>
-
-        {/* FAQ Accordion */}
-        <div className="max-w-3xl mx-auto space-y-4">
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-            const uniqueId = `faq-item-${index}`;
-            const panelId = `faq-panel-${index}`;
-
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-              >
-                <div className="bg-card/20 backdrop-blur-md border border-border/80 rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 shadow-sm">
-                  <h3>
-                    <button
-                      id={uniqueId}
-                      aria-expanded={isOpen}
-                      aria-controls={panelId}
-                      onClick={() => toggleFAQ(index)}
-                      className="w-full flex items-center justify-between gap-4 p-6 text-left font-heading text-lg font-light text-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                    >
-                      <span className="flex items-center gap-3">
-                        <HelpCircle className="w-5 h-5 text-terracotta shrink-0 opacity-80" />
-                        {faq.question}
-                      </span>
-                      <ChevronDown
-                        className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-350 ${isOpen ? "transform rotate-180 text-primary" : ""
-                          }`}
-                      />
-                    </button>
-                  </h3>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        id={panelId}
-                        role="region"
-                        aria-labelledby={uniqueId}
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: "easeInOut" }}
-                      >
-                        <div className="px-6 pb-6 pt-1 text-sm leading-relaxed text-muted-foreground border-t border-border/40 bg-background/5">
-                          <div className="border-l-2 border-terracotta pl-4 py-1">
-                            {faq.answer}
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+    />
   );
 }

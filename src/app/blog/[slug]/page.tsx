@@ -26,6 +26,41 @@ const mapBlogFromDb = (b: any): (BlogPost & { body: any }) | null => {
   };
 };
 
+const extractFaqs = (body: any): { q: string; a: string }[] => {
+  if (!Array.isArray(body)) return [];
+  const faqs: { q: string; a: string }[] = [];
+  const faqStartIndex = body.findIndex(block => 
+    block._type === "block" && 
+    block.style === "h2" && 
+    block.children?.some((c: any) => c.text?.toLowerCase().includes("frequently asked questions"))
+  );
+  
+  if (faqStartIndex === -1) return [];
+  
+  for (let i = faqStartIndex + 1; i < body.length; i++) {
+    const block = body[i];
+    if (block._type === "block" && block.style === "h3") {
+      const question = block.children?.map((c: any) => c.text).join("") || "";
+      let answer = "";
+      for (let j = i + 1; j < body.length; j++) {
+        const nextBlock = body[j];
+        if (nextBlock._type === "block") {
+          if (nextBlock.style === "normal") {
+            answer = nextBlock.children?.map((c: any) => c.text).join("") || "";
+            break;
+          } else if (nextBlock.style === "h3" || nextBlock.style === "h2") {
+            break;
+          }
+        }
+      }
+      if (question && answer) {
+        faqs.push({ q: question, a: answer });
+      }
+    }
+  }
+  return faqs;
+};
+
 export async function generateStaticParams() {
   try {
     const list = await db.select({ slug: blogs.slug }).from(blogs);
@@ -172,6 +207,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     }
   };
 
+  const blogFaqs = extractFaqs(post.body);
+  const faqSchema = blogFaqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": blogFaqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.a
+      }
+    }))
+  } : null;
+
   return (
     <>
       <script
@@ -182,6 +231,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       <BlogPostClient post={post} recentPosts={recentPosts} />
     </>
   );

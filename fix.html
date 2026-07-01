@@ -1,0 +1,895 @@
+<div id="sce-root"></div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+    #sce-root {
+        --ink: #11151c;
+        --panel: #181d26;
+        --panel-2: #1f2530;
+        --border: #2a3140;
+        --text: #e9e7e1;
+        --muted: #8d94a3;
+        --accent: #d4a03c;
+        --accent-soft: #d4a03c22;
+        --good: #4f9d82;
+        --good-soft: #4f9d8222;
+        --bad: #c75146;
+        --bad-soft: #c7514622;
+        --link: #e8a674;
+        font-family: 'Inter', sans-serif;
+        background: var(--ink);
+        color: var(--text);
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+    }
+
+    #sce-root * {
+        box-sizing: border-box;
+    }
+
+    #sce-root .wrap {
+        padding: 28px 28px 32px;
+    }
+
+    #sce-root .topbar {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 22px;
+    }
+
+    #sce-root h1 {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 26px;
+        margin: 0;
+        letter-spacing: -0.01em;
+    }
+
+    #sce-root .domain {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 12px;
+        color: var(--muted);
+    }
+
+    #sce-root .diag {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 12px;
+        background: #0c0f14;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 20px;
+        line-height: 1.8;
+    }
+
+    #sce-root .diag .row {
+        display: flex;
+        gap: 10px;
+        align-items: baseline;
+        flex-wrap: wrap;
+    }
+
+    #sce-root .diag .label {
+        color: var(--muted);
+        width: 150px;
+        flex-shrink: 0;
+    }
+
+    #sce-root .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    #sce-root .dot.bad {
+        background: var(--bad);
+    }
+
+    #sce-root .dot.warn {
+        background: var(--accent);
+    }
+
+    #sce-root .dot.good {
+        background: var(--good);
+    }
+
+    #sce-root .diag .code {
+        color: var(--bad);
+    }
+
+    #sce-root .diag .hint {
+        color: var(--muted);
+        font-style: italic;
+    }
+
+    #sce-root .tabs {
+        display: flex;
+        gap: 4px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 22px;
+    }
+
+    #sce-root .tab {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 13.5px;
+        padding: 10px 16px;
+        cursor: pointer;
+        color: var(--muted);
+        border-bottom: 2px solid transparent;
+        user-select: none;
+        transition: color .15s;
+    }
+
+    #sce-root .tab:hover {
+        color: var(--text);
+    }
+
+    #sce-root .tab.active {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+    }
+
+    #sce-root .tab .n {
+        font-family: 'IBM Plex Mono', monospace;
+        color: var(--muted);
+        margin-right: 6px;
+    }
+
+    #sce-root .panel {
+        display: none;
+    }
+
+    #sce-root .panel.active {
+        display: block;
+        animation: fadeIn .25s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(4px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    #sce-root .source-note {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11px;
+        color: var(--muted);
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px 12px;
+        margin-bottom: 18px;
+    }
+
+    #sce-root .cluster-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    @media (max-width: 720px) {
+        #sce-root .cluster-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    #sce-root .cluster {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+    }
+
+    #sce-root .cluster h3 {
+        font-family: 'Fraunces', serif;
+        font-size: 15px;
+        margin: 0 0 4px;
+        font-weight: 600;
+    }
+
+    #sce-root .cluster .desc {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 12px;
+    }
+
+    #sce-root .qrow {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        padding: 7px 0;
+        border-top: 1px solid var(--border);
+        font-size: 13px;
+    }
+
+    #sce-root .qrow:first-of-type {
+        border-top: none;
+    }
+
+    #sce-root .qtext {
+        color: var(--text);
+    }
+
+    #sce-root .qmeta {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11px;
+        color: var(--muted);
+        white-space: nowrap;
+    }
+
+    #sce-root .badge {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 10px;
+        padding: 2px 7px;
+        border-radius: 5px;
+        text-transform: uppercase;
+        letter-spacing: .03em;
+    }
+
+    #sce-root .badge.opp {
+        background: var(--good-soft);
+        color: var(--good);
+    }
+
+    #sce-root .badge.empty {
+        background: var(--panel-2);
+        color: var(--muted);
+        padding: 10px;
+        text-align: center;
+        border-radius: 8px;
+        font-size: 12px;
+    }
+
+    #sce-root .opp-card {
+        margin-top: 18px;
+        background: linear-gradient(135deg, var(--accent-soft), transparent);
+        border: 1px solid var(--accent);
+        border-radius: 12px;
+        padding: 18px;
+    }
+
+    #sce-root .opp-card .eyebrow {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11px;
+        color: var(--accent);
+        margin-bottom: 6px;
+    }
+
+    #sce-root .opp-card h3 {
+        font-family: 'Fraunces', serif;
+        margin: 0 0 8px;
+        font-size: 18px;
+    }
+
+    #sce-root .opp-card p {
+        font-size: 13px;
+        color: var(--muted);
+        margin: 0 0 10px;
+        line-height: 1.6;
+    }
+
+    #sce-root .btn {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 12.5px;
+        background: var(--accent);
+        color: #1a1305;
+        border: none;
+        border-radius: 7px;
+        padding: 9px 14px;
+        cursor: pointer;
+        transition: filter .15s;
+    }
+
+    #sce-root .btn:hover {
+        filter: brightness(1.1);
+    }
+
+    #sce-root .btn.ghost {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+    }
+
+    #sce-root .btn.ghost:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    #sce-root table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    #sce-root th {
+        text-align: left;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 10.5px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    #sce-root td {
+        padding: 10px 10px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+    }
+
+    #sce-root tr:last-child td {
+        border-bottom: none;
+    }
+
+    #sce-root .page-url {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11.5px;
+        color: var(--link);
+    }
+
+    #sce-root .pos {
+        font-family: 'IBM Plex Mono', monospace;
+    }
+
+    #sce-root .sev {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        font-family: 'IBM Plex Mono', monospace;
+    }
+
+    #sce-root .sev.critical {
+        color: var(--bad);
+    }
+
+    #sce-root .sev.high {
+        color: var(--accent);
+    }
+
+    #sce-root .sev.medium {
+        color: var(--muted);
+    }
+
+    #sce-root .issue-list {
+        margin: 6px 0 0;
+        padding-left: 16px;
+        font-size: 12px;
+        color: var(--muted);
+    }
+
+    #sce-root .issue-list li {
+        margin-bottom: 2px;
+    }
+
+    #sce-root .row-expand {
+        cursor: pointer;
+    }
+
+    #sce-root .row-detail {
+        display: none;
+        background: var(--panel-2);
+    }
+
+    #sce-root .row-detail.open {
+        display: table-row;
+    }
+
+    #sce-root .row-detail td {
+        padding: 14px 16px;
+    }
+
+    #sce-root .changelog {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 0 0 10px;
+        padding-left: 16px;
+    }
+
+    #sce-root .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 6px;
+        flex-wrap: wrap;
+    }
+
+    #sce-root .quotable-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    @media (max-width: 780px) {
+        #sce-root .quotable-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    #sce-root textarea {
+        width: 100%;
+        min-height: 140px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        font-size: 13.5px;
+        line-height: 1.6;
+        resize: vertical;
+    }
+
+    #sce-root textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+    }
+
+    #sce-root .score-ring-wrap {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 14px;
+    }
+
+    #sce-root .score-num {
+        font-family: 'Fraunces', serif;
+        font-size: 38px;
+        font-weight: 600;
+    }
+
+    #sce-root .score-label {
+        font-size: 12px;
+        color: var(--muted);
+    }
+
+    #sce-root .check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 0;
+        border-top: 1px solid var(--border);
+        font-size: 12.5px;
+    }
+
+    #sce-root .check:first-of-type {
+        border-top: none;
+    }
+
+    #sce-root .check .mark {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        flex-shrink: 0;
+    }
+
+    #sce-root .check .mark.pass {
+        background: var(--good-soft);
+        color: var(--good);
+    }
+
+    #sce-root .check .mark.fail {
+        background: var(--bad-soft);
+        color: var(--bad);
+    }
+
+    #sce-root .faq-builder {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 14px;
+        margin-top: 14px;
+    }
+
+    #sce-root .faq-pair {
+        margin-bottom: 10px;
+    }
+
+    #sce-root .faq-pair input,
+    #sce-root .faq-pair textarea {
+        width: 100%;
+        background: var(--ink);
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        padding: 8px 10px;
+        color: var(--text);
+        font-size: 12.5px;
+        margin-bottom: 5px;
+        font-family: 'Inter', sans-serif;
+    }
+
+    #sce-root .faq-pair textarea {
+        min-height: 50px;
+    }
+
+    #sce-root pre.schema-out {
+        background: #0c0f14;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11px;
+        color: #b8d4c4;
+        overflow-x: auto;
+        max-height: 240px;
+        overflow-y: auto;
+        line-height: 1.6;
+    }
+
+    #sce-root .copied-flash {
+        color: var(--good);
+        font-size: 11px;
+        margin-left: 8px;
+        opacity: 0;
+        transition: opacity .2s;
+    }
+
+    #sce-root .copied-flash.show {
+        opacity: 1;
+    }
+
+    #sce-root .footnote {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 18px;
+        line-height: 1.6;
+    }
+</style>
+
+<script>
+    (function () {
+        // ---- REAL DATA, captured from actual tool calls in this session ----
+        // gscServer:list_properties -> "No Search Console properties found."
+        // gscServer:get_search_analytics(site_url: sc-domain:compassioncrew.in) -> 403,
+        //   reason: "User does not have sufficient permission for site 'sc-domain:compassioncrew.in'"
+        // Fallback data below is the REAL Search Console CSV export the user uploaded
+        // (Performance > Last 3 months, actual rows span 2026-06-19 to 2026-06-28 only ~10 days).
+        // No 28-vs-prior-28 comparison exists in real data (insufficient history) -- not faked.
+
+        var GSC_LIVE_STATUS = {
+            connected: true,
+            propertiesFound: 0,
+            queryAttempt: {
+                site: 'sc-domain:compassioncrew.in',
+                code: 403,
+                reason: "User does not have sufficient permission for this site"
+            }
+        };
+
+        var QUERIES = [
+            { q: 'compassion crew', clicks: 7, impr: 18, ctr: '38.89%', pos: 2.17, page: '/' },
+            { q: 'compassion', clicks: 0, impr: 27, ctr: '0%', pos: 9.89, page: '/' },
+            { q: 'how to volunteer', clicks: 0, impr: 3, ctr: '0%', pos: 30, page: '/blog/how-to-volunteer-in-bangalore-guide' },
+            { q: 'crews', clicks: 0, impr: 2, ctr: '0%', pos: 3, page: '/' },
+            { q: 'of crew', clicks: 0, impr: 1, ctr: '0%', pos: 6, page: '/' },
+            { q: 'community', clicks: 0, impr: 1, ctr: '0%', pos: 7, page: '/' },
+            { q: 'compassiom', clicks: 0, impr: 1, ctr: '0%', pos: 12, page: '/' },
+            { q: 'creating lasting impact', clicks: 0, impr: 1, ctr: '0%', pos: 14, page: '/blog/creating-lasting-social-impact-step-by-step' },
+            { q: 'volunteering in bangalore for students', clicks: 0, impr: 1, ctr: '0%', pos: 28, page: '/blog/how-to-volunteer-in-bangalore-guide' },
+            { q: 'volunteer work in bangalore', clicks: 0, impr: 1, ctr: '0%', pos: 42, page: '/blog/how-to-volunteer-in-bangalore-guide' },
+            { q: 'ngos in bangalore to volunteer', clicks: 0, impr: 1, ctr: '0%', pos: 50, page: null }
+        ];
+
+        var PAGES = [
+            { url: 'https://www.compassioncrew.in/', clicks: 10, impr: 69, ctr: '14.49%', pos: 7.41 },
+            { url: 'https://www.compassioncrew.in/blog/how-to-volunteer-in-bangalore-guide', clicks: 0, impr: 20, ctr: '0%', pos: 16.35 },
+            { url: 'https://www.compassioncrew.in/about', clicks: 0, impr: 7, ctr: '0%', pos: 9.14 },
+            { url: 'https://www.compassioncrew.in/blog/creating-lasting-social-impact-step-by-step', clicks: 0, impr: 3, ctr: '0%', pos: 14.33 },
+            { url: 'https://www.compassioncrew.in/blog/power-of-volunteering-changing-lives', clicks: 0, impr: 2, ctr: '0%', pos: 4 },
+            { url: 'https://www.compassioncrew.in/blog/educating-future-mentoring-youth', clicks: 0, impr: 2, ctr: '0%', pos: 10.5 }
+        ];
+
+        // Real crawl-derived audit findings (from live page fetches earlier this session)
+        var FLAGGED_PAGES = [
+            {
+                url: '/about', pos: 9.14, impr: 7, severity: 'critical',
+                issues: ['Broken CMS template tags rendering live (COORD // CC-VIS-01, GAP-01...05, VAL-01...04)', '"Registered social impact organization" claim is inaccurate (not an NGO)', '80G tax-deductible reference in OG tags'],
+                fixed: true,
+                changelog: ['Removed all broken CMS placeholder tags', 'Replaced "registered" claim with accurate community-platform language', 'Removed 80G reference from meta/OG tags', 'Rewrote mission/values into full prose']
+            },
+            {
+                url: '/blog/power-of-volunteering-changing-lives', pos: 4, impr: 2, severity: 'critical',
+                issues: ['Fabricated stat attributed to "Harvard Health Publishing" (22% lower mortality)', 'Fabricated quote from invented "Dr. Helen Vance, community psychologist"'],
+                fixed: true,
+                changelog: ['Removed fabricated stat and quote', 'Replaced with defensible, unattributed language about volunteering benefits', 'Closing quote reattributed to actual team member', 'Added FAQPage schema']
+            },
+            {
+                url: '/blog/creating-lasting-social-impact-step-by-step', pos: 14.33, impr: 3, severity: 'critical',
+                issues: ['Fabricated stat attributed to "Stanford SSIR" (3.5x survival claim)', 'Fabricated quote from invented "Dr. Ramesh Sen, Moksha Foundation"', '80G tax-deduction claim appears twice (Step 5 + FAQ)'],
+                fixed: true,
+                changelog: ['Removed fabricated stat and quote', 'Removed both 80G references', 'Rewrote Step 5 around transparency, not tax claims', 'Added FAQPage schema']
+            },
+            {
+                url: '/blog/educating-future-mentoring-youth', pos: 10.5, impr: 2, severity: 'high',
+                issues: ['Fabricated stat attributed to "UNESCO" (30% earning potential claim)', 'Fabricated stat attributed to "Ministry of Education" (28% retention claim)', 'Fabricated quote from invented "Dr. Albert Carter"', 'Tax-deductible donation mention'],
+                fixed: false,
+                changelog: ['Not yet rewritten -- queued next']
+            },
+            {
+                url: '/blog/how-to-volunteer-in-bangalore-guide', pos: 16.35, impr: 20, severity: 'medium',
+                issues: ['Highest-impression page on the site, but cites "80G eligibility for donors" as a vetting step', 'FAQ schema unconfirmed on page'],
+                fixed: false,
+                changelog: ['Not yet rewritten -- queued next']
+            },
+            {
+                url: '/ (homepage)', pos: 7.41, impr: 69, severity: 'medium',
+                issues: ['OG description: "Make a real difference -- 80G tax-deductible donations"'],
+                fixed: false,
+                changelog: ['Not yet rewritten -- queued next']
+            }
+        ];
+
+        function intentOf(q) {
+            if (/compassion crew|compassion$|compassiom|crews|of crew|community/i.test(q)) return 'navigational';
+            if (/how to volunteer|creating lasting impact/i.test(q)) return 'informational';
+            if (/volunteering in bangalore for students|volunteer work in bangalore|ngos in bangalore to volunteer/i.test(q)) return 'commercial';
+            return 'informational';
+        }
+
+        var CLUSTERS = { informational: [], navigational: [], commercial: [], transactional: [] };
+        QUERIES.forEach(function (item) {
+            var intent = intentOf(item.q);
+            CLUSTERS[intent].push(item);
+        });
+
+        var BEST_OPPORTUNITY = {
+            keyword: 'ngos in bangalore to volunteer',
+            why: 'Real impression at position 50, zero owned page targeting it directly. Adjacent terms ("volunteer work in bangalore", "volunteering in bangalore for students") show the same demand pattern and are currently only weakly served by one general guide. DataForSEO is not connected, so no real search volume or difficulty figure is available here -- treat this as a directional signal from real GSC demand, not a sized opportunity, until that connector is added.'
+        };
+
+        // ---------------- RENDER ----------------
+        var root = document.getElementById('sce-root');
+
+        function diagRow(label, html) {
+            return '<div class="row"><span class="label">' + label + '</span><span>' + html + '</span></div>';
+        }
+
+        var diagHtml = ''
+            + diagRow('GSC connector', '<span class="dot warn"></span>connected, 0 verified properties')
+            + diagRow('list_properties()', '<span class="code">→ "No Search Console properties found."</span>')
+            + diagRow('get_search_analytics()', '<span class="code">→ 403 sc-domain:compassioncrew.in — insufficient permission</span>')
+            + diagRow('DataForSEO', '<span class="dot bad"></span>not connected — no volume/difficulty figures shown')
+            + diagRow('Showing instead', '<span class="hint">real GSC CSV export (Jun 19–28, 2026) + live page crawl findings</span>');
+
+        var html = ''
+            + '<div class="wrap">'
+            + '<div class="topbar"><h1>SEO Content Engine</h1><span class="domain">compassioncrew.in</span></div>'
+            + '<div class="diag">' + diagHtml + '</div>'
+            + '<div class="tabs">'
+            + '<div class="tab active" data-tab="columnist"><span class="n">01</span>The Columnist</div>'
+            + '<div class="tab" data-tab="refresher"><span class="n">02</span>The Refresher</div>'
+            + '<div class="tab" data-tab="quotable"><span class="n">03</span>The Quotable</div>'
+            + '</div>'
+
+            // COLUMNIST
+            + '<div class="panel active" id="panel-columnist">'
+            + '<div class="source-note">Source: real GSC Performance export, queries dimension, Jun 19–28 2026 (10 days — earliest available history). Clustered by intent below. No 28-vs-prior-28 trend exists yet; site has insufficient indexed history.</div>'
+            + '<div class="cluster-grid">'
+            + renderCluster('Informational', 'Queries seeking guidance, not a transaction', CLUSTERS.informational)
+            + renderCluster('Navigational', 'Branded queries — people looking for you specifically', CLUSTERS.navigational)
+            + renderCluster('Commercial', 'Comparing or evaluating where to volunteer', CLUSTERS.commercial)
+            + renderCluster('Transactional', 'Ready to act now', CLUSTERS.transactional)
+            + '</div>'
+            + '<div class="opp-card">'
+            + '<div class="eyebrow">BEST UNCLAIMED OPPORTUNITY</div>'
+            + '<h3>"' + BEST_OPPORTUNITY.keyword + '"</h3>'
+            + '<p>' + BEST_OPPORTUNITY.why + '</p>'
+            + '<div class="actions">'
+            + '<button class="btn" id="draft-btn">Draft this page</button>'
+            + '<button class="btn ghost" id="copy-opp-btn">Copy brief</button>'
+            + '</div></div>'
+            + '</div>'
+
+            // REFRESHER
+            + '<div class="panel" id="panel-refresher">'
+            + '<div class="source-note">Position-decline tracking needs 56+ days of GSC history to compare 28 vs. prior 28 — not available yet (site is ~10 days old in Search Console, and the connected account lacks query access to this property). Flags below come from a real crawl of each live page, ranked by severity and current impression volume.</div>'
+            + '<table><thead><tr><th>Page</th><th>Pos.</th><th>Impr.</th><th>Severity</th><th></th></tr></thead><tbody id="refresher-body"></tbody></table>'
+            + '</div>'
+
+            // QUOTABLE
+            + '<div class="panel" id="panel-quotable">'
+            + '<div class="source-note">Self-contained tool — no external data required. Paste a passage to score its citability for AI answer engines, or build FAQ schema below.</div>'
+            + '<div class="quotable-grid">'
+            + '<div>'
+            + '<textarea id="quotable-input" placeholder="Paste a passage you want an AI engine to quote directly...">Compassion Crew runs structured weekend volunteer programs in Bangalore, built for busy professionals and students who want consistent, two-hour-a-week community involvement.</textarea>'
+            + '<div class="actions" style="margin-top:10px;"><button class="btn" id="score-btn">Score it</button></div>'
+            + '</div>'
+            + '<div>'
+            + '<div class="score-ring-wrap"><div class="score-num" id="score-num">--</div><div class="score-label">citability score<br/>out of 100</div></div>'
+            + '<div id="checks"></div>'
+            + '</div>'
+            + '</div>'
+
+            + '<div class="faq-builder">'
+            + '<div style="font-family:Fraunces,serif;font-size:14px;margin-bottom:10px;">FAQPage schema builder</div>'
+            + '<div id="faq-pairs"></div>'
+            + '<div class="actions"><button class="btn ghost" id="add-faq">+ Add question</button><button class="btn" id="gen-schema">Generate schema</button></div>'
+            + '<pre class="schema-out" id="schema-out" style="margin-top:10px; display:none;"></pre>'
+            + '<div class="actions" style="margin-top:8px;"><button class="btn ghost" id="copy-schema" style="display:none;">Copy JSON-LD</button><span class="copied-flash" id="schema-flash">Copied</span></div>'
+            + '</div>'
+            + '</div>'
+
+            + '<div class="footnote">Connect a working Google Search Console property (with query access) and DataForSEO to replace the diagnostics above with live, trended numbers. Nothing in this console is invented — empty or estimated states are labeled as such.</div>'
+            + '</div>';
+
+        root.innerHTML = html;
+
+        function renderCluster(name, desc, items) {
+            var rows = items.length ? items.map(function (it) {
+                return '<div class="qrow"><span class="qtext">' + it.q + '</span><span class="qmeta">pos ' + it.pos + ' · ' + it.impr + ' impr</span></div>';
+            }).join('') : '<div class="badge empty">No real queries in this cluster yet</div>';
+            return '<div class="cluster"><h3>' + name + '</h3><div class="desc">' + desc + '</div>' + rows + '</div>';
+        }
+
+        // Refresher table
+        var rbody = document.getElementById('refresher-body');
+        FLAGGED_PAGES.sort(function (a, b) {
+            var order = { critical: 0, high: 1, medium: 2 };
+            if (order[a.severity] !== order[b.severity]) return order[a.severity] - order[b.severity];
+            return b.impr - a.impr;
+        });
+        FLAGGED_PAGES.forEach(function (p, i) {
+            var tr = document.createElement('tr');
+            tr.className = 'row-expand';
+            tr.innerHTML = '<td class="page-url">' + p.url + '</td>'
+                + '<td class="pos">' + p.pos + '</td>'
+                + '<td class="pos">' + p.impr + '</td>'
+                + '<td><span class="sev ' + p.severity + '">● ' + p.severity + '</span></td>'
+                + '<td>' + (p.fixed ? '<span class="sev medium" style="color:#4f9d82">✓ rewritten</span>' : '<span class="sev medium">queued</span>') + '</td>';
+            rbody.appendChild(tr);
+
+            var detail = document.createElement('tr');
+            detail.className = 'row-detail';
+            detail.id = 'detail-' + i;
+            var issuesHtml = '<ul class="issue-list">' + p.issues.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
+            var changeHtml = '<ul class="changelog">' + p.changelog.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
+            detail.innerHTML = '<td colspan="5">'
+                + '<div style="font-size:11px; color:var(--muted); margin-bottom:4px;">WHAT\'S DRAGGING IT</div>' + issuesHtml
+                + '<div style="font-size:11px; color:var(--muted); margin:10px 0 4px;">' + (p.fixed ? 'CHANGELOG (already shipped)' : 'PLANNED FIX') + '</div>' + changeHtml
+                + '<div class="actions"><button class="btn ghost copy-fix" data-url="' + p.url + '" data-issues="' + p.issues.join(' | ') + '">Copy fix prompt</button></div>'
+                + '</td>';
+            rbody.appendChild(detail);
+
+            tr.addEventListener('click', function () {
+                detail.classList.toggle('open');
+            });
+        });
+
+        root.querySelectorAll('.copy-fix').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var url = btn.getAttribute('data-url');
+                var issues = btn.getAttribute('data-issues');
+                var prompt = 'Refresh ' + url + ' on compassioncrew.in. Issues to fix: ' + issues + '. Give me ready-to-publish rewritten copy, a changelog, new title/meta, and FAQ schema, in brand voice. Do not reintroduce NGO/80G language -- Compassion Crew is not a registered NGO.';
+                if (window.sendPrompt) { window.sendPrompt(prompt); }
+                else { navigator.clipboard.writeText(prompt); }
+            });
+        });
+
+        // Tabs
+        root.querySelectorAll('.tab').forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                root.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
+                root.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+                tab.classList.add('active');
+                document.getElementById('panel-' + tab.getAttribute('data-tab')).classList.add('active');
+            });
+        });
+
+        // Draft / copy brief buttons
+        document.getElementById('draft-btn').addEventListener('click', function () {
+            var prompt = 'Draft a new page for compassioncrew.in targeting "ngos in bangalore to volunteer". Use seo-content, clear E-E-A-T, brand voice. Position Compassion Crew as the community volunteer platform answering this search -- not as an NGO. Give me title, meta, outline, full draft, target keyword, internal links, and schema. Compassion Crew is not a registered NGO -- do not use 80G/tax-deductible language or NGO self-labeling.';
+            if (window.sendPrompt) { window.sendPrompt(prompt); }
+        });
+        document.getElementById('copy-opp-btn').addEventListener('click', function () {
+            navigator.clipboard.writeText('Opportunity: "' + BEST_OPPORTUNITY.keyword + '" -- ' + BEST_OPPORTUNITY.why);
+        });
+
+        // Quotable scorer
+        function scorePassage(text) {
+            var words = text.trim().split(/\s+/).filter(Boolean);
+            var wc = words.length;
+            var checks = [];
+
+            var lenOk = wc >= 40 && wc <= 60;
+            checks.push({ label: wc + ' words (target 40–60)', pass: lenOk });
+
+            var questionLed = /^(what|how|why|when|where|who|which|is|are|does|do|can)\b/i.test(text.trim());
+            checks.push({ label: questionLed ? 'Reads as question-led or directly answers one' : 'Not clearly question-led', pass: questionLed });
+
+            var hasNumber = /\d/.test(text);
+            checks.push({ label: hasNumber ? 'Contains a concrete, checkable claim (number/figure)' : 'No concrete number or checkable claim found', pass: hasNumber });
+
+            var pronounRefs = (text.match(/\b(it|this|that|these|those)\b/gi) || []).length;
+            var selfContained = pronounRefs <= 2;
+            checks.push({ label: selfContained ? 'Reads as self-contained' : 'Leans on outside context (too many it/this/that references)', pass: selfContained });
+
+            var sentences = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+            var oneClaim = sentences.length <= 3;
+            checks.push({ label: sentences.length + ' sentence(s) — concise enough to quote whole', pass: oneClaim });
+
+            var score = Math.round((checks.filter(function (c) { return c.pass; }).length / checks.length) * 100);
+            return { score: score, checks: checks };
+        }
+
+        function renderScore() {
+            var text = document.getElementById('quotable-input').value;
+            var result = scorePassage(text);
+            document.getElementById('score-num').textContent = result.score;
+            var checksEl = document.getElementById('checks');
+            checksEl.innerHTML = result.checks.map(function (c) {
+                return '<div class="check"><span class="mark ' + (c.pass ? 'pass' : 'fail') + '">' + (c.pass ? '✓' : '✕') + '</span>' + c.label + '</div>';
+            }).join('');
+        }
+        document.getElementById('score-btn').addEventListener('click', renderScore);
+        renderScore();
+
+        // FAQ builder
+        var faqCount = 0;
+        function addFaqPair(q, a) {
+            faqCount++;
+            var div = document.createElement('div');
+            div.className = 'faq-pair';
+            div.innerHTML = '<input type="text" placeholder="Question" class="faq-q" value="' + (q || '') + '"/>'
+                + '<textarea placeholder="Answer (40-60 words, self-contained)" class="faq-a">' + (a || '') + '</textarea>';
+            document.getElementById('faq-pairs').appendChild(div);
+        }
+        addFaqPair('Is my donation to Compassion Crew tax-deductible?', 'No. Compassion Crew is a community-driven social impact platform, not a registered NGO, so donations are not currently eligible for 80G tax deduction.');
+        addFaqPair('', '');
+
+        document.getElementById('add-faq').addEventListener('click', function () { addFaqPair(); });
+
+        document.getElementById('gen-schema').addEventListener('click', function () {
+            var pairs = Array.from(document.querySelectorAll('.faq-pair')).map(function (el) {
+                return {
+                    q: el.querySelector('.faq-q').value.trim(),
+                    a: el.querySelector('.faq-a').value.trim()
+                };
+            }).filter(function (p) { return p.q && p.a; });
+
+            var schema = {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": pairs.map(function (p) {
+                    return {
+                        "@type": "Question",
+                        "name": p.q,
+                        "acceptedAnswer": { "@type": "Answer", "text": p.a }
+                    };
+                })
+            };
+
+            var out = document.getElementById('schema-out');
+            out.textContent = JSON.stringify(schema, null, 2);
+            out.style.display = 'block';
+            document.getElementById('copy-schema').style.display = 'inline-block';
+        });
+
+        document.getElementById('copy-schema').addEventListener('click', function () {
+            navigator.clipboard.writeText(document.getElementById('schema-out').textContent);
+            var flash = document.getElementById('schema-flash');
+            flash.classList.add('show');
+            setTimeout(function () { flash.classList.remove('show'); }, 1200);
+        });
+
+    })();
+</script>

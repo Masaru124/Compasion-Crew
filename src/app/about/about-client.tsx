@@ -43,7 +43,7 @@ export function AboutPageClient() {
               About COMPASSION CREW — Social Impact Community Founded in Bangalore
             </h1>
             <p className="text-muted-foreground text-sm">
-              Founded in 2026, COMPASSION CREW is a registered social impact organization connecting students, working professionals, and changemakers through expert talks, volunteering opportunities, and structured community campaigns that drive real, measurable change across India.
+              Founded in 2026, COMPASSION CREW is a community-driven social impact platform connecting students, working professionals, and changemakers through expert talks, volunteering opportunities, and structured community campaigns that drive real, measurable change across India.
             </p>
             <p className="text-muted-foreground text-sm mt-4">
               Our goal is to bridge the gap between people who want to make a difference and the communities that need it most — giving every person a meaningful platform to learn, connect, and contribute.
@@ -65,8 +65,7 @@ export function AboutPageClient() {
             >
               <div>
                 <div className="flex justify-between items-center mb-6 font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 border-b border-border/40 pb-3">
-                  <span>COORD // CC-VIS-01</span>
-                  <span className="text-terracotta font-semibold">[VISION_STATEMENT]</span>
+                  <span>Vision</span>
                 </div>
                 <div className="w-10 h-10 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300">
                   <Eye className="w-5 h-5 text-primary" />
@@ -89,8 +88,7 @@ export function AboutPageClient() {
             >
               <div>
                 <div className="flex justify-between items-center mb-6 font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 border-b border-border/40 pb-3">
-                  <span>COORD // CC-MIS-01</span>
-                  <span className="text-terracotta font-semibold">[MISSION_GOALS]</span>
+                  <span>Mission</span>
                 </div>
                 <div className="w-10 h-10 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300">
                   <Target className="w-5 h-5 text-primary" />
@@ -142,8 +140,7 @@ export function AboutPageClient() {
                 <div key={i} className="bg-card/20 backdrop-blur-md border border-border/80 hover:border-primary/50 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
                   <div>
                     <div className="flex justify-between items-center mb-4 font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 border-b border-border/40 pb-2">
-                      <span>COORD // GAP-0{i+1}</span>
-                      <span className="text-terracotta">[GAP_DETECTED]</span>
+                      <span>Gap {i+1}</span>
                     </div>
                     <p className="text-sm text-foreground/80 leading-relaxed">{problem}</p>
                   </div>
@@ -191,8 +188,7 @@ export function AboutPageClient() {
                 className="group relative bg-card/25 backdrop-blur-md border border-border/80 hover:border-primary/50 rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)] hover:-translate-y-0.5"
               >
                 <div className="flex justify-between items-center mb-5 font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 border-b border-border/40 pb-2">
-                  <span>VAL-0{index + 1}</span>
-                  <span className="text-accent font-semibold">[VALUE]</span>
+                  <span>Value 0{index + 1}</span>
                 </div>
                 <div className="w-10 h-10 mx-auto mb-4 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                   <value.icon className="w-5 h-5 text-primary" />
@@ -218,8 +214,7 @@ export function AboutPageClient() {
             className="group relative bg-card/25 backdrop-blur-md border border-border/80 hover:border-primary/50 rounded-3xl p-10 md:p-16 max-w-4xl mx-auto shadow-[0_12px_40px_rgba(0,0,0,0.12)] transition-all duration-300 text-center overflow-hidden"
           >
             <div className="flex justify-between items-center mb-10 font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 border-b border-border/40 pb-3">
-              <span>COORD // CC-ACT-01</span>
-              <span className="text-terracotta font-semibold">[CAMPAIGN_DIRECTIVE]</span>
+              <span>Action Directive</span>
             </div>
             <h2 className="font-heading text-fluid-section text-foreground mb-4 tracking-tight font-light">
               Support Our Community in Bangalore — Volunteer or Donate

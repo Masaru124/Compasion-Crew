@@ -4,15 +4,15 @@ import { donatePage } from "@/db/schema";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Donate Online - Support Social Impact (80G Tax Benefits)",
-  description: "Support COMPASSION CREW's social impact community. Sponsoring expert talks, volunteer drives, and local initiatives is tax-deductible under Section 80G.",
-  keywords: ["donate to social impact", "80G tax deductible donations", "online donation", "support community Bangalore"],
+  title: "Donate Online - Support Social Impact",
+  description: "Support COMPASSION CREW's social impact community. Sponsor expert talks, volunteer drives, and local initiatives to empower communities in India.",
+  keywords: ["donate to social impact", "support community Bangalore", "online donation", "volunteer Bangalore"],
   alternates: {
     canonical: "/donate",
   },
   openGraph: {
-    title: "Donate Online - Support Social Impact (80G Tax Benefits) | COMPASSION CREW",
-    description: "Support COMPASSION CREW's social impact community. Your contributions are tax-deductible under Section 80G.",
+    title: "Donate Online - Support Social Impact | COMPASSION CREW",
+    description: "Support COMPASSION CREW's social impact community. Your contributions empower youth education, women programs, and animal welfare.",
     type: "website",
     url: "https://www.compassioncrew.in/donate",
     images: [
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Donate Online - Support Social Impact (80G Tax Benefits) | COMPASSION CREW",
-    description: "Support COMPASSION CREW's social impact community. Your contributions are tax-deductible under Section 80G.",
+    title: "Donate Online - Support Social Impact | COMPASSION CREW",
+    description: "Support COMPASSION CREW's social impact community. Your contributions empower youth education, women programs, and animal welfare.",
     images: ["/images/og-image.jpg"],
   }
 };

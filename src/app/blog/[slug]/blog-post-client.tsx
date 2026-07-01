@@ -45,10 +45,22 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
     });
   };
 
+  // Filter body to exclude FAQ section from rendering in the frontend (FAQ is kept in schema only)
+  const filteredBody = useMemo(() => {
+    if (!Array.isArray(post.body)) return post.body;
+    const faqStartIndex = post.body.findIndex((block: any) => 
+      block._type === "block" && 
+      block.style === "h2" && 
+      block.children?.some((c: any) => c.text?.toLowerCase().includes("frequently asked questions"))
+    );
+    if (faqStartIndex === -1) return post.body;
+    return post.body.slice(0, faqStartIndex);
+  }, [post.body]);
+
   // Generate Table of Contents headings
   const headings = useMemo(() => {
-    return Array.isArray(post.body)
-      ? post.body
+    return Array.isArray(filteredBody)
+      ? filteredBody
           .filter((block: any) => block._type === "block" && (block.style === "h2" || block.style === "h3"))
           .map((block: any) => {
             const text = block.children?.map((c: any) => c.text).join("") || "";
@@ -56,7 +68,7 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
             return { text, id, level: block.style };
           })
       : [];
-  }, [post.body]);
+  }, [filteredBody]);
 
   // Track active heading on scroll
   useEffect(() => {
@@ -348,11 +360,11 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
 
               {/* Rich Body Content */}
               <div className="prose prose-neutral dark:prose-invert max-w-none">
-                {Array.isArray(post.body) ? (
-                  <PortableText value={post.body} components={portableTextComponents} />
+                {Array.isArray(filteredBody) ? (
+                  <PortableText value={filteredBody} components={portableTextComponents} />
                 ) : (
                   <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                    {post.body || "No body content available."}
+                    {filteredBody || "No body content available."}
                   </p>
                 )}
               </div>
@@ -388,7 +400,7 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
                   Inspired to Create Lasting Impact?
                 </h3>
                 <p className="text-primary-foreground/80 text-sm md:text-base max-w-xl mx-auto mb-8 leading-relaxed">
-                  Join our community of changemakers. You can contribute your skills as a volunteer or support our running projects through a tax-deductible donation.
+                  Join our community of changemakers. You can contribute your skills as a volunteer or support our running projects through a donation.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <Link href="/volunteer">
@@ -403,7 +415,7 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
                       className="w-full sm:w-auto border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary font-medium"
                     >
                       <Heart className="h-4.5 w-4.5 mr-2 inline fill-current" />
-                      Donate Now (80G)
+                      Donate Now
                     </Button>
                   </Link>
                 </div>
