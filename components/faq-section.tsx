@@ -1,8 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import { ChevronDown } from "lucide-react";
-
 interface FAQItem {
   question: string;
   answer: string;
@@ -62,12 +57,6 @@ const faqs: FAQItem[] = [
 ];
 
 export function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -82,78 +71,9 @@ export function FAQSection() {
   };
 
   return (
-    <section className="border-border border-y py-24 lg:py-32">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
-      <div className="mx-auto max-w-7xl px-6">
-        {/* Heading */}
-        <div className="mb-20 max-w-3xl">
-          <p className="mb-4 text-sm tracking-[0.25em] text-neutral-500 uppercase">
-            Frequently Asked Questions
-          </p>
-
-          <h2 className="font-heading text-4xl font-semibold tracking-tight lg:text-6xl">
-            Got Questions?
-            <span className="text-primary italic"> We Have Answers.</span>
-          </h2>
-
-          <p className="text-muted-foreground mt-6 max-w-2xl leading-8">
-            Everything you need to know about volunteering, donations,
-            partnerships, and how Compassion Crew works.
-          </p>
-        </div>
-
-        {/* FAQ */}
-        <div className="divide-border mx-auto max-w-5xl divide-y">
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-            const uniqueId = `faq-item-${index}`;
-            const panelId = `faq-panel-${index}`;
-
-            return (
-              <div key={index} className="py-6">
-                <button
-                  id={uniqueId}
-                  aria-expanded={isOpen}
-                  aria-controls={panelId}
-                  onClick={() => toggleFAQ(index)}
-                  className="group flex w-full items-center justify-between gap-6 text-left"
-                >
-                  <h3 className="group-hover:text-primary text font-semibold transition-colors">
-                    {faq.question}
-                  </h3>
-
-                  <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-300 ${
-                      isOpen
-                        ? "border-primary bg-primary rotate-180 text-white"
-                        : "border-border"
-                    }`}
-                  >
-                    <ChevronDown className="h-5 w-5" />
-                  </div>
-                </button>
-
-                <div
-                  id={panelId}
-                  role="region"
-                  aria-labelledby={uniqueId}
-                  className={`overflow-hidden transition-all duration-500 ${
-                    isOpen ? "mt-6 max-h-96 opacity-100" : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <p className="text-muted-foreground max-w-3xl leading-8">
-                    {faq.answer}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+    />
   );
 }

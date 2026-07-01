@@ -20,9 +20,9 @@ interface DonateSectionProps {
 }
 
 const defaultDonate: DonateData = {
-  title: "Support Our Mission - 80G Tax Deductible Donations",
+  title: "Support Our Mission - Empower Communities",
   description:
-    "Your contribution directly supports our community events, expert talk sessions, volunteer initiatives, and future compassion projects. All donations are tax-deductible under Section 80G.",
+    "Your contribution directly supports our community events, expert talk sessions, volunteer initiatives, and future compassion projects.",
   donationOptions: [
     {
       amount: 500,
@@ -44,7 +44,7 @@ const defaultDonate: DonateData = {
   customAmountDesc:
     "Enter any amount you wish to contribute. Every rupee counts towards creating a better world.",
   taxNote:
-    "All donations are tax-deductible under Section 80G. You will receive an official tax receipt via email.",
+    "As a community-driven social impact platform (not a registered NGO), donations to Compassion Crew are not eligible for 80G tax deductions. We maintain full transparency in funding allocation.",
 };
 
 export function DonatePageClient({ initialDonate }: DonateSectionProps) {
@@ -54,8 +54,30 @@ export function DonatePageClient({ initialDonate }: DonateSectionProps) {
     return new Intl.NumberFormat("en-IN").format(amount);
   };
 
+  const donateSchema = {
+    "@context": "https://schema.org",
+    "@type": "DonateAction",
+    "name": "Donate to COMPASSION CREW",
+    "description": "Support COMPASSION CREW's social impact programs. Contributions fund ground logistics, educational materials, and animal care.",
+    "recipient": {
+      "@type": "Organization",
+      "name": "COMPASSION CREW",
+      "url": "https://www.compassioncrew.in",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bangalore",
+        "addressRegion": "Karnataka",
+        "addressCountry": "IN"
+      }
+    }
+  };
+
   return (
     <section className="py-24 lg:py-32">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(donateSchema) }}
+      />
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-14 max-w-3xl">
           <span className="text-primary mb-3 block text-sm font-medium">
