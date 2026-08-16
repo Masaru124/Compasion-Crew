@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 import { Gmail, LinkedIn } from "developer-icons";
 
 interface TeamMemberItem {
@@ -12,6 +13,7 @@ interface TeamMemberItem {
   linkedin?: string | null;
   x?: string | null;
   email?: string | null;
+  image?: string | null;
 }
 
 const defaultTeamMembers: TeamMemberItem[] = [
@@ -19,18 +21,21 @@ const defaultTeamMembers: TeamMemberItem[] = [
     name: "Khushi Kalpesh Joshi",
     role: "Founder & Director",
     bio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
+    image: "/images/khushi.jpg",
   },
   {
     name: "Bharath S",
-    role: "Head of Programs",
-    bio: "Development professional specializing in education and women's empowerment programs.",
+    role: "Marketing Lead",
+    bio: "Strategic marketer driving outreach, community campaigns, and digital engagement to expand the reach and social impact of COMPASSION CREW.",
+    image: "/images/bharath.jpeg",
   },
   {
     name: "Bichitra Behera",
-    role: "Full-Stack Developer",
+    role: "Tech Lead",
     bio: "Full-stack developer building scalable web products with a focus on clean architecture, performance, and developer experience.",
     linkedin: "https://linkedin.com/in/bichitrabehera",
     email: "bichitrabehera.345@gmail.com",
+    image: "/images/bichitra.png",
   },
   {
     name: "Shivnandan Tiwari",
@@ -38,18 +43,21 @@ const defaultTeamMembers: TeamMemberItem[] = [
     bio: "Building technology, communities, and opportunities - one project, one event, and one connection at a time.",
     linkedin: "https://linkedin.com/in/shivnandan-1303st",
     email: "shivnandantiwati1303@gmail.com",
+    image: "/images/shivam.png",
   },
   {
     name: "Ravikiran T S",
-    role: "Operations Lead",
+    role: "Finance Lead",
     bio: "Someone who shows up, gives fully, and leaves things better than they found them.",
     linkedin: "https://www.linkedin.com/in/ravikiran-t-s-32078125a/",
     email: "ravikirantsrk@gmail.com",
+    image: "/images/ravikiran.png",
   },
   {
     name: "Matharishwa",
-    role: "Volunteer Coordinator",
-    bio: "Community builder managing our network of 500+ volunteers across 15 states.",
+    role: "CTO",
+    bio: "Chief Technology Officer directing digital innovation, volunteer coordination portals, and regional tech enablement across India.",
+    image: "/images/matha.jpeg",
   },
 ];
 
@@ -95,55 +103,66 @@ export function TeamPageClient({ initialTeamMembers }: TeamPageClientProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="group relative bg-card/30 backdrop-blur-md border border-border/80 rounded-2xl p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1 overflow-hidden"
+                className="group relative bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl hover:border-primary/50 transition-all duration-300 hover:shadow-[0_12px_40px_rgb(0,0,0,0.15)] hover:-translate-y-1 overflow-hidden flex flex-col justify-between"
               >
-                {/* Technical blueprint header */}
-                <div className="flex justify-between items-center mb-6 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60 border-b border-border/40 pb-3">
-                  <span>COORD // SYS-0{index + 1}</span>
-                  <span className="text-accent/80 font-semibold">[ACTIVE_MEMBER]</span>
+                {/* Vertical Photo Header — Matching Portrait Photos */}
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-muted/40">
+                  {member.image ? (
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-4xl font-semibold text-muted-foreground bg-muted/40">
+                      {member.name.charAt(0)}
+                    </div>
+                  )}
+                  {/* Overlay Blueprint Badge */}
+                  <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-md border border-white/10 font-mono text-[10px] uppercase text-white/90">
+                    COORD // SYS-0{index + 1}
+                  </div>
                 </div>
 
-                <div className="flex items-start gap-4 mb-5">
-                  <div className="w-12 h-12 shrink-0 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-heading text-lg font-medium transition-transform duration-300 group-hover:scale-105">
-                    {member.name.charAt(0)}
-                  </div>
+                <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                   <div>
                     <h3 className="font-heading text-xl font-medium text-foreground tracking-tight group-hover:text-primary transition-colors duration-300">
                       {member.name}
                     </h3>
-                    <p className="text-terracotta font-mono text-xs uppercase tracking-wider font-semibold">
+                    <p className="text-terracotta font-mono text-xs uppercase tracking-wider font-semibold mt-1">
                       {member.role}
                     </p>
+                    <p className="text-muted-foreground text-sm leading-relaxed mt-3">
+                      {member.bio}
+                    </p>
                   </div>
-                </div>
 
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6 min-h-[72px]">
-                  {member.bio}
-                </p>
-
-                <div className="flex gap-4 pt-4 border-t border-border/40 justify-start items-center">
-                  {member.linkedin && (
-                    <a
-                      href={member.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono uppercase tracking-wider"
-                      aria-label="LinkedIn"
-                    >
-                      <LinkedIn className="h-4 w-4" />
-                      <span>LinkedIn</span>
-                    </a>
-                  )}
-                  {member.email && (
-                    <a
-                      href={member.email.startsWith("mailto:") ? member.email : `mailto:${member.email}`}
-                      className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono uppercase tracking-wider"
-                      aria-label="Email"
-                    >
-                      <Gmail className="h-4 w-4" />
-                      <span>Email</span>
-                    </a>
-                  )}
+                  <div className="flex gap-4 pt-4 border-t border-border/40 justify-start items-center mt-auto">
+                    {member.linkedin && (
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono uppercase tracking-wider"
+                        aria-label="LinkedIn"
+                      >
+                        <LinkedIn className="h-4 w-4" />
+                        <span>LinkedIn</span>
+                      </a>
+                    )}
+                    {member.email && (
+                      <a
+                        href={member.email.startsWith("mailto:") ? member.email : `mailto:${member.email}`}
+                        className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono uppercase tracking-wider"
+                        aria-label="Email"
+                      >
+                        <Gmail className="h-4 w-4" />
+                        <span>Email</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             ))}

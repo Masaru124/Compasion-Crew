@@ -188,6 +188,7 @@ const teamMembersToSeed = [
     bio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
     linkedin: "https://www.linkedin.com/in/khushi-kalpesh-joshi-895b822a4/",
     email: "Khushijoshi.amcec@gmail.com",
+    image: "/images/khushi.jpg",
   },
   {
     id: "team-member-1",
@@ -196,6 +197,7 @@ const teamMembersToSeed = [
     bio: "Strategic marketer driving outreach, community campaigns, and digital engagement to expand the reach and social impact of COMPASSION CREW.",
     linkedin: "https://www.linkedin.com/in/bharath248m/",
     email: "bharatreddy98m@icloud.com",
+    image: "/images/bharath.jpeg",
   },
   {
     id: "team-member-2",
@@ -204,6 +206,7 @@ const teamMembersToSeed = [
     bio: "Tech Lead at COMPASSION CREW. Full-stack specialist architecting scalable platforms and developer experiences to empower volunteer initiatives.",
     linkedin: "https://linkedin.com/in/bichitrabehera",
     email: "bichitrabehera.345@gmail.com",
+    image: "/images/bichitra.png",
   },
   {
     id: "team-member-3",
@@ -212,6 +215,7 @@ const teamMembersToSeed = [
     bio: "Building technology, communities, and opportunities - one project, one event, and one connection at a time.",
     linkedin: "https://linkedin.com/in/shivnandan-1303st",
     email: "shivnandantiwati1303@gmail.com",
+    image: "/images/shivam.png",
   },
   {
     id: "team-member-4",
@@ -220,6 +224,7 @@ const teamMembersToSeed = [
     bio: "Finance Lead at COMPASSION CREW. Managing financial operations, budget allocations, and tax-exempt donor reporting.",
     linkedin: "https://www.linkedin.com/in/ravikiran-t-s-32078125a/",
     email: "ravikirantsrk@gmail.com",
+    image: "/images/ravikiran.png",
   },
   {
     id: "team-member-5",
@@ -228,6 +233,7 @@ const teamMembersToSeed = [
     bio: "Chief Technology Officer directing digital innovation, volunteer coordination portals, and regional tech enablement across India.",
     linkedin: "https://www.linkedin.com/in/matharishwa-s-322518325",
     email: "anithamatharishw110@gmail.com",
+    image: "/images/matha.jpeg",
   },
 ];
 

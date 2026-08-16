@@ -77,6 +77,7 @@ export function HeroSection({ initialHero }: HeroSectionProps) {
                   src={getImageUrl(data.image)}
                   alt={data.title}
                   fill
+                  sizes="(max-width: 1024px) 100vw, 520px"
                   priority
                   className="object-cover"
                 />

@@ -99,6 +99,7 @@ export const teamMembers = pgTable("team_members", {
   linkedin: text("linkedin"),
   x: text("x"),
   email: text("email"),
+  image: text("image"),
 });
 
 export const blogs = pgTable("blogs", {

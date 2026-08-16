@@ -38,6 +38,7 @@ export function FounderSection({ initialFounder }: FounderSectionProps) {
                   src={data.image || "/images/founders.jpeg"}
                   alt={data.name}
                   fill
+                  sizes="(max-width: 1024px) 320px, 420px"
                   className="object-cover"
                 />
               </div>

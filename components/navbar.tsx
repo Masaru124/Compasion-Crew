@@ -78,17 +78,14 @@ export function Navbar() {
             </div>
 
             {/* Mobile Toggle */}
-            <button
+            <Button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="transition-colors hover:bg-neutral-100 lg:hidden"
+              variant={isMobileMenuOpen ? "ghost" : "default"}
+              className="lg:hidden"
               aria-label="Toggle Menu"
             >
-              {isMobileMenuOpen ? (
-                <Button variant="ghost">Close</Button>
-              ) : (
-                <Button>Menu</Button>
-              )}
-            </button>
+              {isMobileMenuOpen ? "Close" : "Menu"}
+            </Button>
           </nav>
         </div>
       </header>
