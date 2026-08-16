@@ -17,7 +17,7 @@ import {
 } from "./schema";
 
 // Custom environment variables parser for .env.local
-const envLocalPath = path.join(__dirname, "..", "..", ".env.local");
+const envLocalPath = path.join(__dirname, "..", ".env.local");
 if (fs.existsSync(envLocalPath)) {
   const envContent = fs.readFileSync(envLocalPath, "utf8");
   envContent.split(/\r?\n/).forEach((line) => {
@@ -233,6 +233,21 @@ const teamMembersToSeed = [
 
 const eventsToSeed = [
   {
+    id: "event-college-to-corporate",
+    title: "COLLEGE TO CORPORATE",
+    description: "A career readiness & professional transition program co-presented by Compassion Crew in collaboration with AMC Engineering College (Autonomous) CSE-DataScience for final and pre-final year students.",
+    date: "2026-08-21",
+    time: "09:30 - 14:00",
+    location: "Room No. 314, AMC Engineering College, Bengaluru",
+    category: "Workshop",
+    spots: 200,
+    image: "/images/CollegeCorporate.jpeg",
+    isPast: false,
+    registrationOpen: true,
+    details: "COMPASSION CREW in collaboration with AMC Engineering College (Autonomous) CSE-DataScience presents COLLEGE TO CORPORATE.\n\nDate: 21st August 2026 | Time: 9:30 AM – 2:00 PM | Venue: Room No. 314, AMC Engineering College, Bengaluru\n\nCollege gave you the knowledge. This event gives you what comes after it. College to Corporate is a program for final-year and pre-final-year students who want to walk into the job market knowing what they're doing, not just hoping for the best. We're covering the stuff that actually matters: how to transition smoothly from college to corporate, how to carry yourself in an interview, what grooming and presence actually mean in a professional setting, and what nobody tells you about corporate life until you're already in it.\n\nFOUR SESSIONS, ONE DIRECTION — WHAT THE DAY COVERS:\n1. 🎓 COLLEGE TO CORPORATE: Bridging the gap between academic life and professional expectations. Key insights into what hiring managers look for, professional mindset, and building a strong foundation for career success.\n2. 🤝 Mock Interviews: Get in the room and actually do it. Practice rounds with live feedback so you're not rehearsing in your head for the first time during the real thing.\n3. 👔 Grooming & Presence: How you show up matters. Dressing, carrying conversations, and why first impressions in a corporate setting differ from anywhere else.\n4. 💬 Signature You: A practical session on figuring out what makes you different and talking about it clearly in a cover letter, interview, or LinkedIn profile.\n\nHOW THE DAY RUNS — SCHEDULE:\n- 09:30 AM – 10:00 AM: Inauguration — Opening ceremony, welcome address, and introduction to Compassion Crew and AMC Engineering College.\n- 10:00 AM – 12:00 PM: Speaker 1 — Priya Dey (Business Development Consultant; Ex-Sarovar Hotels, ICICI Bank, GE Capital, The Oberoi Group) on College to Corporate transition.\n- 12:00 PM – 02:00 PM: Speaker 2 — Rajiv Srinivas (Managing Partner Addaptech; Ex-SVP Maveric Systems, Head of TA Legato) on Grooming, presence, and carrying yourself in a corporate environment.\n\nPEOPLE WHO HAVE ACTUALLY DONE THIS — THE SPEAKERS:\n• Priya Dey — Business Development Consultant & Corporate Mentor (Ex-Sarovar Hotels, ICICI Bank, GE Capital, The Oberoi Group; LSR Alumna). 30+ years of corporate leadership expertise across Hospitality, Aviation, Banking, and Operations.\n• Rajiv Srinivas — Managing Partner AddAptech, Chief Strategy Officer & Talent Strategist (Ex-SVP Maveric Systems, Head of TA Legato; leadership roles at Thoughtworks, HCL, and Dell). 25+ years IT/ITES talent strategy expert.\n\nEVENT ORGANIZERS & COORDINATORS:\n• Faculty Co-ordinator: Dr. R. Senkamilavalli (Professor, CSE-DS)\n• Student Co-ordinator: Khushi Kalpesh Joshi (CSE-DS)\n• Convener: Dr. Y. Sarojini (Head of Department, CSE - DATA SCIENCE, AMC Engineering College)\n• Principal: Dr. Yuyaraju B. N. (Principal, AMC Engineering College, Bengaluru)\n\nTHIS IS FOR YOU IF... WHO SHOULD COME:\n— You're in your final or pre-final year and placement season is coming.\n— You've sent out resumes and heard nothing back.\n— You've been in interviews and walked out unsure what went wrong.\n— You know you need to present yourself better but nobody has shown you how.\n\nWHAT YOU'LL LEAVE WITH:\n✓ A resume that's ready to go.\n✓ A clearer sense of how you come across in person.\n✓ Interview experience before the real thing.\n✓ Honest answers to the questions you were afraid to ask.\n\nABOUT COMPASSION CREW:\nCompassion Crew is a Bengaluru-based social impact company connecting students, working professionals, and changemakers through expert talks, volunteering opportunities, and community programmes that lead to real, measurable change. Founded in 2026, we work across women's empowerment, children's welfare, animal welfare, and community development. We started this because we believe people do better when they have the right room to be in. College to Corporate is one of those rooms.\n\nGET IN TOUCH:\nwww.compassioncrew.in · contact@campasioncrew.org · +91 88841 56247 · Bengaluru, Karnataka, India",
+    gallery: [],
+  },
+  {
     id: "event-yoga",
     title: "Yoga & Mindfulness Session",
     description: "A community-focused yoga and meditation session to build strength, flexibility, and inner peace. Co-organized for youth and professionals.",
@@ -257,8 +272,8 @@ const eventsToSeed = [
     category: "Expert Talk",
     spots: 100,
     image: "/images/healthcare_ai.png",
-    isPast: false,
-    registrationOpen: true,
+    isPast: true,
+    registrationOpen: false,
     details: "Compassion Crew, in collaboration with Moksha Foundation, brings you an expert session on the future of healthcare technology. Join Asha Holla, an experienced AI engineer at Bloom Value Corporation specializing in Azure data/AI ecosystems and healthcare applications. She will dive deep into how Agentic AI and generative workflows are driving clinical efficiency, risk adjustment compliance, and data-driven healthcare decisions.\n\nWho should attend:\n- Tech professionals and students interested in AI/ML\n- Healthcare technology innovators\n- Anyone interested in the future of intelligence systems in medicine.\n\nSpeaker: Asha Holla (https://www.linkedin.com/in/ashaholla)\nOrganisers: Compassion Crew & Moksha Foundation\n\nAgenda:\n- 10:00 AM: Introductions & Welcome\n- 10:30 AM: Keynote: The Rise of Agentic AI in Healthcare by Asha Holla\n- 12:00 PM: Q&A and Interactive Panel\n- 01:00 PM: Networking Lunch\n- 02:00 PM: Group Brainstorming Session\n- 03:30 PM: Closing Remarks & Certificates\n\nVenue: PES University, Banashankari, Bangalore.",
     gallery: [],
   },
