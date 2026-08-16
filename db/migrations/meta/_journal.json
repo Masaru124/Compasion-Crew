@@ -15,6 +15,13 @@
       "when": 1782256415383,
       "tag": "0001_naive_azazel",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786883995753,
+      "tag": "0002_silent_maddog",
+      "breakpoints": true
     }
   ]
 }

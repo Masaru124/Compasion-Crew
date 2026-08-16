@@ -32,6 +32,7 @@ interface EventItem {
   registrationOpen?: boolean;
   details?: string | null;
   gallery?: any[] | null;
+  registrationUrl?: string | null;
 }
 
 interface EventDetailClientProps {
@@ -324,12 +325,23 @@ export function EventDetailClient({ event }: EventDetailClientProps) {
                   Past Event Recap
                 </button>
               ) : event.registrationOpen ? (
-                <Link
-                  href={`/register?event=${event.id}`}
-                  className="block w-full"
-                >
-                  <Button>Register Now</Button>
-                </Link>
+                event.registrationUrl ? (
+                  <a
+                    href={event.registrationUrl}
+                    target={event.registrationUrl.startsWith("http") ? "_blank" : undefined}
+                    rel={event.registrationUrl.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="block w-full"
+                  >
+                    <Button className="w-full">Register Now</Button>
+                  </a>
+                ) : (
+                  <Link
+                    href={`/register?event=${event.id}`}
+                    className="block w-full"
+                  >
+                    <Button className="w-full">Register Now</Button>
+                  </Link>
+                )
               ) : (
                 <button
                   disabled

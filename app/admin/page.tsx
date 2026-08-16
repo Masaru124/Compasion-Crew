@@ -63,6 +63,7 @@ interface EventItem {
   registrationOpen: boolean;
   details: string | null;
   gallery: string[] | null;
+  registrationUrl?: string | null;
 }
 
 interface EventFormState {
@@ -77,6 +78,7 @@ interface EventFormState {
   isPast: boolean;
   registrationOpen: boolean;
   details: string;
+  registrationUrl: string;
 }
 
 const initialFormState: EventFormState = {
@@ -91,6 +93,7 @@ const initialFormState: EventFormState = {
   isPast: false,
   registrationOpen: true,
   details: "",
+  registrationUrl: "",
 };
 
 interface BlogItem {
@@ -417,6 +420,7 @@ export default function AdminPage() {
       formData.append("isPast", eventForm.isPast.toString());
       formData.append("registrationOpen", eventForm.registrationOpen.toString());
       formData.append("details", eventForm.details);
+      formData.append("registrationUrl", eventForm.registrationUrl);
       
       if (eventFormImage) {
         formData.append("image", eventFormImage);
@@ -479,6 +483,7 @@ export default function AdminPage() {
       isPast: ev.isPast || false,
       registrationOpen: ev.registrationOpen !== false,
       details: ev.details || "",
+      registrationUrl: ev.registrationUrl || "",
     });
     setEventFormImage(null);
     setEventFormGallery([]);
@@ -1125,6 +1130,21 @@ export default function AdminPage() {
                       value={eventForm.details}
                       onChange={(e) => setEventForm({ ...eventForm, details: e.target.value })}
                     />
+                  </div>
+
+                  {/* Custom Registration Link */}
+                  <div className="space-y-2">
+                    <Label htmlFor="registrationUrl">Custom Registration Link (Optional — e.g. Luma, Google Form, Unstop)</Label>
+                    <Input
+                      id="registrationUrl"
+                      type="url"
+                      placeholder="e.g. https://lu.ma/xyz or https://forms.gle/abc"
+                      value={eventForm.registrationUrl}
+                      onChange={(e) => setEventForm({ ...eventForm, registrationUrl: e.target.value })}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      If provided, clicking &quot;Register Now&quot; will open this custom link in a new tab. If left empty, defaults to the built-in registration form.
+                    </p>
                   </div>
 
                   {/* Image Upload */}

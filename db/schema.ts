@@ -14,6 +14,7 @@ export const events = pgTable("events", {
   registrationOpen: boolean("registration_open").notNull().default(true),
   details: text("details"),
   gallery: text("gallery").array(),
+  registrationUrl: text("registration_url"),
 });
 
 export const siteSettings = pgTable("site_settings", {

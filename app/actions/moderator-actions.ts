@@ -274,6 +274,7 @@ export async function createEventAction(formData: FormData): Promise<{ success: 
     const isPast = formData.get("isPast") === "true";
     const registrationOpen = formData.get("registrationOpen") === "true";
     const details = (formData.get("details") as string) || "";
+    const registrationUrl = (formData.get("registrationUrl") as string) || null;
     const imageFile = formData.get("image") as File | null;
     const galleryFiles = formData.getAll("gallery") as File[];
 
@@ -311,6 +312,7 @@ export async function createEventAction(formData: FormData): Promise<{ success: 
       isPast,
       registrationOpen,
       details: parsed.data.details,
+      registrationUrl: registrationUrl && registrationUrl.trim() !== "" ? registrationUrl.trim() : null,
       image: imagePath,
       gallery: galleryPaths,
     });
@@ -341,6 +343,7 @@ export async function updateEventAction(eventId: string, formData: FormData): Pr
     const isPast = formData.get("isPast") === "true";
     const registrationOpen = formData.get("registrationOpen") === "true";
     const details = (formData.get("details") as string) || "";
+    const registrationUrl = (formData.get("registrationUrl") as string) || null;
     const imageFile = formData.get("image") as File | null;
     const removeExistingImage = formData.get("removeImage") === "true";
     const removeExistingGallery = formData.get("removeGallery") === "true";
@@ -393,6 +396,7 @@ export async function updateEventAction(eventId: string, formData: FormData): Pr
       isPast,
       registrationOpen,
       details: parsed.data.details,
+      registrationUrl: registrationUrl && registrationUrl.trim() !== "" ? registrationUrl.trim() : null,
       image: imagePath,
       gallery: galleryPaths,
     }).where(eq(events.id, eventId));

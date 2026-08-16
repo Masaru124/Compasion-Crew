@@ -21,6 +21,7 @@ interface EventItem {
   registrationOpen?: boolean;
   details?: string | null;
   gallery?: string[] | null;
+  registrationUrl?: string | null;
 }
 
 // Date & Time Formatting Helpers
@@ -248,22 +249,48 @@ export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
                           </svg>
                         </button>
                       ) : event.registrationOpen ? (
-                        <button className="inline-flex items-center gap-2 text-xs font-semibold text-gray-950">
-                          Register Now
-                          <svg
-                            className="h-3 w-3"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
+                        event.registrationUrl ? (
+                          <span
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              e.preventDefault();
+                              window.open(event.registrationUrl!, "_blank", "noopener,noreferrer");
+                            }}
+                            className="inline-flex items-center gap-2 text-xs font-semibold text-gray-950 underline hover:text-primary cursor-pointer"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </button>
+                            Register Now (External)
+                            <svg
+                              className="h-3 w-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </svg>
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-2 text-xs font-semibold text-gray-950">
+                            Register Now
+                            <svg
+                              className="h-3 w-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </svg>
+                          </span>
+                        )
                       ) : (
                         <span className="text-xs font-semibold text-gray-400">
                           Registration Closed
