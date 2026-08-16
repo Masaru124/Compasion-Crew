@@ -166,14 +166,14 @@ export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
                   className="group flex flex-col transition"
                 >
                   {/* Event Cover Image */}
-                  <div className="relative mb-6 aspect-[4/3] overflow-hidden bg-gray-100">
+                  <div className="relative mb-6 aspect-[4/3] overflow-hidden bg-neutral-950/90 rounded-lg">
                     {coverUrl ? (
                       <Image
                         src={coverUrl}
                         alt={event.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover transition duration-500"
+                        className="object-contain p-1.5 transition duration-500 group-hover:scale-105"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center bg-gray-100">

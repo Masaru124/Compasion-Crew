@@ -171,13 +171,13 @@ export function BlogClient({ initialBlogs }: BlogClientProps) {
                 <article className="grid gap-12 md:grid-cols-2 md:gap-16">
                   <Link
                     href={`/blog/${featuredBlog.slug}`}
-                    className="group relative aspect-[4/3] overflow-hidden bg-gray-100"
+                    className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-neutral-950/90"
                   >
                     <Image
                       src={getImageUrl(featuredBlog.mainImage)}
                       alt={featuredBlog.title}
                       fill
-                      className="object-cover transition duration-500 group-hover:scale-105"
+                      className="object-contain p-1.5 transition duration-500 group-hover:scale-105"
                     />
                   </Link>
 
@@ -233,13 +233,13 @@ export function BlogClient({ initialBlogs }: BlogClientProps) {
                     {/* Image */}
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="group relative mb-6 aspect-[4/3] overflow-hidden bg-gray-100"
+                      className="group relative mb-6 aspect-[4/3] overflow-hidden rounded-lg bg-neutral-950/90"
                     >
                       <Image
                         src={getImageUrl(post.mainImage)}
                         alt={post.title}
                         fill
-                        className="object-cover transition duration-500 group-hover:scale-105"
+                        className="object-contain p-1.5 transition duration-500 group-hover:scale-105"
                       />
                     </Link>
 

@@ -217,7 +217,7 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
               alt={value?.alt || "Article Image"}
               fill
               sizes="(max-width: 1024px) 100vw, 800px"
-              className="object-cover"
+              className="object-contain p-1"
             />
           </div>
         );
@@ -366,14 +366,14 @@ export function BlogPostClient({ post, recentPosts }: BlogPostClientProps) {
             {/* Middle Main Content Area */}
             <article className="order-1 lg:order-2 lg:col-span-9">
               {/* Feature Image Banner */}
-              <div className="border-border/80 relative mb-10 h-64 w-full overflow-hidden border shadow-md md:h-[480px]">
+              <div className="border-border/80 relative mb-10 h-80 w-full overflow-hidden rounded-lg border bg-neutral-950/95 shadow-md md:h-[540px]">
                 <Image
                   src={getImageUrl(post.mainImage)}
                   alt={post.title}
                   fill
                   priority
                   sizes="(max-width: 1200px) 100vw, 850px"
-                  className="object-cover"
+                  className="object-contain p-2"
                 />
               </div>
 

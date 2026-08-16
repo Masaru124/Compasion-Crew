@@ -1074,6 +1074,514 @@ const blogsToSeed = [
     seoDescription: "Looking to give back? Discover the ultimate guide to volunteering in Bangalore, community opportunities, and how tech professionals and students can participate.",
     keywords: ["volunteer Bangalore", "volunteer opportunities Bangalore", "community volunteer Bangalore", "how to volunteer Bangalore", "social impact Bangalore", "corporate volunteering Bangalore", "weekend volunteering Bangalore"],
   },
+  {
+    id: "blog-5",
+    title: "College to Corporate Transition: How Final-Year Students Can Master Professional Readiness",
+    slug: "college-to-corporate-transition-guide",
+    publishedAt: "2026-08-16T10:00:00Z",
+    excerpt: "Transitioning from college life to a corporate career requires more than academic knowledge. Discover key insights into resume building, interview presence, grooming, and personal branding.",
+    category: "Career Readiness",
+    mainImage: "/images/CollegeCorporate.jpeg",
+    authorName: "Khushi Kalpesh Joshi",
+    authorRole: "Founder & Director",
+    authorBio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
+    body: JSON.stringify([
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Stepping out of the academic environment into the fast-paced corporate world is one of the most significant transitions in a student's life. While universities equip students with technical knowledge and theoretical frameworks, corporate hiring managers look for something beyond grades: adaptability, communication, professional grooming, and emotional intelligence. Program initiatives like COMPASSION CREW's 'College to Corporate' series are designed specifically to bridge this readiness gap.",
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "1. The Mindset Shift: From Academic Grades to Corporate Value" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "In college, success is measured by individual examination scores. In a corporate environment, success is measured by value creation, teamwork, ownership, and problem-solving capability. Hiring managers in top MNCs and start-ups consistently emphasize that technical skill gets you an interview, but mindset and professional communication get you the offer."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "2. The Four Pillars of Corporate Transition" }]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "Pillar A: Resume Crafting with Impact" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Your resume is your personal brochure. Replace generic list of courses with actionable project outcomes, volunteer experience, and quantifiable achievements. Highlight cross-functional skills learned during campus drives or community projects."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "Pillar B: Interview Presence & Communication" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "How you articulate your thoughts under pressure matters. Participating in mock interview rounds with live feedback helps candidates eliminate fillers, structure answers using the STAR method (Situation, Task, Action, Result), and project confidence."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "Pillar C: Professional Grooming & Etiquette" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "First impressions in corporate settings happen in the first 7 seconds. Professional attire, eye contact, firm handshakes, and mindful digital etiquette (such as structured email communication and polished LinkedIn profiles) set successful candidates apart."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "Pillar D: Signature You — Building Your Personal Brand" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "What makes you stand out among hundreds of applicants? Identifying your unique combination of analytical skills, creative problem solving, and community leadership allows you to present a cohesive narrative during interviews."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "3. Experiential Workshops: Why Mock Sessions Matter" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Reading advice is good, but practicing in an interactive room is transformative. Workshops organized by COMPASSION CREW in collaboration with institutions like AMC Engineering College bring seasoned industry leaders—such as corporate strategists, HR executives, and talent mentors—to conduct live mock interviews and provide actionable feedback. Explore our upcoming ",
+          },
+          {
+            _type: "span",
+            text: "community workshops and events",
+            marks: ["link-events"]
+          },
+          {
+            _type: "span",
+            text: " to reserve your spot!"
+          }
+        ],
+        markDefs: [
+          {
+            _key: "link-events",
+            _type: "link",
+            href: "/events"
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "Frequently Asked Questions (FAQ) about College to Corporate Transition" }]
+      },
+      {
+        _type: "block",
+        style: "h3",
+        children: [{ _type: "span", text: "What is the biggest mistake freshers make in job interviews?" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "The most common mistake is focusing purely on memorized technical answers while failing to demonstrate problem-solving logic, enthusiasm, and effective communication skills."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h3",
+        children: [{ _type: "span", text: "How can college students build professional experience before graduation?" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Students can build tangible experience by taking on leadership roles in campus societies, coordinating community service projects, participating in hackathons, and volunteering with social impact organizations."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h3",
+        children: [{ _type: "span", text: "Why is personal branding important for fresh graduates?" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Personal branding differentiates you from thousands of candidates with similar degrees. An updated LinkedIn profile highlighting projects, articles, and community initiatives proves proactive initiative."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "blockquote",
+        children: [
+          {
+            _type: "span",
+            text: "'College gives you the knowledge; professional preparation gives you the room to apply it with confidence.' — COMPASSION CREW Mentorship Team",
+          }
+        ]
+      }
+    ]),
+    seoTitle: "College to Corporate Transition: Professional Readiness Guide",
+    seoDescription: "Master your transition from college to corporate life. Learn actionable interview tips, grooming, resume building, and personal branding from industry mentors in Bangalore.",
+    keywords: ["college to corporate transition", "campus placement preparation", "fresher interview tips Bangalore", "corporate grooming and presence", "college to corporate workshop", "career readiness freshers"],
+  },
+  {
+    id: "blog-6",
+    title: "The Power of Community Knowledge Sharing: Why Expert Talks Accelerate Growth",
+    slug: "power-of-community-knowledge-sharing-expert-talks",
+    publishedAt: "2026-08-15T10:00:00Z",
+    excerpt: "Why traditional classroom learning isn't enough in a rapidly changing job market. Learn how community-driven expert talks and peer meetups bridge the industry knowledge gap.",
+    category: "Community & Learning",
+    mainImage: "/images/healthcare_ai.png",
+    authorName: "Khushi Kalpesh Joshi",
+    authorRole: "Founder & Director",
+    authorBio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
+    body: JSON.stringify([
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "In an era where technology ecosystems and industry paradigms evolve faster than formal university curricula, community-driven knowledge sharing has emerged as an essential engine for career acceleration. From Agentic AI in healthcare to sustainable urban design, access to direct industry insights allows students and young professionals to stay ahead of the curve.",
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "1. The Gap Between Academic Syllabi and On-Ground Industry Realities" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Academic textbooks provide fundamental theory, but corporate projects require practical execution knowledge: cloud deployment pipelines, risk assessment frameworks, cross-functional collaboration, and real-time problem solving. Expert talks hosted by organizations like COMPASSION CREW feature experienced leaders who share case studies straight from production environments."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "2. Peer-to-Peer Networking and Informal Mentorship" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Attending interactive expert sessions is not just about passive listening; it is an open gateway to networking. Engaging with speakers during Q&A sessions, participating in post-talk discussions, and connecting with fellow attendees fosters organic mentor-mentee relationships that frequently lead to internship and job referrals."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "3. Demystifying Emerging Technologies (AI, Cloud, and Beyond)" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "For instance, our expert talk on 'Intelligent Healthcare: The Rise of Agentic AI' co-organized with Moksha Foundation brought specialized AI engineers into direct conversation with students. Participants gained deep clarity on generative workflows and healthcare compliance—topics rarely covered in undergraduate lectures."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "4. How to Get Involved in Local Learning Communities" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Growth flourishes in the right community. Whether you are looking to attend upcoming sessions or propose a topic as a guest speaker, getting involved is simple. Check our ",
+          },
+          {
+            _type: "span",
+            text: "about page",
+            marks: ["link-about"]
+          },
+          {
+            _type: "span",
+            text: " to learn more about our mission or register for our next meetup."
+          }
+        ],
+        markDefs: [
+          {
+            _key: "link-about",
+            _type: "link",
+            href: "/about"
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "Frequently Asked Questions (FAQ) about Expert Talks & Community Learning" }]
+      },
+      {
+        _type: "block",
+        style: "h3",
+        children: [{ _type: "span", text: "Are COMPASSION CREW expert talks open to everyone?" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Yes! Our expert talks and community meetups are open to students, working professionals, educators, and anyone passionate about continuous learning and social impact."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h3",
+        children: [{ _type: "span", text: "How can industry professionals volunteer as speakers?" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Industry leaders and mentors can reach out via our contact channels or volunteer form to propose knowledge sharing topics, panel discussions, or technical workshops."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "blockquote",
+        children: [
+          {
+            _type: "span",
+            text: "'People do better when they have the right room to be in. Community expert talks create that room.' — Khushi Kalpesh Joshi",
+          }
+        ]
+      }
+    ]),
+    seoTitle: "Community Knowledge Sharing & Expert Talks: Fast-Tracking Growth",
+    seoDescription: "Explore how community expert talks and peer learning meetups in Bangalore provide real-world insights, mentorship, and career growth opportunities beyond traditional education.",
+    keywords: ["expert talks Bangalore", "community knowledge sharing", "networking meetups Bangalore", "peer learning social impact", "career mentorship Bangalore", "industry expert workshops"],
+  },
+  {
+    id: "blog-7",
+    title: "Compassion in Action: A Practical Guide to Stray Animal Welfare & Local Rescue Drives",
+    slug: "stray-animal-welfare-community-guide",
+    publishedAt: "2026-08-14T10:00:00Z",
+    excerpt: "Empowering local neighborhoods to care for street animals. A practical guide to organizing safe feeding drives, emergency rescue contacts, and community awareness in urban centers.",
+    category: "Animal Welfare",
+    mainImage: "/images/children1.jpg",
+    authorName: "Khushi Kalpesh Joshi",
+    authorRole: "Founder & Director",
+    authorBio: "Founder of COMPASSION CREW. Dedicated to building a compassionate society, connecting students, professionals, and leaders across India to drive social impact.",
+    body: JSON.stringify([
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "A truly compassionate community measures its empathy by how it treats its most vulnerable members—including community animals. In rapidly expanding urban centers like Bangalore, stray dogs and cats face severe challenges: lack of clean water, traffic hazards, harsh weather, and malnutrition. Building organized, neighborhood-level animal welfare support makes our cities safer and more humane for everyone.",
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "1. Responsible Community Feeding: Best Practices" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Feeding stray animals must be done responsibly to maintain hygiene and community harmony. Designate fixed feeding spots away from high-traffic residential walkways, feed at consistent times (preferably early morning or late evening), and always clean up leftover food or plastic containers immediately after feeding."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "2. Basic First Aid & Rescue Coordination" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Equipping community volunteers with basic animal first aid knowledge—such as treating minor wounds with antiseptic powder, providing clean hydration stations during summer, and knowing local veterinary helpline numbers—saves countless animal lives every month."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "3. Promoting Anti-Rabies Vaccination & ABC Programs" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Animal Birth Control (ABC) and annual Anti-Rabies Vaccination (ARV) drives are the most humane, effective long-term solutions to control stray populations and eliminate rabies risks. Partnering with local municipal bodies and animal shelters ensures smooth execution."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "4. How You Can Join Our Compassion Projects" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Want to contribute your time or resources to animal welfare drives in Bangalore? You can sign up through our ",
+          },
+          {
+            _type: "span",
+            text: "volunteer application form",
+            marks: ["link-vol-app"]
+          },
+          {
+            _type: "span",
+            text: " or support our emergency medical kits by making a ",
+          },
+          {
+            _type: "span",
+            text: "donation",
+            marks: ["link-donate-app"]
+          },
+          {
+            _type: "span",
+            text: "."
+          }
+        ],
+        markDefs: [
+          {
+            _key: "link-vol-app",
+            _type: "link",
+            href: "/volunteer"
+          },
+          {
+            _key: "link-donate-app",
+            _type: "link",
+            href: "/donate"
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h2",
+        children: [{ _type: "span", text: "Frequently Asked Questions (FAQ) about Stray Animal Welfare" }]
+      },
+      {
+        _type: "block",
+        style: "h3",
+        children: [{ _type: "span", text: "What should I do if I find an injured street dog in Bangalore?" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Approach cautiously without scaring the animal. Contact local animal rescue organizations or veterinary ambulances immediately, provide exact location coordinates, and keep the animal calm until help arrives."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "h3",
+        children: [{ _type: "span", text: "Are residents legally allowed to feed stray dogs in India?" }]
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Yes, the Supreme Court of India and Animal Welfare Board guidelines explicitly uphold the right of citizens to feed community animals in designated spots."
+          }
+        ]
+      },
+      {
+        _type: "block",
+        style: "blockquote",
+        children: [
+          {
+            _type: "span",
+            text: "'Dignity, care, and equal value for every life—including the four-legged friends in our streets.' — COMPASSION CREW Animal Welfare Cell",
+          }
+        ]
+      }
+    ]),
+    seoTitle: "Stray Animal Welfare & Community Rescue Guide | COMPASSION CREW",
+    seoDescription: "A practical guide to stray animal welfare in Indian cities. Learn how to organize community feeding drives, coordinate animal rescues, and foster urban empathy.",
+    keywords: ["stray animal welfare India", "animal rescue volunteer Bangalore", "community animal feeding drives", "street dog welfare Bangalore", "animal rescue initiatives", "volunteering for animals"],
+  },
 ];
 
 async function seed() {

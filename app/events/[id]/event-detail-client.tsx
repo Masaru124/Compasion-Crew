@@ -180,15 +180,15 @@ export function EventDetailClient({ event }: EventDetailClientProps) {
 
         {/* Image Gallery */}
         <div className="mb-16">
-          <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
+          <div className="relative aspect-[4/3] md:aspect-[16/10] overflow-hidden bg-neutral-950/95 rounded-lg">
             {imagesList.length > 0 ? (
-              <div className="relative h-full w-full">
+              <div className="relative h-full w-full flex items-center justify-center">
                 <Image
                   src={imagesList[carouselIndex]}
                   alt={`${event.title} - view ${carouselIndex + 1}`}
                   fill
                   priority
-                  className="object-cover"
+                  className="object-contain p-2"
                 />
 
                 {/* Carousel Navigation */}
