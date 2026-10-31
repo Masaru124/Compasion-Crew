@@ -4,8 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, Clock, Users, ImageIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 interface EventItem {
   id: string;
@@ -64,18 +62,21 @@ const formatEventTimeRange = (timeRangeStr: string) => {
   return formatEventTime(timeRangeStr);
 };
 
-const getCategoryVariant = (category: string) => {
-  const variants: Record<
-    string,
-    "default" | "accent" | "success" | "warning" | "secondary" | "outline"
-  > = {
-    "Expert Talk": "accent",
-    "Community Meetup": "default",
-    "Service Drive": "warning",
-    Campaign: "success",
-    Workshop: "secondary",
-  };
-  return variants[category] || "default";
+const getCategoryBadgeClass = (category: string) => {
+  switch (category) {
+    case "Hackathon":
+      return "bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-sm";
+    case "Expert Talk":
+      return "bg-emerald-700 text-white font-semibold";
+    case "Workshop":
+      return "bg-slate-800 text-white font-semibold";
+    case "Service Drive":
+      return "bg-amber-600 text-white font-semibold";
+    case "Campaign":
+      return "bg-teal-700 text-white font-semibold";
+    default:
+      return "bg-gray-950 text-white font-semibold";
+  }
 };
 
 interface EventsPageClientProps {
@@ -183,7 +184,11 @@ export function EventsPageClient({ initialEvents }: EventsPageClientProps) {
                     )}
                     {/* Category Badge */}
                     <div className="absolute top-4 left-4">
-                      <span className="inline-block bg-gray-950 px-3 py-1 text-xs font-semibold text-white">
+                      <span
+                        className={`inline-block px-3 py-1 text-xs font-semibold rounded-sm ${getCategoryBadgeClass(
+                          event.category,
+                        )}`}
+                      >
                         {event.category}
                       </span>
                     </div>

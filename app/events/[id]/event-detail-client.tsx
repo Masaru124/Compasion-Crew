@@ -13,10 +13,9 @@ import {
   ChevronLeft,
   ChevronRight,
   ImageIcon,
-  Link2,
+  ExternalLink,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 interface EventItem {
   id: string;
@@ -81,18 +80,21 @@ const formatEventTimeRange = (timeRangeStr: string) => {
   return formatEventTime(timeRangeStr);
 };
 
-const getCategoryVariant = (category: string) => {
-  const variants: Record<
-    string,
-    "default" | "accent" | "success" | "warning" | "secondary" | "outline"
-  > = {
-    "Expert Talk": "accent",
-    "Community Meetup": "default",
-    "Service Drive": "warning",
-    Campaign: "success",
-    Workshop: "secondary",
-  };
-  return variants[category] || "default";
+const getCategoryBadgeClass = (category: string) => {
+  switch (category) {
+    case "Hackathon":
+      return "bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-sm";
+    case "Expert Talk":
+      return "bg-emerald-700 text-white font-semibold";
+    case "Workshop":
+      return "bg-slate-800 text-white font-semibold";
+    case "Service Drive":
+      return "bg-amber-600 text-white font-semibold";
+    case "Campaign":
+      return "bg-teal-700 text-white font-semibold";
+    default:
+      return "bg-gray-950 text-white font-semibold";
+  }
 };
 
 export function EventDetailClient({ event }: EventDetailClientProps) {
@@ -170,7 +172,11 @@ export function EventDetailClient({ event }: EventDetailClientProps) {
         {/* Header */}
         <div className="mb-16">
           <div className="mb-4">
-            <span className="inline-block bg-gray-950 px-3 py-1 text-xs font-semibold text-white">
+            <span
+              className={`inline-block px-3.5 py-1 text-xs font-semibold rounded-sm ${getCategoryBadgeClass(
+                event.category,
+              )}`}
+            >
               {event.category}
             </span>
           </div>
@@ -326,14 +332,22 @@ export function EventDetailClient({ event }: EventDetailClientProps) {
                 </button>
               ) : event.registrationOpen ? (
                 event.registrationUrl ? (
-                  <a
-                    href={event.registrationUrl}
-                    target={event.registrationUrl.startsWith("http") ? "_blank" : undefined}
-                    rel={event.registrationUrl.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="block w-full"
-                  >
-                    <Button className="w-full">Register Now</Button>
-                  </a>
+                  <div className="space-y-3">
+                    <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-3 text-xs text-amber-800 dark:text-amber-300">
+                      ⚡ <strong>External Registration:</strong> Registration for this event is hosted on the official form.
+                    </div>
+                    <a
+                      href={event.registrationUrl}
+                      target={event.registrationUrl.startsWith("http") ? "_blank" : undefined}
+                      rel={event.registrationUrl.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="block w-full"
+                    >
+                      <Button className="w-full flex items-center justify-center gap-2">
+                        <span>Register Now</span>
+                        <ExternalLink className="h-4 w-4" />
+                      </Button>
+                    </a>
+                  </div>
                 ) : (
                   <Link
                     href={`/register?event=${event.id}`}

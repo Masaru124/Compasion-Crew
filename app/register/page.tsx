@@ -37,8 +37,10 @@ export default async function RegisterPage() {
   
   try {
     const list = await db.select().from(events);
-    // Filter to upcoming events where registration is open
-    eventsData = list.filter((e) => !e.isPast && e.registrationOpen !== false);
+    // Filter to upcoming events where registration is open and sort by date
+    eventsData = list
+      .filter((e) => !e.isPast && e.registrationOpen !== false)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   } catch (error) {
     console.error("Failed to fetch upcoming events for registration:", error);
   }

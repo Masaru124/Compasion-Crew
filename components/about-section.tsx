@@ -109,7 +109,7 @@ export function AboutSection({ initialMission }: AboutSectionProps) {
             <span className="rounded-md bg-violet-500 text-black px-2 py-1 font-semibold ">
               lasting impact
             </span>
-            . Our work spans education, women's empowerment, animal welfare, and
+            . Our work spans education, women&apos;s empowerment, animal welfare, and
             community development across India.
           </p>
         </div>
