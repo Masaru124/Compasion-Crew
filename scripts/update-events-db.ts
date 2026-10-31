@@ -39,7 +39,7 @@ async function main() {
   const codeSparkDetails = `DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING (DATA SCIENCE), AMC ENGINEERING COLLEGE PRESENTS:
 CODE SPARK 2026 — INNOVATE, COLLABORATE, AND BUILD SOLUTIONS THAT MATTER
 
-Date: 12th November 2026 | Time: 09:00 AM – 09:00 PM | Venue: AMC Engineering College, Bengaluru
+Date: 12th November 2026 | Time: 08:30 AM – 09:30 PM | Venue: AMC Engineering College, Bengaluru
 Organized by: Department of Computer Science and Engineering (Data Science), AMC Engineering College, Bengaluru
 Registration Link: https://forms.gle/53PRUzuHc9Vriyyq5
 
@@ -63,22 +63,38 @@ WHY PARTICIPATE?
 • Gain Hackathon Experience: Hone your agile development, time management, and presentation pitch skills in a competitive environment.
 
 EVENT TIMELINE & DETAILED SCHEDULE:
-• 09:00 AM – 09:30 AM: Registration & Participant Check-in
-• 09:30 AM – 10:00 AM: Inauguration Ceremony
-• 10:00 AM – 10:15 AM: Rules, Guidelines & Problem Statement Briefing
-• 10:15 AM: Official Hackathon Begins
-• 10:15 AM – 01:00 PM: Hacking Session – Phase 1
+• 08:30 AM – 09:00 AM: Registration & Check-in
+  Participant verification, ID cards and welcome kits
+• 09:00 AM – 09:20 AM: Inaugural Ceremony
+  Welcome address, dignitary introductions and inauguration
+• 09:20 AM – 09:40 AM: Event Briefing
+  Introduction, rules, problem statements, tracks and judging criteria
+• 09:40 AM: Hackathon Begins
+  Official commencement of coding
+• 09:40 AM – 01:00 PM: Hacking Session – Phase 1
+  Ideation, planning and development
 • 01:00 PM – 02:00 PM: Lunch Break
-• 02:00 PM – 04:00 PM: Hacking Session – Phase 2 & Mentorship
-• 04:00 PM – 04:30 PM: Evening Snacks & Refreshments
-• 04:30 PM – 05:30 PM: Final Hacking Session, Testing & Documentation
-• 05:30 PM: Deadline – Final Project Submission
-• 05:30 PM – 06:15 PM: Initial Evaluation & Finalist Shortlisting
-• 06:15 PM – 07:30 PM: Finalist Presentations & Project Demonstrations
-• 07:30 PM – 08:00 PM: Dinner Break
-• 08:00 PM – 08:20 PM: Judges' Deliberation & Result Finalization
-• 08:20 PM – 08:50 PM: Winner Announcement, Prize Distribution & Certificates
-• 08:50 PM – 09:00 PM: Vote of Thanks & Closing Ceremony
+  Lunch and networking
+• 02:00 PM – 04:00 PM: Hacking Session – Phase 2
+  Development and mentor interactions
+• 04:00 PM – 04:30 PM: Evening Snacks
+  Tea, coffee and refreshments
+• 04:30 PM – 05:30 PM: Final Hacking Session
+  Testing, debugging and documentation
+• 05:30 PM: Final Submission Deadline
+  Submission of project, source code and presentation
+• 05:30 PM – 06:15 PM: Initial Evaluation
+  Project screening and finalist shortlisting
+• 06:15 PM – 07:30 PM: Finalist Presentations
+  Project demonstrations before the judging panel
+• 07:30 PM – 08:15 PM: Dinner Break
+  Dinner for participants and organizing team
+• 08:15 PM – 08:50 PM: Judges' Deliberation
+  Final scoring and result verification
+• 08:50 PM – 09:00 PM: Winners Announcement & Recognition
+  Declaration of winners and award recognition
+• 09:00 PM – 09:30 PM: Vote of Thanks & Closing Ceremony
+  Acknowledgements, sponsor recognition and formal conclusion
 
 REGISTRATION GUIDELINES & INSTRUCTIONS:
 • Team Size: Student teams (check form for team composition options).
@@ -98,7 +114,7 @@ Think. Build. Innovate. See you at CODE SPARK 2026!`;
     description:
       "A high-energy hackathon with an exciting ₹60,000 prize pool, bringing together passionate student innovators, developers, and problem-solvers to build technology-driven solutions to real-world challenges. Organized by the Department of Computer Science and Engineering (Data Science), AMC Engineering College, Bengaluru.",
     date: "2026-11-12",
-    time: "09:00 - 21:00",
+    time: "08:30 - 21:30",
     location: "AMC Engineering College, Bengaluru",
     category: "Hackathon",
     spots: 200,
@@ -111,7 +127,7 @@ Think. Build. Innovate. See you at CODE SPARK 2026!`;
   };
 
   // 1. Upsert CODE SPARK 2026
-  console.log("⚡ Upserting CODE SPARK 2026 with ₹60,000 Prize Pool highlight...");
+  console.log("⚡ Upserting CODE SPARK 2026 with new timing (08:30 - 21:30) and updated detailed activities...");
   await db
     .insert(events)
     .values(codeSparkEvent)
@@ -137,9 +153,9 @@ Think. Build. Innovate. See you at CODE SPARK 2026!`;
     .where(eq(events.id, "event-code-spark-2026"));
   console.log("\n📋 Updated CODE SPARK in Neon DB:");
   console.log(`- Title: ${updatedCodeSpark.title}`);
-  console.log(`- Description: ${updatedCodeSpark.description}`);
   console.log(`- Time: ${updatedCodeSpark.time}`);
-  console.log(`- Prize pool highlighted in details: ${updatedCodeSpark.details?.includes("₹60,000")}`);
+  console.log(`- Schedule includes 08:30 AM: ${updatedCodeSpark.details?.includes("08:30 AM")}`);
+  console.log(`- Schedule includes 09:30 PM: ${updatedCodeSpark.details?.includes("09:30 PM")}`);
 }
 
 main().catch((err) => {
