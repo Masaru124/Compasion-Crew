@@ -39,7 +39,7 @@ async function main() {
   const codeSparkDetails = `DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING (DATA SCIENCE), AMC ENGINEERING COLLEGE PRESENTS:
 CODE SPARK 2026 — INNOVATE, COLLABORATE, AND BUILD SOLUTIONS THAT MATTER
 
-Date: 12th November 2026 | Time: 09:00 AM – 06:00 PM | Venue: AMC Engineering College, Bengaluru
+Date: 12th November 2026 | Time: 09:00 AM – 09:00 PM | Venue: AMC Engineering College, Bengaluru
 Organized by: Department of Computer Science and Engineering (Data Science), AMC Engineering College, Bengaluru
 Registration Link: https://forms.gle/53PRUzuHc9Vriyyq5
 
@@ -59,14 +59,23 @@ WHY PARTICIPATE?
 • Gain Hackathon Experience: Hone your agile development, time management, and presentation pitch skills in a competitive environment.
 • Win Prizes & Recognition: Compete for prestigious awards, cash prizes, merit certificates, and institutional recognition.
 
-EVENT SCHEDULE:
-• 09:00 AM – 09:30 AM: Registration check-in, team desk allocations, and welcome orientation
-• 09:30 AM – 10:00 AM: Keynote address, problem statement briefing, and hackathon kickoff
-• 10:00 AM – 01:00 PM: Sprint 1 — Architecture, ideation, and core prototyping
-• 01:00 PM – 02:00 PM: Networking lunch break
-• 02:00 PM – 04:30 PM: Sprint 2 — Feature integration, refinement, and mentoring feedback
-• 04:30 PM – 05:30 PM: Final project submissions & pitch presentations to the jury
-• 05:30 PM – 06:00 PM: Results announcement, award ceremony, and valedictory address
+EVENT TIMELINE & DETAILED SCHEDULE:
+• 09:00 AM – 09:30 AM: Registration & Participant Check-in
+• 09:30 AM – 10:00 AM: Inauguration Ceremony
+• 10:00 AM – 10:15 AM: Rules, Guidelines & Problem Statement Briefing
+• 10:15 AM: Official Hackathon Begins
+• 10:15 AM – 01:00 PM: Hacking Session – Phase 1
+• 01:00 PM – 02:00 PM: Lunch Break
+• 02:00 PM – 04:00 PM: Hacking Session – Phase 2 & Mentorship
+• 04:00 PM – 04:30 PM: Evening Snacks & Refreshments
+• 04:30 PM – 05:30 PM: Final Hacking Session, Testing & Documentation
+• 05:30 PM: Deadline – Final Project Submission
+• 05:30 PM – 06:15 PM: Initial Evaluation & Finalist Shortlisting
+• 06:15 PM – 07:30 PM: Finalist Presentations & Project Demonstrations
+• 07:30 PM – 08:00 PM: Dinner Break
+• 08:00 PM – 08:20 PM: Judges' Deliberation & Result Finalization
+• 08:20 PM – 08:50 PM: Winner Announcement, Prize Distribution & Certificates
+• 08:50 PM – 09:00 PM: Vote of Thanks & Closing Ceremony
 
 REGISTRATION GUIDELINES & INSTRUCTIONS:
 • Team Size: Student teams (check form for team composition options).
@@ -86,7 +95,7 @@ Think. Build. Innovate. See you at CODE SPARK 2026!`;
     description:
       "A high-energy hackathon bringing together passionate student innovators, developers, and problem-solvers to build technology-driven solutions to real-world challenges. Organized by the Department of Computer Science and Engineering (Data Science), AMC Engineering College, Bengaluru.",
     date: "2026-11-12",
-    time: "09:00 - 18:00",
+    time: "09:00 - 21:00",
     location: "AMC Engineering College, Bengaluru",
     category: "Hackathon",
     spots: 200,
@@ -99,7 +108,7 @@ Think. Build. Innovate. See you at CODE SPARK 2026!`;
   };
 
   // 1. Upsert CODE SPARK 2026
-  console.log("⚡ Upserting CODE SPARK 2026...");
+  console.log("⚡ Upserting CODE SPARK 2026 with updated timing & detailed timeline...");
   await db
     .insert(events)
     .values(codeSparkEvent)
@@ -109,8 +118,7 @@ Think. Build. Innovate. See you at CODE SPARK 2026!`;
     });
   console.log("✅ CODE SPARK 2026 inserted/upserted successfully!");
 
-  // 2. Update COLLEGE TO CORPORATE to past event
-  console.log("⚡ Updating COLLEGE TO CORPORATE to past event...");
+  // 2. Ensure COLLEGE TO CORPORATE is past event
   await db
     .update(events)
     .set({
@@ -118,14 +126,13 @@ Think. Build. Innovate. See you at CODE SPARK 2026!`;
       registrationOpen: false,
     })
     .where(eq(events.id, "event-college-to-corporate"));
-  console.log("✅ COLLEGE TO CORPORATE marked as past event!");
 
   // 3. Verify events in DB
   const allEvents = await db.select().from(events);
   console.log("\n📋 Current Events in Neon DB:");
   allEvents.forEach((ev) => {
     console.log(
-      `- [${ev.id}] "${ev.title}" | isPast: ${ev.isPast} | regOpen: ${ev.registrationOpen} | category: ${ev.category} | date: ${ev.date} | url: ${ev.registrationUrl}`
+      `- [${ev.id}] "${ev.title}" | time: ${ev.time} | isPast: ${ev.isPast} | regOpen: ${ev.registrationOpen} | date: ${ev.date}`
     );
   });
 }
