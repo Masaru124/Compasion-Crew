@@ -43,6 +43,9 @@ Date: 12th November 2026 | Time: 09:00 AM – 09:00 PM | Venue: AMC Engineering 
 Organized by: Department of Computer Science and Engineering (Data Science), AMC Engineering College, Bengaluru
 Registration Link: https://forms.gle/53PRUzuHc9Vriyyq5
 
+🏆 PRIZE POOL: ₹60,000
+Compete for a total cash prize pool of ₹60,000 alongside prestigious trophies, certificates of excellence, and category-wise awards!
+
 WELCOME & THEME:
 Code Spark 2026 is an intense, high-energy hackathon bringing together passionate student innovators, developers, designers, and problem-solvers to ideate, collaborate, and build technology-driven solutions for real-world challenges across AI, Machine Learning, Data Science, Web Development, and Emerging Technologies.
 
@@ -53,11 +56,11 @@ Tracks & Focus Areas:
 • Emerging Technologies & Smart Innovations
 
 WHY PARTICIPATE?
+• ₹60,000 Prize Pool & Awards: Compete for a grand total cash prize pool of ₹60,000, prestigious trophies, merit certificates, and institutional recognition.
 • Showcase Your Skills: Demonstrate your technical expertise and problem-solving prowess before a panel of industry veterans and academic evaluators.
 • Innovate & Collaborate: Team up with passionate peers and network with fellow student changemakers and mentors.
 • Build Practical Solutions: Take an idea from concept to prototype, crafting viable applications that solve tangible problems.
 • Gain Hackathon Experience: Hone your agile development, time management, and presentation pitch skills in a competitive environment.
-• Win Prizes & Recognition: Compete for prestigious awards, cash prizes, merit certificates, and institutional recognition.
 
 EVENT TIMELINE & DETAILED SCHEDULE:
 • 09:00 AM – 09:30 AM: Registration & Participant Check-in
@@ -93,7 +96,7 @@ Think. Build. Innovate. See you at CODE SPARK 2026!`;
     id: "event-code-spark-2026",
     title: "CODE SPARK 2026",
     description:
-      "A high-energy hackathon bringing together passionate student innovators, developers, and problem-solvers to build technology-driven solutions to real-world challenges. Organized by the Department of Computer Science and Engineering (Data Science), AMC Engineering College, Bengaluru.",
+      "A high-energy hackathon with an exciting ₹60,000 prize pool, bringing together passionate student innovators, developers, and problem-solvers to build technology-driven solutions to real-world challenges. Organized by the Department of Computer Science and Engineering (Data Science), AMC Engineering College, Bengaluru.",
     date: "2026-11-12",
     time: "09:00 - 21:00",
     location: "AMC Engineering College, Bengaluru",
@@ -108,7 +111,7 @@ Think. Build. Innovate. See you at CODE SPARK 2026!`;
   };
 
   // 1. Upsert CODE SPARK 2026
-  console.log("⚡ Upserting CODE SPARK 2026 with updated timing & detailed timeline...");
+  console.log("⚡ Upserting CODE SPARK 2026 with ₹60,000 Prize Pool highlight...");
   await db
     .insert(events)
     .values(codeSparkEvent)
@@ -127,14 +130,16 @@ Think. Build. Innovate. See you at CODE SPARK 2026!`;
     })
     .where(eq(events.id, "event-college-to-corporate"));
 
-  // 3. Verify events in DB
-  const allEvents = await db.select().from(events);
-  console.log("\n📋 Current Events in Neon DB:");
-  allEvents.forEach((ev) => {
-    console.log(
-      `- [${ev.id}] "${ev.title}" | time: ${ev.time} | isPast: ${ev.isPast} | regOpen: ${ev.registrationOpen} | date: ${ev.date}`
-    );
-  });
+  // 3. Verify event in DB
+  const [updatedCodeSpark] = await db
+    .select()
+    .from(events)
+    .where(eq(events.id, "event-code-spark-2026"));
+  console.log("\n📋 Updated CODE SPARK in Neon DB:");
+  console.log(`- Title: ${updatedCodeSpark.title}`);
+  console.log(`- Description: ${updatedCodeSpark.description}`);
+  console.log(`- Time: ${updatedCodeSpark.time}`);
+  console.log(`- Prize pool highlighted in details: ${updatedCodeSpark.details?.includes("₹60,000")}`);
 }
 
 main().catch((err) => {
